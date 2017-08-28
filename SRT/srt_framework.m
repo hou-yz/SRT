@@ -1,7 +1,7 @@
 clear
 clc
-T_range=60;%an hour
-delta_t=60;
+T_range=600;%an hour
+delta_t=6;
 J_range=3;
 N=1;
 P_i_max=10;P_j_max=1;
@@ -13,4 +13,5 @@ pos_i=[zeros(1,T_range);pos_j];
 r=zeros(J_range+1,J_range,T_range);
 beta=srt_beta(pos_i,pos_j);
 gamma=0*ones(J_range,J_range);
-srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,gamma,delta_t,BW)
+[srt_E1,srt_E2]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,gamma,delta_t,BW);
+[ref_E1,ref_E2]=reference_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,gamma,delta_t,BW);
