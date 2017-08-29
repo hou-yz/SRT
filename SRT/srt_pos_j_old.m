@@ -1,4 +1,4 @@
-function pos_j = srt_pos_j( J_range,T_range )
+function pos_j = srt_pos_j( J_range,T_range,delta_t )
 %SRT_POS_J Summary of this function goes here
 %   Detailed explanation goes here
 start_pos=rand(J_range)+1i*rand(J_range);
@@ -13,4 +13,3 @@ for j=(1:J_range)
 end
 
 end
-
