@@ -9,19 +9,26 @@ S=[];%[i,j,t]->[0,j,t,0,0,0]
 delta=zeros(J_range+1,J_range,T_range);
 C_tmp=zeros(J_range,T_range+1);
 %C_tmp(j,t) means have that much data at the time slot before t
-for t0=(1:T_range) %遍历用户j
-    [~,beta_sorted_j_index]=sort(beta(1,:,t0),'descend');
-    r_j_sorted=sort(r(1,:,t0),'descend');
+unsatisfied_j=(1:J_range);
+for t0=(1:T_range) %遍历时隙
+    if isempty(unsatisfied_j)
+        break
+    end
+    [~,beta_sorted_j_pointer]=sort(beta(1,unsatisfied_j,t0),'descend');
     ijt_j_pointer=1;
-    j=beta_sorted_j_index(ijt_j_pointer);
+    j=unsatisfied_j(beta_sorted_j_pointer(ijt_j_pointer));
+    
     while C_tmp(j,T_range+1)<C_qos(j) && ijt_j_pointer<=N %若不满足qos条件，增加一条边
-        j=beta_sorted_j_index(ijt_j_pointer);
-        if C_tmp(j,T_range+1)+r_j_sorted(ijt_j_pointer)*delta_t<C_qos(j)%未溢出
+        j=unsatisfied_j(beta_sorted_j_pointer(ijt_j_pointer));
+        if C_tmp(j,T_range+1)+r(0+1,j,t0)*delta_t<C_qos(j)%未溢出
             delta(0+1,j,t0)=1;%index 0 for BS-i
-            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r_j_sorted(ijt_j_pointer)*delta_t*delta(0+1,j,t0);
+            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*delta(0+1,j,t0);
         else%溢出
-            delta(0+1,j,t0)=(C_qos(j)-C_tmp(j,T_range+1))/(r_j_sorted(ijt_j_pointer)*delta_t);
-            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r_j_sorted(ijt_j_pointer)*delta_t*delta(0+1,j,t0);
+            delta(0+1,j,t0)=(C_qos(j)-C_tmp(j,T_range+1))/(r(0+1,j,t0)*delta_t);
+            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*delta(0+1,j,t0);
+             %从unsatisfied_j中去除
+            [~,j_index]=ismember(j,unsatisfied_j);
+            unsatisfied_j(j_index)=[];
         end
         
         S=[S;[0,j,t0,0,0,0]];
@@ -121,7 +128,7 @@ for j_loop=(1:J_range)%for all user j_loop
                 break
             end
             C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)-r0_this*delta_t;
-            fprintf('去掉一条边：[0 %d %d]\n',j,t0)
+            %fprintf('去掉一条边：[0 %d %d]\n',j,t0)
             %加入edge2边
             delta(j_prime+1,j,t2)=delta(j_prime+1,j,t2)+P2/P_j_max;
             C_tmp(j,t2:T_range+1)=C_tmp(j,t2:T_range+1)+r0_this*delta_t;
@@ -130,7 +137,7 @@ for j_loop=(1:J_range)%for all user j_loop
             delta(0+1,j_prime,t1)=delta(0+1,j_prime,t1)+P1/P_i_max;
             S=[S;[0,j_prime,t1,j_prime,j,t2]];
             C_tmp(j_prime,t1:T_range+1)=C_tmp(j_prime,t1:T_range+1)+r0_this*delta_t;%*(1-gamma(j_prime,j))
-            fprintf('增加两条边：[0 %d %d] [%d %d %d]\n',j_prime,t1,j_prime,j,t2)
+            %fprintf('增加两条边：[0 %d %d] [%d %d %d]\n',j_prime,t1,j_prime,j,t2)
             
             %从R中去除
             [~,R_index]=ismember([0,j_prime,t1,j_prime,j,t2],R,'rows');

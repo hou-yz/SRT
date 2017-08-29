@@ -8,16 +8,15 @@ C_tmp=zeros(J_range,T_range+1);
 
 for j=(1:J_range) %遍历用户j
     [~,beta_j_sorted_t_index]=sort(beta(1,j,:),'descend');
-    r_j_sorted=sort(r(1,j,:),'descend');
     ijt_t_pointer=1;
     while C_tmp(j,T_range+1)<C_qos(j) %若不满足qos条件，增加一条边
         t0=beta_j_sorted_t_index(ijt_t_pointer);
-        if C_tmp(j,T_range+1)+r_j_sorted(ijt_t_pointer)*delta_t<C_qos(j)%未溢出
+        if C_tmp(j,T_range+1)+r(0+1,j,t0)*delta_t<C_qos(j)%未溢出
             delta(0+1,j,t0)=1;%index 0 for BS-i
-            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r_j_sorted(ijt_t_pointer)*delta_t*delta(0+1,j,t0);
+            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*delta(0+1,j,t0);
         else%溢出
-            delta(0+1,j,t0)=(C_qos(j)-C_tmp(j,T_range+1))/(r_j_sorted(ijt_t_pointer)*delta_t);
-            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r_j_sorted(ijt_t_pointer)*delta_t*delta(0+1,j,t0);
+            delta(0+1,j,t0)=(C_qos(j)-C_tmp(j,T_range+1))/(r(0+1,j,t0)*delta_t);
+            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*delta(0+1,j,t0);
         end
         
         S=[S;[0,j,t0,0,0,0]];
@@ -31,7 +30,7 @@ for j=(1:J_range) %遍历用户j
 end
 %第一部分结束
 E_stage_1=sum(sum(delta(1,:,:)))*P_i_max*delta_t;
-fprintf('第一部分结束，系统总功耗：%d\n',E_stage_1)
+%fprintf('第一部分结束，系统总功耗：%d\n',E_stage_1)
 %reshape(delta(0+1,:,:),J_range,T_range)
 
 %以下为算法第二部分
@@ -57,7 +56,7 @@ while sum(t_OOC)~=0 %超出基站能力范围
     S(S_index,:)=[];
     C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)-r(0+1,j,t0)*delta(0+1,j,t0)*delta_t;
     delta(0+1,j,t0)=0;
-    fprintf('去掉一条边：[0 %d %d]\n',j,t0)
+    %fprintf('去掉一条边：[0 %d %d]\n',j,t0)
     
     while C_tmp(j,T_range+1)<C_qos(j)%去掉该边后，寻找一组次优解满足QoS限制
         if sum(sum(r_i_free))==0
@@ -74,7 +73,7 @@ while sum(t_OOC)~=0 %超出基站能力范围
         end
         
         S=[S;[0,j,t0,0,0,0]];
-        fprintf('增加一条边：[0 %d %d]\n',j,t0)
+        %fprintf('增加一条边：[0 %d %d]\n',j,t0)
         %更新
         for t=(1:T_range)
             t_free(t)=(sum(delta(0+1,:,t)>0)<N);
@@ -87,6 +86,7 @@ end
 E_stage_2=sum(sum(delta(1,:,:)))*P_i_max*delta_t;
 fprintf('第二部分结束，系统总能耗：%d\n',E_stage_2)
 %reshape(delta(0+1,:,:),J_range,T_range)
+delta2=delta;
 
 %第三部分
 r0_index=find(delta(0+1,:,:)>0);
@@ -124,7 +124,8 @@ for j_loop=(1:J_range)%for all user j_loop
                 j_prime=edge1(2);
                 t1=edge1(3);t2=edge2(3);
                 beta1=beta(edge1(1)+1,edge1(2),edge1(3));beta2=beta(edge2(1)+1,edge2(2),edge2(3));
-                P1=srt_get_p(r0_this*(1-gamma(j_prime,j)),BW,beta1);P2=srt_get_p(r0_this,BW,beta2);
+                P1=srt_get_p(r0_this*(1-gamma(j_prime,j))*delta(0+1,j,t0),BW,beta1);
+                P2=srt_get_p(r0_this*delta(0+1,j,t0),BW,beta2);
                 ii=(i_0-1)*size(R,1)+i_12;
                 if delta(0+1,j_prime,t1)+P1/P_i_max<1 && delta(j_prime+1,j,t2)+P2/P_j_max<1 && sum(delta(0+1,:,t1)>0)-(delta(0+1,j_prime,t1)>0)==0 && sum(delta(:,j_prime,t1)>0)-(delta(0+1,j_prime,t1)>0)+sum(delta(j_prime+1,:,t1)>0)==0 && sum(delta(:,j_prime,t2)>0)+sum(delta(j_prime+1,:,t2)>0)-(delta(j_prime+1,j,t2)>0)==0 && sum(delta(j+1,:,t2)>0)+sum(delta(:,j,t2)>0)-(delta(j_prime+1,j,t2)>0)==0
                     delta_P(ii,:)=[P1,P2,P_i_max-(P1+P2)];
@@ -151,7 +152,7 @@ for j_loop=(1:J_range)%for all user j_loop
                 break
             end
             C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)-r0_this*delta_t;
-            fprintf('去掉一条边：[0 %d %d]\n',j,t0)
+            %fprintf('去掉一条边：[0 %d %d]\n',j,t0)
             %加入edge2边
             delta(j_prime+1,j,t2)=delta(j_prime+1,j,t2)+P2/P_j_max;
             C_tmp(j,t2:T_range+1)=C_tmp(j,t2:T_range+1)+r0_this*delta_t;
@@ -160,7 +161,7 @@ for j_loop=(1:J_range)%for all user j_loop
             delta(0+1,j_prime,t1)=delta(0+1,j_prime,t1)+P1/P_i_max;
             S=[S;[0,j_prime,t1,j_prime,j,t2]];
             C_tmp(j_prime,t1:T_range+1)=C_tmp(j_prime,t1:T_range+1)+r0_this*delta_t;%*(1-gamma(j_prime,j))
-            fprintf('增加两条边：[0 %d %d] [%d %d %d]\n',j_prime,t1,j_prime,j,t2)
+            %fprintf('增加两条边：[0 %d %d] [%d %d %d]\n',j_prime,t1,j_prime,j,t2)
             
             %从R中去除
             [~,R_index]=ismember([0,j_prime,t1,j_prime,j,t2],R,'rows');
@@ -173,4 +174,7 @@ end
 E_stage_3=sum(sum(sum(delta,3),2).*[P_i_max;ones(J_range,1)*P_j_max]*delta_t);
 fprintf('第三部分结束，系统总能耗：%d\n',E_stage_3)
 
+if E_stage_3>E_stage_2
+   delta2-delta 
+end
 end    

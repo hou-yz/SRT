@@ -1,14 +1,13 @@
 clear
 clc
-T_range=600;%an hour
-delta_t=6;
-J_range=3;
+delta_t=60;%µ•Œª£∫√Î
+T_range=2*3600/delta_t;%an hour
+J_range=10;
 N=1;
 P_i_max=10;P_j_max=1;
 BW=20*10^6;%bandwidth=20MHz
 %pos_i=zeros(2,1);pos_j=ones(2,t_range,J_range);
-pos_j=srt_pos_j(J_range,T_range);%rand(J_range,T_range)+1i*rand(J_range,T_range);
-C_qos=10^7*ones(1,J_range);
+[pos_j,C_qos]=srt_pos_and_qos(J_range,T_range,delta_t);%rand(J_range,T_range)+1i*rand(J_range,T_range);
 pos_i=[zeros(1,T_range);pos_j];
 r=zeros(J_range+1,J_range,T_range);
 beta=srt_beta(pos_i,pos_j);
