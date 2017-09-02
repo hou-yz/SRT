@@ -20,12 +20,12 @@ for t0=(1:T_range) %遍历时隙
     j=unsatisfied_j(beta_sorted_j_pointer(ijt_j_pointer));
     satisfied_cnt=0;
     
-    if t0==68
-        t0;
-    end
-    
     while C_tmp(j,T_range+1)<C_qos(j) && ijt_j_pointer<=N %若不满足qos条件，增加一条边  
         [~,beta_sorted_j_pointer]=sort(beta(1,unsatisfied_j,t0),'descend');
+        if r(0+1,j,t0)==0
+            %fprintf('srt:用户%d未能满足QoS限制',j)
+            break
+        end
         if C_tmp(j,T_range+1)+r(0+1,j,t0)*delta_t<C_qos(j)%未溢出
             delta(0+1,j,t0)=1;%index 0 for BS-i
             C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*delta(0+1,j,t0);

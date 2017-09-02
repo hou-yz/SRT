@@ -12,6 +12,11 @@ for j=(1:J_range) %遍历用户j
     ijt_t_pointer=1;
     while C_tmp(j,T_range+1)<C_max(j) %若不满足qos条件，增加一条边
         t0=beta_j_sorted_t_index(ijt_t_pointer);
+        if r(0+1,j,t0)==0
+            %fprintf('srt:用户%d未能满足QoS限制',j)
+            C_max(j)=C_tmp(j,T_range+1);
+            break
+        end
         if C_tmp(j,T_range+1)+r(0+1,j,t0)*delta_t<C_max(j)%未溢出
             delta(0+1,j,t0)=1;%index 0 for BS-i
             C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*delta(0+1,j,t0);
@@ -42,8 +47,13 @@ for t=(1:T_range)
     t_OOC(t)=(sum(delta(0+1,:,t)>0)>N);
 end
 while sum(t_OOC)~=0 %超出基站能力范围
+    %更新
+    for t=(1:T_range)
+        t_free(t)=(sum(delta(0+1,:,t)>0)<N);
+        t_OOC(t)=(sum(delta(0+1,:,t)>0)>N);
+    end
     r_i_free=reshape(r(1,:,:).*(1-delta(0+1,:,:)),J_range,T_range).*(ones(J_range,1)*t_free);% 空闲时隙中 可用 速率
-    r_i_OOC=reshape(beta(1,:,:),J_range,T_range).*(ones(J_range,1)*t_OOC);r_i_OOC(delta(0+1,:,:)==0)=NaN;r_i_OOC(r_i_OOC==0)=NaN;% 超出能力时隙对应速率
+    r_i_OOC=reshape(r(1,:,:),J_range,T_range).*(ones(J_range,1)*t_OOC);r_i_OOC(delta(0+1,:,:)==0)=0;r_i_OOC(r_i_OOC==0)=NaN;% 超出能力时隙对应速率
     delta_C=zeros(1,J_range);% 记录对用户j，容量变化（对系统功率影响）最小解
     t0_index=zeros(1,J_range);% 每个用户j，容量变化（对系统功率影响）最小解对应 原 时隙t0
     for j=(1:J_range)
@@ -52,6 +62,7 @@ while sum(t_OOC)~=0 %超出基站能力范围
     end
     [~,j]=min(delta_C); %去掉效率（beta）较差的边
     t0=t0_index(j);
+    
     [~,S_index]=ismember([0,j,t0,0,0,0],S,'rows');
     S(S_index,:)=[];
     C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)-r(0+1,j,t0)*delta(0+1,j,t0)*delta_t;
@@ -65,7 +76,7 @@ while sum(t_OOC)~=0 %超出基站能力范围
     r_i_free=reshape(r(1,:,:).*(1-delta(0+1,:,:)),J_range,T_range).*(ones(J_range,1)*t_free);
     
     while C_tmp(j,T_range+1)<C_max(j)%去掉该边后，寻找一组次优解满足QoS限制
-        if sum(r_i_free(j,:))==0
+        if sum(r_i_free(j,:))<=0
             %fprintf('srt:用户%d未能满足QoS限制',j)
             C_max(j)=C_tmp(j,T_range+1);
             break;
