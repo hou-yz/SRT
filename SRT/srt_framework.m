@@ -6,9 +6,9 @@ interval=15*60;%单位：s
 delta_t=60;%单位：秒
 T_range=6*3600/delta_t;%an hour
 J_range=(T_range*delta_t-2*3600)/interval*2;
-N=3;
+N=10;
 P_i_max=100;P_j_max=10;
-BW=20*10^6;%bandwidth=20MHz
+BW=2*10^6;%bandwidth=2MHz
 
 [pos_j,C_qos]=srt_pos_and_qos(J_range,T_range,delta_t,interval);
 pos_i=[zeros(1,T_range);pos_j];
