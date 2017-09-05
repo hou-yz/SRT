@@ -3,6 +3,6 @@
 algorithm version 1.1
   removed data reuse
   fixed bugs
-  route function 
-  non D2D and round-robin D2D reference
+  update route function -> 2 shipping routes 
+  non D2D reference
     

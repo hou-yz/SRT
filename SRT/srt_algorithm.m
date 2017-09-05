@@ -1,4 +1,4 @@
-function [E_stage_2,E_stage_3,C_unsatisfied,delta_2]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,gamma,delta_t,BW)
+function [E_stage_2,E_stage_3,C_unsatisfied]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,gamma,delta_t,BW)
 r=srt_channel([P_i_max;ones(J_range,1)*P_j_max],BW,beta);
 S=[];%[i,j,t]->[0,j,t,0,0,0]
 %以下为算法第一部分
