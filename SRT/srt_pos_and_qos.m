@@ -1,4 +1,4 @@
-function [pos_j,C_qos] = srt_pos_and_qos( J_range,T_range,delta_t,interval )
+function [pos_j,C_qos] = srt_pos_and_qos( J_range,T_range,delta_t,interval,ratio )
 %SRT_POS_J Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,8 +12,7 @@ v=[36,36,36,0]/3.6;%单位：m/s
 
 %航线1，航线2，航线3 发船间隔
 interval=interval*ones(1,3);%单位：s
-%航线1，航线2，航线3 占比
-ratio=[0,1/4,1/4];
+
 %航线1，航线2，航线3，渔船对应j
 j_index_1=(1 : floor(J_range*ratio(1)));
 j_index_2=(floor(J_range*ratio(1))+1 : floor(J_range*(ratio(1)+ratio(2))));
@@ -33,7 +32,7 @@ direction_rand=direction_rand+(1-direction_rand.^2).^0.5*1i;
 pos_j(j_index_rand,:)=(random('Uniform',-10*10^3,10*10^3,length(j_index_rand),1)+random('Uniform',2*10^3,10*10^3,length(j_index_rand),1)*1i)*ones(1,T_range) + v(3)*delta_t*direction_rand*(1:T_range);
 
 %qos
-C_qos=30*8*10^6*ones(1,J_range);%MB
+C_qos=1*8*10^6*ones(1,J_range);%MB
 C_qos(j_index_rand)=C_qos(j_index_rand)/10;%MB
 end
 

@@ -43,13 +43,13 @@ delta_1=reshape(delta(0+1,:,:),J_range,T_range);
 t_free=ones(1,T_range);%time slots that are availible 初始全部时隙为空闲
 t_OOC=zeros(1,T_range);%out of capacity 初始无时隙超出服务能力
 for t=(1:T_range)
-    t_free(t)=(sum(delta(0+1,:,t)>0)<N);
+    t_free(t)=(srt_isfree(delta,0,t,N));
     t_OOC(t)=(sum(delta(0+1,:,t)>0)>N);
 end
 while sum(t_OOC)~=0 %超出基站能力范围
     %更新
     for t=(1:T_range)
-        t_free(t)=(sum(delta(0+1,:,t)>0)<N);
+        t_free(t)=(srt_isfree(delta,0,t,N));
         t_OOC(t)=(sum(delta(0+1,:,t)>0)>N);
     end
     r_i_free=reshape(r(1,:,:).*(1-delta(0+1,:,:)),J_range,T_range).*(ones(J_range,1)*t_free);% 空闲时隙中 可用 速率
@@ -70,7 +70,7 @@ while sum(t_OOC)~=0 %超出基站能力范围
     %fprintf('去掉一条边：[0 %d %d]\n',j,t0)
     %更新
     for t=(1:T_range)
-        t_free(t)=(sum(delta(0+1,:,t)>0)<N);
+        t_free(t)=(srt_isfree(delta,0,t,N));
         t_OOC(t)=(sum(delta(0+1,:,t)>0)>N);
     end
     r_i_free=reshape(r(1,:,:).*(1-delta(0+1,:,:)),J_range,T_range).*(ones(J_range,1)*t_free);
@@ -94,7 +94,7 @@ while sum(t_OOC)~=0 %超出基站能力范围
         %fprintf('增加一条边：[0 %d %d]\n',j,t0)
         %更新
         for t=(1:T_range)
-            t_free(t)=(sum(delta(0+1,:,t)>0)<N);
+            t_free(t)=(srt_isfree(delta,0,t,N));
             t_OOC(t)=(sum(delta(0+1,:,t)>0)>N);
         end
         r_i_free=reshape(r(1,:,:).*(1-delta(0+1,:,:)),J_range,T_range).*(ones(J_range,1)*t_free);
@@ -120,10 +120,9 @@ for j=(1:J_range)%for all user j
     for t2=(1:T_range)
         for j_prime_R=(1:J_range)
             r2=r(j_prime_R+1,j,t2);%r2
-            %disp([j_prime_R j sum(delta(:,j_prime_R,t2)>0)+sum(delta(j_prime_R+1,:,t2)>0)-(delta(j_prime_R+1,j,t2)>0) sum(delta(:,j,t2)>0)-(delta(j_prime_R+1,j,t2)>0)+sum(delta(j+1,:,t2)>0) t2])
-            if j_prime_R~=j && sum(delta(:,j_prime_R,t2)>0)+sum(delta(j_prime_R+1,:,t2)>0)-(delta(j_prime_R+1,j,t2)>0)==0 && sum(delta(:,j,t2)>0)-(delta(j_prime_R+1,j,t2)>0)+sum(delta(j+1,:,t2)>0)==0 && r2>r0_min % j' and j free
+            if j_prime_R~=j && srt_isfree(delta,[j_prime_R,j],t2,N) && r2>r0_min % j' and j free
                 for t1=(1:T_range)
-                    if t1~=t2 && sum(delta(:,j_prime_R,t1)>0)-(delta(0+1,j_prime_R,t1)>0)+sum(delta(j_prime_R+1,:,t1)>0)==0 && sum(delta(0+1,:,t1)>0)-(delta(0+1,j_prime_R,t1)>0)<N % j' free and i availible
+                    if t1~=t2 && srt_isfree(delta,[0,j_prime_R],t2,N) % j' free and i availible
                         r1=r(1,j_prime_R,t1);%r1
                         if ((t1>t2 && C_tmp(j_prime_R,t2)>=r0_min*delta_t) || (t1<=t2 && C_tmp(j_prime_R,t2)+r1*delta_t>=r0_min*delta_t)) && r1>r0_min
                             R=[R;[0,j_prime_R,t1,j_prime_R,j,t2]];
@@ -150,7 +149,7 @@ for j=(1:J_range)%for all user j
                 P1=srt_get_p(r0_this*(1-gamma(j_prime,j))*delta(0+1,j,t0),BW,beta1);
                 P2=srt_get_p(r0_this*delta(0+1,j,t0),BW,beta2);
                 ii=(i_0-1)*size(R,1)+i_12;
-                if delta(0+1,j_prime,t1)+P1/P_i_max<1 && delta(j_prime+1,j,t2)+P2/P_j_max<1 && sum(delta(0+1,:,t1)>0)-(delta(0+1,j_prime,t1)>0)==0 && sum(delta(:,j_prime,t1)>0)-(delta(0+1,j_prime,t1)>0)+sum(delta(j_prime+1,:,t1)>0)==0 && sum(delta(:,j_prime,t2)>0)+sum(delta(j_prime+1,:,t2)>0)-(delta(j_prime+1,j,t2)>0)==0 && sum(delta(j+1,:,t2)>0)+sum(delta(:,j,t2)>0)-(delta(j_prime+1,j,t2)>0)==0
+                if delta(0+1,j_prime,t1)+P1/P_i_max<1 && delta(j_prime+1,j,t2)+P2/P_j_max<1 && srt_isfree(delta,[0,j_prime],t,N) && srt_isfree(delta,[j_prime,j],t2,N)
                     delta_P(ii,:)=[P1,P2,P_i_max-(P1+P2)];
                 else
                     delta_P(ii,:)=[P1,P2,-inf];
