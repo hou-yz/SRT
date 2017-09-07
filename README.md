@@ -1,8 +1,7 @@
 # SRT
 
-algorithm version 1.1
-  removed data reuse
-  fixed bugs
-  update route function -> 2 shipping routes 
-  non D2D reference
-    
+algorithm version 2.0
+
+now D2D and cellular all use N subcarriers
+parameter updates
+matlab fig updates
