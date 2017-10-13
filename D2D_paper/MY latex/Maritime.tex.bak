@@ -1,0 +1,508 @@
+\documentclass[conference]{IEEEtran}
+%\IEEEoverridecommandlockouts
+%\documentclass[journal]{IEEEtran}
+% correct bad hyphenation here
+%\documentclass[10pt,draftclsnofoot, onecolumn]{IEEEtran}
+%\documentclass[10pt, draftclsnofoot,onecolumn]{IEEEtran}
+\hyphenation{op-tical net-works semi-conduc-tor}
+\usepackage{graphicx,amssymb,lineno}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{cases}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[usenames]{color}
+\usepackage{subfigure}
+%\usepackage{graphicx}
+
+\setlength{\columnsep}{0.22in}
+
+\begin{document}
+\title{Process-Oriented User Scheduling for Maritime Wireless Communications}
+
+\author{\IEEEauthorblockN{Te~Wei, Wei~Feng, Ning~Ge, Jianhua~Lu \\}
+\IEEEauthorblockA{Tsinghua National Laboratory for Information Science and Technology, Beijing 100084, China \\}
+ E-mail: wei-t14@mails.tsinghua.edu.cn, \{fengwei, gening, lhh-dee\}@tsinghua.edu.cn %
+}
+\maketitle
+
+\begin{abstract}
+
+Unlike terrestrial cellular networks, a maritime communication system has to cover a vast area with quite limited base stations (BSs) due to the limitation of geographically available BS sites. Therefore, the system usually adopts high-powered BSs, and reducing power consumption is especially a critical issue therein. In this paper, we reduce the power consumption by utilizing the process information, which has not been considered in the previous studies. As both the wireless channels and the service demand are time-varying, it is impossible to accurately predict the complete channel state information (CSI) and service requirements. To overcome these two difficulties, we exploit the positional information of each vessel based on its specific shipping lane and timetable to estimate the slowly varying large-scale channel fading instead. Besides, we particularly focus on the delay-tolerant information distribution service. On that basis, we formulate a power consumption optimization problem, which is proved to be NP-hard. We propose an efficient algorithm to solve it in an iterative way with a polynomial time complexity. Simulation results reveal that the proposed process-oriented scheme significantly reduces the power consumption, although it has not taken the small-scale channel fading into consideration.
+
+%With the rapid growth of energy consumption caused by the explosive demands for mobile multimedia services, it has become an important issue to explore more energy-efficient wireless transmission and radio resource management techniques. However, most of the existing resource allocation schemes are state-oriented without considering the service process information because the channel fading is time-varying and thus unpredictable. In this paper, we focus on the process-oriented user scheduling and power allocation in a massive multiple-input multiple-output maritime communication system, aiming to minimize the power consumption while guaranteeing users' requirements for quality of service. By utilizing the positional information of each vessel based on its specific shipping lane and timetable, we make it possible to estimate the slow time-varying large-scale channel fading during the whole service process. On that basis, we formulate the power consumption optimization problem, and further propose an efficient heuristic algorithm with polynomial time complexity to solve the NP-hard problem by decomposing it into two simpler subproblems. Simulation results reveal that the proposed process-oriented scheme significantly enhances the system performance in terms of power consumption and energy efficiency compared with the state-oriented ones.
+
+% Besides, the asymptotic behavior of the signal to interference plus noise ratio with an infinite number of base station antennas is analyzed.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+Process-oriented, maritime communications, user scheduling, large-scale channel fading
+\end{IEEEkeywords}
+
+\section{Introduction}\label{S1}
+
+With the rapid development of marine industries such as marine tourism, offshore aquaculture and oceanic mineral exploration, there is growing demand of people involved in marine activities for mobile multimedia services. Thus, maritime communication systems that can provide reliable and high speed communications services like video surveillance and multimedia downloads are greatly needed \cite{p32}\cite{p322}.
+Unlike terrestrial cellular networks, a maritime communication system has quite limited geographically available BS sites. In order to cover a vast area with limited BSs, the system usually adopts high-powered BSs,
+%In terrestrial cellular systems, the cell coverage radius can be reduced with the construction of more BSs.
+%However, a maritime communication system has to cover a vast area with a limited number of BSs subject to geographical conditions, and the transmission to users far from shore brings about enormous power consumption,
+which increases the operational costs of mobile network operators and poses a global threat to the environment \cite{p33}.
+Therefore, reducing power consumption is especially a critical issue therein, and advanced wireless transmission and radio resource management techniques for maritime communications are pretty much required.
+%to reduce system power consumption and improve energy efficiency.
+
+%With the explosive growth of the demands for mobile multimedia services, wireless communication systems are impelled to provide higher data rates and enrich users' quality of experience (QOE) with limited radio resources. Consequently, the massive multiple-input multiple-output (MIMO) system has been widely applied to modern wireless standards as a promising technique for higher spectral efficiency \cite{p32}. However, the large number of base station (BS) antennas  energy consumption, which increases the operational costs of mobile network operators and poses a global threat to the environment \cite{p33}. The energy consumption problem is especially a critical issue in the design of a maritime communication system. Thus, advanced wireless transmission and radio resource management techniques for maritime communications such as user scheduling and power allocation are pretty much required to reduce system power consumption and improve energy efficiency.
+
+So far, several energy-efficient techniques have been developed for terrestrial cellular networks.
+In \cite{p3}, a joint antenna-subcarrier-power allocation scheme was proposed for distributed antenna systems (DASs) with limited backhaul capacity to maximize the energy efficiency while providing min-rate guaranteed services. In \cite{p6}, a matching algorithm of joint sub-channel assignment and power allocation was developed for non-orthogonal multiple access (NOMA) networks to maximize the total sum-rate with user fairness taken into consideration. In \cite{p4}, a joint power allocation and user scheduling algorithm based on dynamic programming (DP) was proposed for multi-user MIMO systems to minimize the total energy consumption under hard delay constraints. In \cite{p5}, a cross-layer cooperative user scheduling and power allocation scheme was developed for hybrid-delay services, and the fundamental tradeoff between delay and energy consumption was illustrated. More recently in \cite{p7}, a user scheduling and pilot assignment scheme was proposed for massive MIMO systems to serve the maximum number of users with guaranteed quality of service (QOS).
+In summary, to improve the performance of an energy-efficient wireless network, two important aspects of QOS, i.e., the data rate \cite{p3}\cite{p6}\cite{p7} and the time delay \cite{p4}\cite{p5}, were utilized, and the channel state information (CSI) was assumed to be completely known beforehand \cite{p3}-\cite{p7}.
+%As both the wireless channels and the service demand are time-varying, it is impossible to accurately predict the complete channel state information (CSI) and service requirements.
+
+However, as both the wireless channels and the service demand are time-varying, it is impossible to accurately predict the complete CSI and users' requirements during the service process. Therefore, all of the above user scheduling schemes are state-oriented, i.e, based on the current CSI and service requirements. As the service process information is ignored, the state-oriented schemes lose the potential gain in energy efficiency to a great extent, especially for maritime vessels with dynamic locations and service requirements.
+
+In this paper, we focus on a new dimension to reduce the power consumption for maritime wireless communications by utilizing the service process information, which has not been considered in the previous studies. The major challenge for the process-oriented scheme lies in the prediction of the CSI and users' requirements during the service process.
+To overcome these two difficulties, we note that there are fewer scatterers on the sea than on the ground, making it easier to estimate and predict the slowly varying large-scale channel fading. Therefore, we exploit the positional information of each vessel based on its specific shipping lane and timetable to estimate the large-scale channel fading instead of the complete CSI.
+Besides, we particularly focus on the delay-tolerant information distribution service so that we can predict users' requirements during the service process.
+On that basis, we formulate a power consumption optimization problem for user scheduling, aiming to minimize the power consumption while providing users with min-rate max-delay guaranteed services. The problem is proved to be NP-hard. To overcome the difficulties of solving the NP-hard problem, we decompose the problem into two simpler subproblems, and propose an efficient algorithm to solve it in an iterative way with a polynomial time complexity.
+Simulation results reveal that the proposed process-oriented scheme significantly outperforms the state-oriented ones in terms of power consumption with the utilization of the service process information, although it has not taken the small-scale channel fading into consideration.
+
+%Therefore, we intend to explore a novel process-oriented power optimization scheme by making full use of the CSI during the whole service process.
+
+%We partition the total service duration of the system $T$ into $M=\frac{T}{\Delta T}$ time slots to fully utilize the slow time-varying characteristic of the large-scale channel fading. The value of ${\Delta T}$ is chosen so that the large-scale fading between the BS and each user remains constant within each time slot.
+
+
+\section{System Model} \label{sec:1}
+
+As depicted in Fig. 1, we consider the downlink transmissions of a single-cell maritime communication system from an onshore BS equipped with $L$ antennas to $K$ single-antenna users on the sea.
+We assume that the total bandwidth shared by the $K$ users is $B$, and the subcarriers have an identical bandwidth.
+Assuming universal frequency reuse and ignoring subcarrier spacing, we denote the bandwidth of each subcarrier by ${{B}_{s}}=\frac{B}{N}$, where $N$ is the number of subcarriers.
+
+\begin{figure} [htb]
+\begin{center}
+\includegraphics*[width=7cm]{newhaiyu0000.eps} %这行为导入图片文件名称
+\end{center}
+\vspace*{-4mm} \caption{Maritime communication system for information
+distribution service.}\label{fig:2}  %这行为文章中显示图片的标题
+\vspace*{-2mm}
+\end{figure}
+
+Without loss of generality, we assume the cell shape to be a semicircle with radius $D$. Each user sails into and out of the cell according to its shipping lane and timetable. Denote the arrival and departure time of the ${k}{\text {-th}}$ user by ${{t}_{1k}}$ and ${{t}_{2k}}$ respectively.
+%We consider the total service duration of the system as $T$.
+%can be expressed as $T={{T}_{2}}-{{T}_{1}}$, where ${{T}_{1}}=\min \left( {{t}_{k1}} \right)$ and ${{T}_{2}}=\max \left( {{t}_{k2}} \right)$.
+For each user, delay-tolerant service is assumed, and the total amount of data required by the ${k}{\text {-th}}$ user is denoted by $C_{k}^{\min }$.
+
+We further assume a modified 2-ray propagation model, which fits well for offshore areas with a relatively flat sea surface \cite{p0}-\cite{p2}. For a given subcarrier, we denote the composite channel gain from the BS to the ${k}{\text {-th}}$ user at time $t$ by $\sqrt {{\beta _{k,t}}} {{\bf{h}}_{k,t}}$. The small-scale fading vectors ${{\bf{h}}_{k,t}}$ are column vectors of $L$ dimensions following a complex Gaussian distribution with standard deviation ${\sigma _s} = 1$, i.e., ${{\bf{h}}_{kt}} \sim {\mathbb{C}}N({\bf{0}}, {{\bf{I}}_{L \times 1}})$. The large-scale fading coefficient ${\beta _{k,t}}$ is expressed as
+\begin{align}
+{{\beta }_{k,t}}={{\left( \frac{\lambda }{4\pi {d}_{k,t}} \right)}^{2}}{{\left[ 2\sin \left( \frac{2\pi {{h}_{1}}{{h}_{2}}}{\lambda {d}_{k,t}} \right) \right]}^{2}}
+\end{align}
+where $\lambda$ is the carrier wavelength, ${d}_{k,t}$ is the distance between the BS and the ${k}{\text {-th}}$ user at time $t$, ${h}_{1}$ and ${h}_{2}$ represent the antenna heights of the transmitter and the receiver, respectively.
+
+
+\section{Process-Oriented User Scheduling Scheme}\label{sec:2}
+
+In this section, we focus on the reduction of system energy consumption while ensuring the users' service requirements. We formulate the optimization problem for process-oriented user scheduling, and propose an efficient iterative algorithm with polynomial time complexity to solve the NP-hard problem.
+
+\subsection{Energy Consumption Optimization Problem}
+
+The total energy consumption of a BS consists of transmit power, dynamic circuit power and static circuit power \cite{p3}. Thus, we model the energy consumption as
+\begin{align}
+{{E}_{total}}= \frac{\sum\limits_{k=1}^{K}{\!\int_{t={{t}_{k1}}}^{{{t}_{k2}}}{\!\!\!{{P}_{k,t}}}}}{{{\tau }_{d}}}\!+\!{{\tau }_{r}}\sum\limits_{k=1}^{K}{\!\int_{t={{t}_{k1}}}^{{{t}_{k2}}}{\!\!\!{{r}_{k,t}}}}\!+\!TL{{P}_{c}}
+\end{align}
+where ${r}_{k,t}$ is the channel capacity of user $k$ at time $t$, ${{\tau }_{d}}$ is the drain efficiency of the radio frequency (RF) power amplifier, ${{\tau }_{r}}$ is the dynamic circuit power of the RF chain per unit bit rate, ${{P}_{c}}$ is the static circuit power per BS antenna, and $T$ is the total service duration of the system.
+
+Our objective is to minimize the system energy consumption by means of user scheduling. By ${z _{k,t}} \in {\{0,1\}}$ we denote whether a subcarrier is scheduled for user $k$ at time $t$. In other words,
+${z _{k,t}} = {\mathop{\rm sign}\nolimits} ({P_{k,t}})$, where $\text{sign}\left( x \right)\triangleq \left\{\begin{array}{l}
+1\ \ \ \ x>0 \\
+0\ \ \ \ x=0
+\end{array}\right.$,
+as the selection of a subcarrier for user $k$ at time $t$ depends only on whether ${{P}_{k,t}}>0$ or not. Thus, we formulate the energy consumption optimization problem as
+\begin{subequations}
+\begin{align}
+& \mathop {\min }\limits_{{\bf{Z}} \in {{\{0,1\}}^{K \times T}}} {{E}_{total}} \\
+& {s.t.} \;\; 0 \le {P_{k,t}} \le {P_{\max }}  \\
+& \;\;\;\;\;\;\;  \int_{t = {t_{k1}}}^{{t_{k2}}} {{r_{k,t}}{z _{k,t}}}  \ge C_k^{\min } \\
+& \;\;\;\;\;\;\;  {z _{k,t}} = {\mathop{\rm sign}\nolimits} ({P_{k,t}}) \\
+& \;\;\;\;\;\;\;    \sum\limits_{k = 1}^K {{z _{k,t}}}  \le N
+\end{align}
+\end{subequations}
+where $\mathbf{Z}={{\left\{ {{z}_{k,t}} \right\}}^{K\times T}}$ and ${P_{\max }}$ represents the maximum transmit power. The constraint in (3e) is to guarantee that at most $N$ users can be served simultaneously.
+
+To meet each user's demand for data service, the integration in the second term of (2) must satisfy $\int_{t={{t}_{k1}}}^{{{t}_{k2}}}{{{r}_{k,t}}}\ge C_{k}^{\min }$. Therefore, we have
+\begin{align}
+{{E}_{total}} \ge \frac{\sum\limits_{k=1}^{K}{\!\int_{t={{t}_{k1}}}^{{{t}_{k2}}}{\!\!\!{{P}_{k,t}}}}}{{{\tau }_{d}}}\!+\!{{\tau }_{r}}\sum\limits_{k=1}^{K}{C_{k}^{\min }}\!+\!TL{{P}_{c}}
+\end{align}
+and the minimization of (2) can be equivalent to the minimization of the transmit power for fixed $K$ and $T$, i.e., the optimization object function in (3a) can be simplified into $\mathop {\min }\limits_{{\bf{P}} \in {{\mathbb{R}}^{K \times T}}} \sum\limits_{k = 1}^K {\int_{t = {t_{k1}}}^{{t_{k2}}} {{P_{k,t}}} } $.
+
+To fully utilize the slow time-varying characteristic of the large-scale channel fading, we partition $T$ into $M=\frac{T}{\Delta T}$ time slots. The value of ${\Delta T}$ is chosen so that ${\beta _{k,t}}$ remains constant within each time slot $m$. Thus, we make it possible to estimate ${\beta _{k,m}}$ for $m\in \left\{ 1,2,...,M \right\}$ based on the shipping lane and timetable of each user, and to make timely adjustment according to the positional information from the Global Positioning System (GPS). With the large-scale channel fading known beforehand, we can further design and implement a process-oriented scheme for user scheduling.
+
+Denote the transmit power to the ${k^{th}}$ user at the ${m^{th}}$ time slot by ${P_{k,m}}$. Thus, the overall optimization problem for process-oriented user scheduling is formulated as
+
+\begin{subequations}
+\begin{align}
+& \mathop {\min }\limits_{{\bf{Z}} \in {{\{0,1\}}^{K \times M}}} \sum\limits_{k = 1}^K {\sum\limits_{m = 1}^M {{P_{k,m}}} } \\
+& {s.t.} \;\; 0 \le {P_{k,m}} \le {P_{\max }} \\
+& \;\;\;\;\;\;\;  \sum\limits_{m = {m_{1k}}}^{{m_{2k}}} {{r_{k,m}}{z _{k,m}}}  \ge C_k^{\min } \\
+& \;\;\;\;\;\;\;  {z _{k,m}} = {\mathop{\rm sign}\nolimits} ({P_{k,m}}) \\
+& \;\;\;\;\;\;\;    \sum\limits_{k = 1}^K {{z _{k,m}}}  \le N
+\end{align}
+\end{subequations}
+where $\mathbf{Z}={{\left\{ {{z}_{k,m}} \right\}}^{K\times M}}$, ${{m}_{1k}}$ and ${{m}_{2k}}$ denote the first and the last service time slot for user $k$, ${{m}_{1k}}=\left\lceil \frac{{{t}_{1k}}-{{T}_{1}}}{\Delta T} \right\rceil $ and ${{m}_{2k}}=\left\lfloor \frac{{{t}_{2k}}-{{T}_{1}}}{\Delta T} \right\rfloor $, where ${{T}_{1}}=\min \left( {{t}_{k1}} \right)$ and ${{T}_{2}}=\max \left( {{t}_{k2}} \right)$.
+
+Based on \cite{p22}, we obtain the SINR and the channel capacity of user $k$ at time $t$:
+\begin{align}
+{\rho _{k,t}} = \frac{{{P_{k,t}}{\beta _{k,t}}{{\left| {{\bf{h}}_{k,t}} \right|}^2}}}{{\sigma _n^2}} \;\;\;\;\;\;\;\;\;\\
+{{r}_{k,t}}= {B_s} {{\log }_{2}}(1+\frac{{{P}_{k,t}}{{\beta }_{k,t}}{{\left| {{\bf{h}}_{k,t}} \right|}^{2}}}{\sigma _{n}^{2}})
+\end{align}
+
+Thus, applying the theorem in \cite{p41}, we can further express the average channel capacity per time slot as
+\begin{align}
+{r_{k,m}} = {\mathop{\rm E}\nolimits} \left[ {{r_{k,t}}} \right] = {B_s} {\log _2}\left( e \right){e^{{L \mathord{\left/
+ {\vphantom {L \gamma }} \right.
+ \kern-\nulldelimiterspace} \gamma }}}\sum\limits_{i = 0}^{L - 1} {{E_{i + 1}}\left( {\frac{L}{\gamma }} \right)}
+\end{align}
+where $\gamma  = \frac{{{P_{k,m}}{\beta _{k,m}}}}{{\sigma _n^2}}$, and
+\begin{align}
+{E_n}\left( z \right) = \int_1^\infty  {{e^{ - zx}}{x^{ - n}}dx} \;\;\;\;n = 0,1,2,...,\;{\mathop{\rm Re}\nolimits} \left( z \right) > 0
+\end{align}
+is the exponential integral function of order $n$.
+
+\subsection{Process-Oriented User Scheduling Algorithm}
+
+$Theorem$ $1$: The problem in (5) is NP-hard.
+
+$Proof$: See Appendix A.
+
+The problem in (5) is a discrete nonconvex optimization problem and is NP-hard.
+In addition, the challenge of solving the problem also lies in that the upper and lower limit of summation for each $k$ in (5c) is different. As a result, conventional methods for solving linear or convex optimization problems are no longer applicable. Inspired by the alternating direction method of multipliers (ADMM) adopted in \cite{p11}, we decompose the original problem into two simpler subproblems, the first of which considers only part of the constraints in (5), and then propose an iterative algorithm to solve the second subproblem based on the optimal solution to the first one.
+
+First, we optimize ${{\bf{Z}}}$ with constraints (5b)-(5d), ignoring the maximum number of users that can be simultaneously served in each time slot.
+%, which can be formulated as
+%\begin{subequations}
+%\begin{align}
+%& \mathop {\min }\limits_{{\bf{Z}} \in {{\{0,1\}}^{K \times M}}} \sum\limits_{k = 1}^K {\sum\limits_{m = 1}^M {{P_{k,m}}} } \\
+%& {s.t.} \;\; 0 \le {P_{k,m}} \le {P_{\max }} \\
+%& \;\;\;\;\;\;\;  \sum\limits_{m = {m_{1k}}}^{{m_{2k}}} {{r_{k,m}}{z _{k,m}}}  \ge C_k^{\min } \\
+%& \;\;\;\;\;\;\;  {z _{k,m}} = {\mathop{\rm sign}\nolimits} ({P_{k,m}})
+%\end{align}
+%\end{subequations}
+In this case, the optimization variables of different users are no longer correlated, and the optimal solution of this problem can be obtained by scheduling each user separately. The problem can be reduced to $\mathop {\min } \limits_{{\bf{Z}} \in {{\{0,1\}}^{1 \times M}}} {\sum\limits_{m = 1}^M {{P_{k,m}}} }$. Note that ${r_{k,m}}$ is a monotone increasing function of ${{\beta }_{k,m}}$. Therefore, the optimal solution for each user can be obtained by assigning time slots with the best channel conditions.
+
+Define $r_{k,m}^{\max } \triangleq {B_s}{\log _2}\left( e \right){e^{{L \mathord{\left/
+ {\vphantom {L {{\gamma}_{max}} }} \right.
+ \kern-\nulldelimiterspace} {\gamma}_{max} }}}\sum\limits_{i = 0}^{L - 1} {{E_{i + 1}}\left( {\frac{L}{{\gamma}_{max} }} \right)}$, where ${{\gamma}_{max}}  = \frac{{{P_{\max }}{\beta _{k,m}}}}{{\sigma _n^2}}$. Define ${S_0}$ as a set with elements ${(k,m)}$, where ${(k,m) \in {S_0}}$ denotes that a subcarrier is selected for user $k$ at the $m^{th}$ time slot, and we can express the closed-form solution to this subproblem by ${S_{sub}} = \left\{ (k,{m^*}) | \; k=1,2,..., K \right\}$, where
+\begin{subnumcases}
+{}
+\{(k,{m^*})\} = arg\mathop {\max }\limits_{N_k} \left\{ {r_{k,m}^{\max }} \right\} \\
+\sum\limits_{{N_k} - 1} {{r_{k,m}}({\bf{Z}})}   < C_k^{\min } \\
+\sum\limits_{{N_k}} {{r_{k,m}}({\bf{Z}})}  \ge C_k^{\min }
+\end{subnumcases}
+
+%Define $\mathbf{P}={{\left\{ {{P}_{k,m}} \right\}}^{K\times M}}$, and
+The optimal solution in (10) can also be obtained step by step. For each choice of $k$, we find
+$(k,{m^*}) = arg\mathop {\max }\limits_{(k,m) \notin {S_0}} \left\{ {r_{k,m}^{\max }} \right\}$
+and set ${S_0} \leftarrow {S_0} \cup \left\{ {(k,{m^*})} \right\}$. The corresponding power optimization results can thus be expressed as
+\begin{subnumcases}
+{P_{k,{m^*}} = }
+0, \;\; \text{if} \; {z_{k,{m^*}} = 0}\\
+{P_{\max }}, \;\; \text{if} \; {z_{k,{m^*}} = 1}, \text{and} \\
+\sum\limits_{(k,m) \in {S_0}} {{r_{k,m}}({\bf{Z}})}  + {r_{k,m^*}^{\max }} < C_k^{\min } \\
+\frac{{{2^{\frac {\lambda}{B_s}} } - 1}}{{{\beta _{k,{m^*}}}\sigma _s^2}}\sigma _n^2, \;\; \text{else}
+\end{subnumcases}
+where
+$\lambda  = C_k^{\min } - \sum\limits_{(k,m) \in {S_0}} {{r_{k,m}}({\bf{Z}})}$.
+
+%Denote the solution set and the optimal solution for this subproblem by ${S_{sub}} = \left\{ {{\bf{P}} \in {{\mathbb{R}}^{K \times M}}|\;(16a)-(16c)} \right\}$ and ${{\bf{P}}_{sub}}$ respectively. Thus, we have ${{\bf{P}}_{sub}} \in {S_{sub}}$, where the elements in ${{\bf{P}}_{sub}}$ satisfies
+% The proposed greedy algorithm is specifically described in the table below.
+
+%\begin{algorithm}[h]
+%\caption{Heuristic Algorithm for Process-Oriented User Scheduling and Power Allocation}
+%\label{alg:1}
+%\begin{algorithmic}[1]
+%%\STATE{\textbf{Input:} $C_k^{\min }$, ${P_{\max }}$, ${B_s}$, ${\beta _{k,m}}$, $\sigma _s^2$, $\sigma _n^2$, ${m_{1k}}$, %${m_{2k}}$, $K$, $M$, $N$ }
+%\FOR{ $k = 1:K$ }
+%  \WHILE{ $\sum\limits_{(k,m) \in {S_0}} {{r_{k,m}}({\bf{P}})} < C_k^{\min }$ }
+%    \STATE Find $(k,{m^*}) = arg\mathop {\max }\limits_{(k,m) \notin {S_0}} \left\{ {r_{k,m}^{\max }} \right\}$.
+%    \IF { $\sum\limits_{(k,m) \in {S_0}} {{r_{k,m}}({\bf{P}})}  + {r_{k,m^*}^{\max }} < C_k^{\min }$ }
+%        \STATE Set ${P_{k,{m^*}}} = {P_{\max }}$, ${S_0} \leftarrow {S_0} \cup \left\{ {(k,{m^*})} \right\}$.
+%    \ELSE
+%        \STATE Set ${P_{k,{m^*}}} = \frac{{{2^{\frac {\lambda}{B_s}} } - 1}}{{{\beta _{k,{m^*}}}\sigma _s^2}}\sigma _n^2$, \\ where %$\lambda  = C_k^{\min } - \sum\limits_{(k,m) \in {S_0}} {{r_{k,m}}({\bf{P}})} $.
+%        \STATE ${S_0} \leftarrow {S_0} \cup \left\{ {(k,{m^*})} \right\}$.
+%        \STATE Break.
+%    \ENDIF
+%  \ENDWHILE
+%\ENDFOR
+%%\STATE{\textbf{Output:} ${\bf{P}}$. }
+%\end{algorithmic}
+%\end{algorithm}
+
+% Optimization of ${\bf{P}}$ with constraints (5a)-(5d) based on the solution obtained in Subproblem 1.
+
+In general, ${{{S}}_{sub}}$ is not a feasible solution for the overall problem as (5e) is not taken into account. We further check the feasibility of ${{{S}}_{sub}}$, and design an efficient method to make it approach the optimal feasible solution iteratively.
+
+As ${{{S}}_{sub}}$ is the optimal solution for (5a)-(5d), the original problem in (5a)-(5e) is equivalent to minimizing the energy consumption gap between ${{{S}}_{sub}}$ and the final user scheduling results ${{{S}}}$, and the second subproblem can be expressed as
+\begin{subequations}
+\begin{align}
+& \underset{\mathbf{Z}\in {{\{0,1\}}^{K\times M}}}{\mathop{\min }}\,\left( \sum\limits_{k=1}^{K}\!\!\!{\sum\limits_{\begin{smallmatrix}
+ \  m=1 \\
+ \ (k,m)\in S
+\end{smallmatrix}}^{M}\!\!\!{{{P}_{k,m}}}}-\sum\limits_{k=1}^{K}\!\!\!{\sum\limits_{\begin{smallmatrix}
+ \   m=1\  \\
+ (k,m)\in {{S}_{\text{sub}}}
+\end{smallmatrix}}^{M}\!\!\!{{{P}_{k,m}}}} \right)
+ \\
+& {s.t.} \;\; 0 \le {P_{k,m}} \le {P_{\max }} \\
+& \;\;\;\;\;\;\;  \sum\limits_{m = {m_{1k}}}^{{m_{2k}}} {{r_{k,m}}{z _{k,m}}}  \ge C_k^{\min } \\
+& \;\;\;\;\;\;\;  {z _{k,m}} = {\mathop{\rm sign}\nolimits} ({P_{k,m}}) \\
+& \;\;\;\;\;\;\;    \sum\limits_{k = 1}^K {{z _{k,m}}}  \le N
+\end{align}
+\end{subequations}
+
+Note that solving this subproblem is a process of adjusting the user scheduling results in ${{{S}}_{sub}}$. Therefore, we propose an efficient algorithm for this subproblem to make ${{{S}}_{sub}}$ approach the optimal feasible solution iteratively.
+In each iteration, we find
+\begin{align}
+({k^*},{m^*}) = arg\mathop {\min }\limits_{(k,m) \notin {S_0}} \left\{ {{r_{k,{m_0}}} - r_{k,m}^{\max }} \right\}
+\end{align}
+where
+\begin{subnumcases}
+{}
+\sum\limits_{k = 1}^K {{z _{k,{m_0}}}}  > N \\
+{m_{1{k^*}}} \le {m^*} \le {m_{2{k^*}}} \\
+\sum\limits_{k = 1}^K {{z _{k,m}}}  + 1 \le N
+\end{subnumcases}
+and set ${P_{{k^*},{m^*}}} = {P_{\max }}$, ${S_0} \leftarrow {S_0}\backslash \left\{ {({k^*},{m_0})} \right\}$. The iterative algorithm proposed is specifically described in the table below.
+
+\begin{algorithm}[h]
+\caption{Iterative Algorithm for Process-Oriented User Scheduling}
+\label{alg:1}
+\begin{algorithmic}[1]
+\WHILE{ ${\bf{Z}}$ not feasible }
+  \STATE Find $({k^*},{m^*}) = arg\mathop {\min }\limits_{(k,m) \notin {S_0}} \left\{ {{r_{k,{m_0}}} - r_{k,m}^{\max }} \right\}$, \\ where $\sum\limits_{k = 1}^K {{z _{k,{m_0}}}}  > N$, $\sum\limits_{k = 1}^K {{z _{k,m}}}  + 1 \le N$, \\ and ${m_{1{k^*}}} \le {m^*} \le {m_{2{k^*}}}$.
+  \STATE Set ${P_{{k^*},{m^*}}} = {P_{\max }}$, ${S_0} \leftarrow {S_0}\backslash \left\{ {({k^*},{m_0})} \right\}$.
+  \WHILE {$\sum\limits_{({k^*},m) \in {S_0}} {{r_{{k^*},m}}({\bf{Z}})}  < C_k^{\min }$  }
+    \STATE Find $({k^*},{m^*}) = arg\mathop {\max }\limits_{({k^*},m) \notin {S_0}} \left\{ {r_{{k^*},m}^{\max }} \right\}$, \\ where $\sum\limits_{k = 1}^K {{z _{k,m}}}  + 1 \le N$ and ${m_{1{k^*}}} \le {m^*} \le {m_{2{k^*}}}$.
+    \STATE Set ${S_0} \leftarrow {S_0} \cup \left\{ {({k^*},{m^*})} \right\}$.
+  \ENDWHILE
+  \IF {$\sum\limits_{({k^*},m) \in {S_0}} {{r_{{k^*},m}}({\bf{Z}})}  > C_{{k^*}}^{\min }$ }
+    \STATE Set ${P_{{k^*},{m^*}}} \leftarrow {P_{{k^*},{m^*}}} - \frac{{{2^{\frac {\lambda}{B_s}} } - 1}}{{{\beta _{{k^*},{m^*}}}\sigma _s^2}}$, \\ where $\lambda  = \sum\limits_{({k^*},m) \in {S_0}} {{r_{{k^*},m}}({\bf{Z}})}  - C_{{k^*}}^{\min }$.
+  \ENDIF
+\ENDWHILE
+%\STATE{\textbf{Output:} ${\bf{P}}$. }
+\end{algorithmic}
+\end{algorithm}
+
+As there are $K$ users scheduled and ${O(M^2)}$ parameters calculated for each $k$ to obtain a locally optimal solution and make it globally feasible, the computational complexity of this algorithm is $O(KM^2)$. Hence, the polynomial time algorithm proposed is far more efficient than the exhaustive method with exponential time complexity.
+
+$Theorem$ $2$: The computational complexity of the proposed algorithm is $O(KM^2)$.
+
+$Proof$: See Appendix B.
+
+
+\section{Simulation Results}\label{sec:3}
+
+In this section, we evaluate the performance of the proposed process-oriented user scheduling scheme in terms of power consumption using computer simulations. The maritime communication system consists of a semicircular cell with a radius of 30 km. Vessels sail into and out of the cell following a Poisson process except a protection distance of 0.1 km. The system uses a carrier frequency of 1.9 GHz, and has 10 subcarriers sharing a total bandwidth of 20 MHz \cite{p123}. The antenna heights of the BS and the users are 100 m and 10 m, respectively. The power density of the additive Gaussian white noise is -174 dBm/Hz \cite{p8}.
+
+Fig. 2 depicts the average downlink transmit power per user at the BS versus the number of users served by the system, i.e., $K$. We compare the performance of the proposed process-oriented scheme with that of the state-oriented scheme based on dynamic programming in \cite{p4} and the request-response-oriented scheme applied in most of the current systems. It is shown that the power consumption of the proposed scheme is significantly lower than that of the other two schemes, especially when $K$ is large. We can also find a positive correlation between the number of users and the average power consumption per user. The reason is that there may not be enough subcarriers to simultaneously serve the users under their best channel conditions when $K > N$, meaning that the BS has to assign sub-optimal time slots to some users.
+
+In Fig. 3, we investigate how different amounts of data required by the users influence the performance of the proposed scheme. As can be observed, the proposed process-oriented scheme remarkably outperforms the state-oriented ones in all range of $C_k^{\min }$. It can also be seen that with the growth of $C_k^{\min }$, the performance gap will first becomes wider and then tends towards stability. It can be considered as the combination of the following two factors. On the one hand, the process-oriented scheme can better deal with the conflict that arises from competing for resources by different users. On the other hand, the process-oriented scheme is always selecting time slots with the best channel conditions, but in order to satisfy a larger $C_k^{\min }$, more time slots with larger channel fading have to be chosen.
+
+%In Fig. 3, we investigate how different numbers of BS antennas influence the performance of the proposed scheme. As can be observed, the proposed process-oriented scheme remarkably outperforms the state-oriented ones in all range of $L$. In other words, the proposed scheme based on the asymptotic behavior of the SINR as ${L \to \infty }$ also works well when $L$ is finite. It can also be seen that there is a significant reduction in the average downlink transmit power with the increase of $L$. The reason is that the channel vectors from the BS to different users become less correlated, and the intra-cell interference is thus mitigated.
+
+Finally, we compare the effects of the value of $P_{max}$ on the system power consumption. As shown in Fig. 4, in the process-oriented scheme and the dynamic programming scheme, when $P_{max}$ is increased, the power consumption initially decreases, but turns to increase after reaching a minimum at a certain $P_{max}$. The reason is that, with low $P_{max}$, channel condition is the dominant
+factor, and a larger $P_{max}$ indicates that fewer time slots with relatively bad channel conditions are needed. However, with high $P_{max}$, the Shannon limit is dominant, and a larger $P_{max}$ means more power consumption, as the capacity grows logarithmically with the SINR. In the request-response scheme, however, the power consumption is a monotone increasing function of $P_{max}$ due to the random time slots to start transmission.
+
+\begin{figure} [htb]
+\begin{center}
+\includegraphics*[width=9cm]{newhaiyu111.eps} %这行为导入图片文件名称
+\end{center}
+\vspace*{-4mm} \caption{Average downlink transmit power per user $P_{avg}$ versus the number of users $K$ for different user scheduling schemes.}\label{fig:2}  %这行为文章中显示图片的标题
+\vspace*{-2mm}
+\end{figure}
+
+\begin{figure} [htb]
+\begin{center}
+\includegraphics*[width=9cm]{newhaiyu222.eps} %这行为导入图片文件名称
+\end{center}
+\vspace*{-4mm} \caption{Average downlink transmit power per user $P_{avg}$ versus the amount of data required $C_k^{\min }$ for different user scheduling schemes.}\label{fig:2}  %这行为文章中显示图片的标题
+\vspace*{-2mm}
+\end{figure}
+
+\begin{figure} [htb]
+\begin{center}
+\includegraphics*[width=9cm]{newhaiyu333.eps} %这行为导入图片文件名称
+\end{center}
+\vspace*{-4mm} \caption{Average downlink transmit power per user $P_{avg}$ versus the maximum transmit power $P_{max}$ for different user scheduling schemes.}\label{fig:2}  %这行为文章中显示图片的标题
+\vspace*{-2mm}
+\end{figure}
+
+
+\section{Conclusion }\label{sec:4}
+
+In this paper, we focus on the process-oriented user scheduling in a maritime communication system. Our aim is to minimize the average downlink transmit power while providing users with min-rate max-delay guaranteed services. By utilizing each user's positional information acquired from its specific shipping lane and the GPS, we make it possible to estimate the large-scale channel fading during the whole service process. Besides, we particularly focus on the delay-tolerant information distribution service. Based on that, we formulate the power consumption optimization problem by partitioning the total service duration of the system into a number of time slots. Further, we decompose the NP-hard problem into two simpler subproblems, and propose an efficient algorithm to solve it in an iterative way with a polynomial time complexity.
+Simulation results show that the proposed process-oriented scheme significantly enhances the system performance in terms of power consumption compared with the existing state-oriented schemes that take no account of the service process information.
+
+\section*{Appendix A \\ Proof of Theorem 1}
+
+To prove the problem in (5) to be NP-hard, we reduce it to a standard 0-1 programming problem (0-1-Prog), and further demonstrate that 0-1-Prog is equivalent to a 3-conjunctive normal form satisfiability (3-CNF-SAT) problem, which is a well-known NP-hard problem.
+
+First, we set ${P_{k,m}} = \left\{ \begin{array}{l}
+{P_{\max }}\;\;{z _{k,m}} = 1\\
+0\;\;\;\;\;\;\;\;{z _{k,m}} = 0
+\end{array} \right.$, and define $r_{k,m}^{\max } \triangleq {B_s}{\log _2}\left( e \right){e^{{L \mathord{\left/
+ {\vphantom {L {{\gamma}_{max}} }} \right.
+ \kern-\nulldelimiterspace} {\gamma}_{max} }}}\sum\limits_{i = 0}^{L - 1} {{E_{i + 1}}\left( {\frac{L}{{\gamma}_{max} }} \right)}$, where ${{\gamma}_{max}}  = \frac{{{P_{\max }}{\beta _{k,m}}}}{{\sigma _n^2}}$ accordingly. On that basis, we construct matrixes $\mathbf{A}$, $\mathbf{x}$ and $\mathbf{b}$ to transform the constraints in (5) into ${\bf{Ax}} \ge {\bf{b}}$:
+
+For $k = 1,2,...,K$ and $m = 1,2,...,M$, define $\mathbf{A}\in {{\mathbb{Z}}^{(K+M)\times (K\times M)}}$ as
+\begin{subnumcases}
+{}
+A(k,(k - 1)M + m) =  {r_{k,m}^{\max }}\\
+A(t + K,(k - 1)M + m) = -1 \\
+A(\text {others}) = 0
+\end{subnumcases}
+
+Define $\mathbf{x}\in {{\mathbb{Z}}^{(K\times M)\times 1}}$ as $x((k - 1)M + m) = {\delta _{k,m}}$, and define $\mathbf{b}\in {{\mathbb{Z}}^{(K+M)\times 1}}$ as
+\begin{subnumcases}
+{}
+b(k) =  C_k^{\min }\\
+b(k + m) = -N \\
+b(\text {others}) = 0
+\end{subnumcases}
+
+Thus, the original problem is reduced to a standard 0-1 programming problem, which can be proved to be equivalent to a 3-CNF-SAT problem as follows.
+
+A boolean formula in 3-CNF is expressed as an AND of clauses, each of which is the OR of three distinct boolean variables. For example, $\gamma \text{=}\left( {{x}_{1}}\vee {{x}_{2}}\vee {{x}_{4}} \right)\wedge \left( {{x}_{1}}\vee \overline{{{x}_{3}}}\vee \overline{{{x}_{5}}} \right)$. A 3-CNF-SAT problem is to check whether there exist a set of values for the variables that cause the boolean formula in 3-CNF to evaluate to 1.
+
+Denote the variables in each clause $C_i$ by $y_1, y_2$ and $y_3$. Then $C_i$ is satisfiable only if at least one variable of $y_1, y_2$ and $y_3$ equals 1, i.e., ${y_1} + {y_2} + {y_3} \ge 1$.
+
+For each clause, we transform $\overline{{{x}_{j}}}$ into $1-{{x}_{j}}$. For instance:
+\begin{subequations}
+\begin{align}
+ \left( {{x}_{1}}\vee {{x}_{2}}\vee {{x}_{4}} \right) & \rightarrow {{x}_{1}}\text{+}{{x}_{2}}\text{+}{{x}_{4}}\ge 1\\
+ \left( {{x}_{1}}\vee \overline{{{x}_{3}}}\vee \overline{{{x}_{5}}} \right) & \rightarrow {{x}_{1}}\text{+}\left( 1-{{x}_{3}} \right)\text{+}\left( 1-{{x}_{5}} \right)\ge 1 \\ & \rightarrow {{x}_{1}}-{{x}_{3}}-{{x}_{5}}\ge -1
+\end{align}
+\end{subequations}
+
+Thus, the corresponding 0-1-Prog can be expressed as ${\bf{Ax}} \ge {\bf{b}}$, where
+\begin{align}
+\mathbf{A}=\left[ \begin{matrix}
+   1 & 1 & 0 & 1 & 0  \\
+   1 & 0 & -1 & 0 & -1  \\
+\end{matrix} \right], \text{and} \; \mathbf{b}=\left[ \begin{matrix}
+   1  \\
+   -1  \\
+\end{matrix} \right]
+\end{align}
+
+Denote the variables in 0-1-Prog by ${x_1}, {x_2},..., {x_n}$. It can be observed in (17) that in each clause $C_i$, ${y_1} + {y_2} + {y_3} \ge 1$ is transformed into
+\begin{align}
+{\alpha_{i1}}{x_{i1}} + {\alpha_{i2}}{x_{i2}} + {\alpha_{i3}}{x_{i3}} \ge {1-n_i}
+\end{align}
+where ${{\alpha }_{ij}}=\left\{ \begin{array}{l}
+   \ 1\ \ \ \text{if}\ {{y}_{j}}={{x}_{ij}}  \\
+  -1\ \ \text{if}\ {{y}_{j}}=\overline{{{x}_{ij}}}
+\end{array} \right.$, and $n_i$ is the number of negated variables.
+
+%\begin{align}
+%{\alpha_{i1}}{x_{i1}} + {\alpha_{i2}}{x_{i2}} + {\alpha_{i3}}{x_{i3}} \ge 1
+%\end{align}
+%$x\in {{\left\{ 0,1 \right\}}^{K\times M}}$
+
+Therefore, $\gamma$ is satisfiable only if there exists a set of 0-1 variables ${x_1}, {x_2},..., {x_n}$ that satisfies ${\bf{Ax}} \ge {\bf{b}}$, and we prove that 0-1-Prog is equivalent to 3-CNF-SAT, which is NP-hard according to Theorem 34.10 in \cite{p10}. Thus, the original problem in (5) is proved to be NP-hard.
+
+%Reduction algorithm that runs in polynomial time.
+
+
+\section*{Appendix B \\ Proof of Theorem 2}
+
+For $M=1$, the ${1} {\text {-st}}$ time slot is the only choice for $k=1,2,...,K$ in Subproblem 1 and nothing can be done in Subproblem 2. Thus, the computational complexity is $O(K)=O(K\cdot1^2)$.
+
+Assume that the computational complexity is $O(Km^2)$ for $M=m$ time slots. Thus, for $M=m+1$, another $O(m)$ comparisons should be done in (13) and (14) for each $k$ to select a locally optimal time slot greedily. Thus, the computational complexity is $O(K(m^2+2m))=O(K(m^2+2m+1))=O(K(m+1)^2)$.
+
+From the above, as $K$ and $M$ are independent variables, the computational complexity of this algorithm is $O(KM^2)$ according to the mathematical induction.
+
+\section*{Acknowledgement}
+
+This work was partially supported by the National Basic Research Program of China under grant No. 2013CB329001, and
+the National Science Foundation of China under grant No. 91638205 and grant No. 61621091.
+
+\begin{thebibliography}{10}
+
+\bibitem{p32}
+M. Zhou, V. D. Hoang, H. Harada, et al., ``TRITON: High-Speed Maritime Wireless Mesh Network'',
+\emph{IEEE Wireless Communications}, vol. 20, no. 5, pp.~134-142, 2013.
+
+\bibitem{p322}
+T. Roste, K. Yang, F. Bekkadal, ``Coastal Coverage for Maritime Broadband Communications'',
+\emph{MTS/IEEE OCEANS - Bergen}, pp.~1-8, 2013.
+
+\bibitem{p33}
+S. Buzzi, Chih-Lin I, T. E. Klein, H. V. Poor, et al., ``A Survey of Energy-Efficient Techniques for 5G Networks and Challenges Ahead'',
+\emph{IEEE Journal on Selected Areas in Communications (JSAC)}, vol. 34, no. 4, pp.~697-709, 2016.
+
+\bibitem{p3}
+X. Li, X. Ge, X. Wang, et al., ``Energy Efficiency Optimization: Joint Antenna-Subcarrier-Power Allocation in OFDM-DASs'',
+\emph{IEEE Transactions on Wireless Communications (TWC)}, vol. 15, no. 11, pp.~7470-7483, 2016.
+
+\bibitem{p6}
+B. Di, L. Song, Y. Li, ``Sub-Channel Assignment, Power Allocation, and User Scheduling for Non-Orthogonal Multiple Access Networks'',
+\emph{IEEE Transactions on Wireless Communications (TWC)}, vol. 15, no. 11, pp.~7686-7698, 2016.
+
+\bibitem{p4}
+L. Shan, R. Miura, ``Energy-Efficient Scheduling under Hard Delay Constraints for Multi-User MIMO System'',
+\emph{International Symposium on Wireless Personal Multimedia Communications (WPMC)}, pp.~696-699, 2014.
+
+\bibitem{p5}
+S. Cao, Q. Cui, Y. Shi, H. Wang, X. Ma, ``Cross-Layer Cooperative Delay-Energy Tradeoff Scheme for Hybrid Services in Cellular Networks'',
+\emph{IEEE 79th Vehicular Technology Conference (VTC Spring)}, pp.~1-5, 2014.
+
+\bibitem{p7}
+X. Xiong, B. Jiang, X. Gao, X. You, ``QoS-Guaranteed User Scheduling and Pilot Assignment for Large-Scale MIMO-OFDM Systems'',
+\emph{IEEE Transactions on Vehicular Technology (TVT)}, vol. 65, no. 8, pp.~6275-6289, 2016.
+
+%\bibitem{p8}
+%Rahul Singh, Alexander Stolyar, ``MaxWeight scheduling: Smoothness of the service process'',
+%\emph{IEEE 35th Annual IEEE International Conference on Computer Communications (INFOCOM)}, pp.~1-9, 2016.
+
+\bibitem{p0}
+Sumayya Balkees P A, K. Sasidhar, S. Rao, ``A Survey Based Analysis of Propagation Models over the Sea'',
+\emph{International Conference on Advances in Computing, Communications and Informatics (ICACCI)}, pp.~69-75, 2015.
+
+\bibitem{p1}
+Y. Zhao, J. Ren, and X. Chi, ``Maritime Mobile Channel Transmission Model Based on ITM'',
+\emph{2nd International Symposium on Computer, Communication, Control and Automation (3CA)}, Atlantis Press, 2013.
+
+\bibitem{p2}
+J. C. Reyes-Guerrero, M. Bruno, L. A. Mariscal, A. Medouri, ``Buoy-to-Ship Experimental Measurements over Sea at 5.8 GHz near Urban Environments'',
+\emph{11th Mediterranean Microwave Symposium (MMS)}, pp.~320-324, 2011.
+
+\bibitem{p22}
+C. He, G. Y. Li, F. Zheng, X. You, ``Power Allocation Criteria for Distributed Antenna Systems'',
+\emph{IEEE Transactions on Vehicular Technology (TVT)}, vol. 64, no. 11, pp.~5083-5090, 2015.
+
+\bibitem{p41}
+H. Shin, J. H. Lee, ``Capacity of Multiple-Antenna Fading Channels: Spatial Fading Correlation, Double Scattering, and Keyhole'',
+\emph{IEEE Transactions on Information Theory}, vol. 49, no. 10, pp.~2636-2647, 2003.
+
+\bibitem{p9}
+F. Fernandes, A. Ashikhmin, T. L. Marzetta, ``Inter-Cell Interference in Noncooperative TDD Large Scale Antenna Systems'',
+\emph{IEEE Journal on Selected Areas in Communications (JSAC)}, vol. 31, no. 2, pp.~192-201, 2013.
+
+\bibitem{p11}
+N. Souto, R. Dinis, ``MIMO Detection and Equalization for Single-Carrier Systems Using the Alternating Direction Method of Multipliers'',
+\emph{IEEE Signal Processing Letters (SPL)}, vol. 23, no. 12, pp.~1751-1755, 2016.
+
+\bibitem{p123}
+H. Zhang, C. Jiang, N. C. Beaulieu, X. Chu, X. Wen, M. Tao, ``Resource Allocation in Spectrum-Sharing OFDMA Femtocells With Heterogeneous Services'',
+\emph{IEEE Transactions on Communications}, vol. 62, no. 7, pp.~2366-2377, 2014.
+
+\bibitem{p8}
+T. Yang, H. Liang, N. Cheng, R. Deng, X. Shen, ``Efficient Scheduling for Video Transmissions in Maritime Wireless Communication Networks'',
+\emph{IEEE Transactions on Vehicular Technology (TVT)}, vol. 64, no. 9, pp.~4215-4229, 2015.
+
+\bibitem{p10}
+T. H. Cormen, ``Introduction to Algorithms'', MIT press, 2009.
+
+\end{thebibliography}
+
+
+\end{document}
