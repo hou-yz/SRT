@@ -1,15 +1,25 @@
-function [E_stage_1,C_unsatisfied]=ref_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2)
-%REFERENCE_ALGORITHM Summary of this function goes here
-%   Detailed explanation goes here
-h0=1;
+function [E_stage_1,C_unsatisfied]=ref_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,h0)
 P=reshape([P_i_max;ones(J_range,1)*P_j_max]*ones(1,J_range*T_range),J_range+1,J_range,T_range);
-r=BW*log(1+P.*beta*h0^2/sigma2)/log(2);
+%fast fading, size(h0,3)>T_range
+T_range_h0=size(h0,3);
+multi_T=T_range_h0/T_range;
+r=zeros(J_range+1,J_range,T_range);
+for t=(1:T_range)
+    t_h0=(t-1)*multi_T;
+    for tt_h0=(1:multi_T)
+        r(:,:,t)=r(:,:,t)+BW*log(1+P(:,:,t).*beta(:,:,t).*h0(:,:,t_h0+tt_h0).^2/sigma2)/log(2);
+    end
+end
+r=r/multi_T;
+
+
+% r=BW*log(1+P.*beta.*h0.^2/sigma2)/log(2);
+
 
 S=[];%[i,j,t]->[0,j,t,0,0,0]
 C_max=C_qos;
-
 %以下为算法第一部分
-rho=zeros(J_range+1,J_range,T_range);
+eta=zeros(J_range+1,J_range,T_range);
 C_tmp=zeros(J_range,T_range+1);
 %C_tmp(j,t) means have that much data at the time slot before t
 unsatisfied_j=(1:J_range);
@@ -29,8 +39,8 @@ for t0=(1:T_range) %遍历时隙
             break
         end
         if C_tmp(j,T_range+1)+r(0+1,j,t0)*delta_t<C_qos(j)%未溢出
-            rho(0+1,j,t0)=1;%index 0 for BS-i
-            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*rho(0+1,j,t0);
+            eta(0+1,j,t0)=1;%index 0 for BS-i
+            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*eta(0+1,j,t0);
             if C_tmp(j,T_range+1)==C_qos(j)
                 [~,j_index]=ismember(j,unsatisfied_j);
                 unsatisfied_j(j_index)=[];
@@ -38,8 +48,8 @@ for t0=(1:T_range) %遍历时隙
                 satisfied_cnt=satisfied_cnt+1;
             end
         else%溢出
-            rho(0+1,j,t0)=(C_qos(j)-C_tmp(j,T_range+1))/(r(0+1,j,t0)*delta_t);
-            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*rho(0+1,j,t0);
+            eta(0+1,j,t0)=(C_qos(j)-C_tmp(j,T_range+1))/(r(0+1,j,t0)*delta_t);
+            C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)+r(0+1,j,t0)*delta_t*eta(0+1,j,t0);
              %从unsatisfied_j中去除
             [~,j_index]=ismember(j,unsatisfied_j);
             unsatisfied_j(j_index)=[];
@@ -66,11 +76,9 @@ if ~isempty(unsatisfied_j)
     end
 end
 %第一部分结束
-eta=(2.^(r.*rho/BW)-1)*sigma2./(beta*h0^2)./P;eta(beta==0)=0;
 E_stage_1=sum(sum(eta(1,:,:)))*P_i_max*delta_t;
 %fprintf('第一部分结束，系统总功耗：%d\n',E_stage_1)
-rho_1=reshape(rho(0+1,:,:),J_range,T_range);
-eta_1=reshape(eta(0+1,:,:),J_range,T_range);
+delta_1=reshape(eta(0+1,:,:),J_range,T_range);
 C_unsatisfied=C_qos-C_max;
 
 end
