@@ -7,7 +7,7 @@ function [pos_j,C_qos] = srt_pos_and_qos( J_range,T_range,delta_t,interval,ratio
 
 %航线1，航线2，航线3，渔船 速度
 dir=[1,-1,-0.6+0.8i];
-v=[36,36,36,0]/3.6;%单位：m/s
+v=[36,36,36,12]/3.6;%单位：m/s
 
 
 %航线1，航线2，航线3 发船间隔
@@ -29,7 +29,7 @@ pos_j(j_index_2,:)=(1:length(j_index_2))'*ones(1,T_range)*(-interval(2))*v(2)*di
 pos_j(j_index_3,:)=(1:length(j_index_3))'*ones(1,T_range)*(-interval(3))*v(3)*dir(3) + init_dist(3) + v(3)*dir(3)*delta_t*ones(length(j_index_3),1)*(1:T_range);
 direction_rand=rand(length(j_index_rand),1);
 direction_rand=direction_rand+(1-direction_rand.^2).^0.5*1i;
-pos_j(j_index_rand,:)=(random('Uniform',-10*10^3,10*10^3,length(j_index_rand),1)+random('Uniform',2*10^3,10*10^3,length(j_index_rand),1)*1i)*ones(1,T_range) + v(3)*delta_t*direction_rand*(1:T_range);
+pos_j(j_index_rand,:)=(random('Uniform',-10*10^3,10*10^3,length(j_index_rand),1)+random('Uniform',2*10^3,10*10^3,length(j_index_rand),1)*1i)*ones(1,T_range) + v(4)*delta_t*direction_rand*(1:T_range);
 
 %qos
 C_qos=1*10^9*ones(1,J_range);%Gb

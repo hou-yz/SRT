@@ -2,15 +2,13 @@ function [E_stage_1,C_unsatisfied]=ref_algorithm(beta,J_range,T_range,P_i_max,P_
 P=reshape([P_i_max;ones(J_range,1)*P_j_max]*ones(1,J_range*T_range),J_range+1,J_range,T_range);
 %fast fading, size(h0,3)>T_range
 T_range_h0=size(h0,3);
-multi_T=T_range_h0/T_range;
+t_step=T_range_h0/T_range;
 r=zeros(J_range+1,J_range,T_range);
 for t=(1:T_range)
-    t_h0=(t-1)*multi_T;
-    for tt_h0=(1:multi_T)
-        r(:,:,t)=r(:,:,t)+BW*log(1+P(:,:,t).*beta(:,:,t).*h0(:,:,t_h0+tt_h0).^2/sigma2)/log(2);
-    end
+    t_h0=(t-1)*t_step;
+    r(:,:,t)=sum(BW*log(1+P(:,:,t).*ones(1,1,t_step).*(beta(:,:,t).*ones(1,1,t_step)).*abs(h0(:,:,t_h0+1:t_h0+t_step)).^2/sigma2)/log(2),3);
 end
-r=r/multi_T;
+r=r/t_step;
 
 
 % r=BW*log(1+P.*beta.*h0.^2/sigma2)/log(2);

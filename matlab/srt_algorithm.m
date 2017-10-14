@@ -1,16 +1,15 @@
 function [E_stage_2,E_stage_3,C_unsatisfied]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,h0)
 P=reshape([P_i_max;ones(J_range,1)*P_j_max]*ones(1,J_range*T_range),J_range+1,J_range,T_range);
+P1_tmp=linspace(0,P_i_max);P2_tmp=linspace(0,P_j_max);
 %fast fading, size(h0,3)>T_range
 T_range_h0=size(h0,3);
-multi_T=T_range_h0/T_range;
+t_step=T_range_h0/T_range;
 r=zeros(J_range+1,J_range,T_range);
 for t=(1:T_range)
-    t_h0=(t-1)*multi_T;
-    for tt_h0=(1:multi_T)
-        r(:,:,t)=r(:,:,t)+BW*log(1+P(:,:,t).*beta(:,:,t).*h0(:,:,t_h0+tt_h0).^2/sigma2)/log(2);
-    end
+    t_h0=(t-1)*t_step;
+    r(:,:,t)=sum(BW*log(1+P(:,:,t).*ones(1,1,t_step).*(beta(:,:,t).*ones(1,1,t_step)).*abs(h0(:,:,t_h0+1:t_h0+t_step)).^2/sigma2)/log(2),3);
 end
-r=r/multi_T;
+r=r/t_step;
     
     
 % r=BW*log(1+P.*beta.*h0.^2/sigma2)/log(2);
@@ -143,14 +142,6 @@ for j=(1:J_range)%for all user j
                     if t1~=t2 && sum(eta(:,j_prime_R,t1)>0)-2*(eta(0+1,j_prime_R,t1)>0)+sum(eta(j_prime_R+1,:,t1)>0)==0 && sum(sum(eta(:,:,t1)>0))-(eta(0+1,j_prime_R,t1)>0)<N && eta(0+1,j_prime_R,t1)<1 % j' free and sys availible
                         r1=r(1,j_prime_R,t1);%r1
                         if ((t1>t2 && C_tmp(j_prime_R,t2)>=r0_max*delta_t) || (t1<=t2 && C_tmp(j_prime_R,t2)+r1*delta_t>=r0_max*delta_t))
-%                             beta1=beta(0+1,j_prime_R,t1);beta2=beta(j_prime_R+1,j,t2);
-%                             h0_1=h0(0+1,j_prime_R,t1);h0_2=h0(j_prime_R+1,j,t2);
-%                             P1=(2^(r0_min*eta(0+1,j,t0)/BW)-1)*sigma2/(beta1*h0_1^2);
-%                             P2=(2^(r0_min*eta(0+1,j,t0)/BW)-1)*sigma2/(beta2*h0_2^2);
-%                             
-%                             if eta(0+1,j_prime_R,t1)+P1/P_i_max<1 && eta(j_prime_R+1,j,t2)+P2/P_j_max<1
-%                                 R=[R;[0,j_prime_R,t1,j_prime_R,j,t2]];
-%                             end
                               R=[R;[0,j_prime_R,t1,j_prime_R,j,t2]];
                         end
                     end
@@ -167,16 +158,26 @@ for j=(1:J_range)%for all user j
         for i_0=(1:length(tt0(jj0==j)))
             ttt=tt0(jj0==j);t0=ttt(i_0);
             edge0=[0,j,t0];
-            r0=r(0+1,j,t0);%r0_j(i_0);
+            
+            r0=sum(BW*log(1+P(0+1,j,t0).*ones(1,1,t_step).*(eta(0+1,j,t0).*ones(1,1,t_step)).*(beta(0+1,j,t0).*ones(1,1,t_step)).*abs(h0(0+1,j,(t0-1)*t_step+1:t0*t_step)).^2/sigma2)/log(2),3)/t_step;
+%             r0_prime=r(0+1,j,t0)*eta(0+1,j,t0);
             for i_12=(1:size(R,1))
                 edge1=R(i_12,1:3);edge2=R(i_12,4:6);
                 j_prime=edge1(2);
                 t1=edge1(3);t2=edge2(3);
-                beta1=beta(edge1(1)+1,edge1(2),edge1(3));beta2=beta(edge2(1)+1,edge2(2),edge2(3));
-                h0_1=h0(edge1(1)+1,edge1(2),edge1(3));h0_2=h0(edge2(1)+1,edge2(2),edge2(3));
-                P1=(2^(r0*eta(0+1,j,t0)/BW)-1)*sigma2/(beta1*h0_1^2);
-                P2=(2^(r0*eta(0+1,j,t0)/BW)-1)*sigma2/(beta2*h0_2^2);
-                
+                beta1=beta(0+1,j_prime,t1);beta2=beta(j_prime+1,j,t2);
+                if t_step==1
+                    h0_1=1;h0_2=1;
+                    P1=(2^(r0/BW)-1)*sigma2/(beta1*abs(h0_1)^2);%*eta(0+1,j,t0)
+                    P2=(2^(r0/BW)-1)*sigma2/(beta2*abs(h0_2)^2);%*eta(0+1,j,t0)
+                else
+                    r1_tmp=sum(BW*log(1+P1_tmp.*ones(1,1,t_step).*(beta1.*ones(1,length(P1_tmp),t_step)).*(abs(h0(0+1,j,(t0-1)*t_step+1:t0*t_step).*ones(1,length(P1_tmp),t_step))).^2/sigma2)/log(2),3)/t_step;
+                    [~,P1_index]=min(abs(r1_tmp-r0));
+                    P1=P1_tmp(P1_index);
+                    r2_tmp=sum(BW*log(1+P2_tmp.*ones(1,1,t_step).*(beta2.*ones(1,length(P2_tmp),t_step)).*(abs(h0(0+1,j,(t0-1)*t_step+1:t0*t_step).*ones(1,length(P2_tmp),t_step))).^2/sigma2)/log(2),3)/t_step;
+                    [~,P2_index]=min(abs(r2_tmp-r0));
+                    P2=P2_tmp(P2_index);
+                end
                 ii=(i_0-1)*size(R,1)+i_12;
                 if eta(0+1,j_prime,t1)+P1/P_i_max<1 && eta(j_prime+1,j,t2)+P2/P_j_max<1 && sum(eta(:,j_prime,t1)>0)-2*(eta(0+1,j_prime,t1)>0)+sum(eta(j_prime+1,:,t1)>0)==0 && sum(eta(:,j_prime,t2)>0)+sum(eta(j_prime+1,:,t2)>0)-2*(eta(j_prime+1,j,t2)>0)==0 && sum(eta(j+1,:,t2)>0)+sum(eta(:,j,t2)>0)-2*(eta(j_prime+1,j,t2)>0)==0 && sum(sum(eta(:,:,t2)>0))-(eta(j_prime+1,j,t2)>0)<N && sum(sum(eta(:,:,t1)>0))-(eta(0+1,j_prime,t1)>0)<N
                     delta_P(ii,:)=[P1,P2,P_i_max-(P1+P2)];
