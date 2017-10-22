@@ -12,12 +12,12 @@
 \history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
 \doi{10.1109/ACCESS.2017.DOI}
 
-\title{Preparation of Papers for IEEE ACCESS}
+\title{A Energy Efficient D2D-Aided User Scheduling Scheme for Maritime Communication}
 
 \author{\uppercase{Te Wei}\authorrefmark{1}, \IEEEmembership{Student Member, IEEE},
 \uppercase{Yunzhong Hou}\authorrefmark{2}, \uppercase{Ning Ge}\authorrefmark{3},
 \IEEEmembership{Member, IEEE},\uppercase{Wei Feng}\authorrefmark{4},
-\IEEEmembership{Member, IEEE}, \uppercase{and Jianhua Lu},\authorrefmark{5},
+\IEEEmembership{Member, IEEE}, \uppercase{and Jianhua Lu}\authorrefmark{5},
 \IEEEmembership{Member, IEEE}}
 \address[1]{National Institute of Standards and 
 Technology, Boulder, CO 80305 USA (e-mail: author@boulder.nist.gov)}
@@ -43,12 +43,16 @@ Commerce under Grant BS123456.''}
 
 \begin{abstract}
 
-Unlike terrestrial cellular networks, a maritime communication system has to cover a vast area with quite limited base stations (BSs) due to the limitation of geographically available BS sites. Therefore, the system usually adopts high-powered BSs, and reducing power consumption is especially a critical issue therein. In this paper, we reduce the power consumption by utilizing the process information, which has not been considered in the previous studies. As both the wireless channels and the service demand are time-varying, it is impossible to accurately predict the complete channel state information (CSI) and service requirements. To overcome these two difficulties, we exploit the positional information of each vessel based on its specific shipping lane and timetable to estimate the slowly varying large-scale channel fading instead. Besides, we particularly focus on the delay-tolerant information distribution service. On that basis, we formulate a power consumption optimization problem, which is proved to be NP-hard. We propose an efficient algorithm to solve it in an iterative way with a polynomial time complexity. Simulation results reveal that the proposed process-oriented scheme significantly reduces the power consumption, although it has not taken the small-scale channel fading into consideration.
+Energy consumption reduction is a critical issue for maritime communication systems. 
+In this paper, we reduce the energy consumption by making channel estimation and implementing D2D transmission, which introduce the time dimension and source (BS/relay) dimension in our optimization subspace respectively. Together with the target (user) dimension which has been studied previously, our optimization subspace becomes 3-dimensional and therefore provides great potential. 
+Since the wireless channels are time-varying, it is impossible to accurately predict the complete channel state information (CSI). We exploit the positional information of each vessel based on its specific shipping lane and timetable. Utilizing the positional information, we replace the complete CSI with the slowly-varying large-scale channel fading estimation. Besides, we particularly focus on the delay-tolerant information distribution service, and implement D2D transmission for further improvement energy-wise. 
+On that basis, we decompose the NP-hard energy consumption optimization problem into 3 subproblems. We propose an efficient algorithm for each subproblem in an iterative way with a polynomial time complexity. 
+Simulation results justify our large-scale CSI estimation and reveal that the proposed D2D-aided process-oriented scheme significantly reduces the energy consumption by 50\% over the cellular-only ones, benefiting from higher dimensional optimization subspace.
 
 \end{abstract}
 
 \begin{keywords}
-Process-oriented, maritime communications, user scheduling, large-scale channel fading
+Process-oriented, maritime communications, user scheduling, large-scale channel fading estimation, D2D
 \end{keywords}
 
 \titlepgskip=-15pt
@@ -56,78 +60,138 @@ Process-oriented, maritime communications, user scheduling, large-scale channel 
 \maketitle
 
 \section{Introduction}
-\IEEEPARstart{W}{ith} the rapid development of marine activities such as marine tourism, offshore aquaculture and oceanic mineral exploration, there has been a growing demand for reliable and high-speed maritime communication services. Oceanic economic and cultural exchanges between countries, such as the Maritime Silk Road project in China, have further promoted this demand \cite{p322}\cite{p101}. In order to meet the increasing demand, several maritime communication network (MCN) projects have been developed in recent years, e.g., the BLUECOM+ project, the MarCom project, and the TRITON project \cite{p321}--\cite{p32}.
+\IEEEPARstart{W}{ith} the rapid development of marine activities such as marine tourism, offshore aquaculture and oceanic mineral exploration, the demand for reliable and high-speed maritime communication services increases sharply. Oceanic economic and cultural exchanges between countries, such as the Maritime Silk Road project in China, have further promoted this demand \cite{p322}\cite{p101}. In order to meet the increasing demand, several maritime communication network (MCN) projects have been developed in recent years, e.g., the BLUECOM+ project, the MarCom project, and the TRITON project \cite{p321}--\cite{p32}.
 Unlike terrestrial cellular networks, a maritime communication system has quite limited geographically available base station (BS) sites. In order to cover a vast area with limited BSs, the system usually adopts high-powered BSs, which increases the operational costs of mobile network operators and poses a global threat to the environment \cite{p33}.
-Accordingly, reducing power consumption is a critical issue for maritime communication.
-Device-to-device (D2D) communication underlaid with cellular networks allows direct communication between mobile users \cite{p101}-\cite{p103}. With proximate communication opportunities, D2D communication may increase spectral efficiency, improve cellular coverage, as well as reduce power consumption.
-Therefore, advanced wireless transmission and radio resource management techniques for D2D underlaid cellular communication system are in urgent need to solve the power reduction problem.
+Accordingly, reducing energy consumption becomes a critical issue for maritime communication.
+Device-to-device (D2D) communication underlaid with cellular networks allows direct communication between mobile users \cite{p101}-\cite{p103}. With proximate communication opportunities, D2D communication may increase spectral efficiency, improve cellular coverage, as well as reduce energy consumption.
+Therefore, advanced wireless transmission and radio resource management techniques for D2D underlaid cellular communication system are in urgent need to solve the maritime power reduction problem.
 
 
 \subsection{Related work}
 %cellular
-So far, several energy-efficient techniques have been developed for terrestrial cellular networks.
-In \cite{p3}, a joint antenna-subcarrier-power allocation scheme was proposed for distributed antenna systems (DASs) with limited backhaul capacity to maximize the energy efficiency while providing min-rate guaranteed services. In \cite{p6}, a matching algorithm of joint sub-channel assignment and power allocation was developed for non-orthogonal multiple access (NOMA) networks to maximize the total sum-rate with user fairness taken into consideration. In \cite{p4}, a joint power allocation and user scheduling algorithm based on dynamic programming (DP) was proposed for multi-user MIMO systems to minimize the total energy consumption under hard delay constraints. In \cite{p5}, a cross-layer cooperative user scheduling and power allocation scheme was developed for hybrid-delay services, and the fundamental tradeoff between delay and energy consumption was illustrated. More recently in \cite{p7}, a user scheduling and pilot assignment scheme was proposed for massive MIMO systems to serve the maximum number of users with guaranteed quality of service (QoS).
+So far, energy-efficient user scheduling techniques have been extensively studied for terrestrial cellular networks, such as the proportional fairness based schemes in \cite{p61}--\cite{p63}, the signal-to-leakage-interference-plus-noise ratio based methods in \cite{p64}--\cite{p66}, the coordinated scheduling with cyclic beamforming in \cite{p67}\cite{p68}, and the iterative algorithms in \cite{p69}\cite{p70}. Based on the utilization degree of CSI, user scheduling schemes can be classified into three categories. The first one required no CSI, such as the simple but efficient round-robin scheme for fair queuing \cite{p51}. The second one exploited statistical and outdated CSI, as studied in \cite{p52} and \cite{p53}. The third one assumed full CSI, and utilized the instantaneous CSI for user scheduling in a minuscule time scale, i.e., in each coherence time \cite{p3}--\cite{p7}. In \cite{p3}, a joint antenna-subcarrier-power allocation scheme was proposed for distributed antenna systems with limited backhaul capacity to maximize the energy efficiency while providing min-rate guaranteed services. In \cite{p6}, a matching algorithm of joint sub-channel assignment and power allocation was developed for non-orthogonal multiple access networks to maximize the total sum-rate with user fairness taken into consideration. In \cite{p4}, a joint power allocation and user scheduling algorithm based on dynamic programming (DP) was proposed for multi-user MIMO systems to minimize the total energy consumption under hard delay constraints. In \cite{p5}, a cross-layer cooperative user scheduling and power allocation scheme was developed for hybrid-delay services, and the fundamental tradeoff between delay and energy consumption was illustrated. More recently in \cite{p7}, a user scheduling and pilot assignment scheme was proposed for massive MIMO systems to serve the maximum number of users with guaranteed QoS.
 
 %D2D
-There are also several power control scheme developed for terrestrial D2D underlaid cellular systems so far. Xiao Xiao et al. proposed a power optimization scheme with joint resource (i.e. subcarrier and bit allocation) allocation and mode selection in an OFDMA system with integrated D2D communications in \cite{p104}. In \cite{p105}, Namyoon Lee et al. proposed a random network model for a D2D underlaid cellular system using stochastic geometry and developed centralized and distributed power control algorithms. In \cite{p106}, a distributed power control algorithm was developed which iteratively determines the SINR targets in a mixed cellular and D2D environment and allocates transmit powers such that the overall power consumption is minimized subject to an sum-rate constraint. In \cite{p107}, a power-efficient mode selection and power allocation scheme in D2D underlaid cellular system was developed which based on exhaustive search of all possible mode combinations of the devices.
+There are also several power control scheme developed for terrestrial D2D underlaid cellular systems so far. Xiao et al. proposed a power optimization scheme with joint resource (i.e. subcarrier and bit allocation) allocation and mode selection in an OFDMA system with integrated D2D communications in \cite{p104}. In \cite{p105}, Lee et al. proposed a random network model for a D2D underlaid cellular system using stochastic geometry and developed centralized and distributed power control algorithms. \cite{104} and \cite{105} assumed full CSI, which is used for user scheduling in coherence time. In \cite{p106}, a distributed power control algorithm was developed which iteratively determines the SINR targets in a mixed cellular and D2D environment and allocates transmit powers such that the overall power consumption is minimized subject to an sum-rate constraint. In \cite{p107}, a power-efficient mode selection and power allocation scheme in D2D underlaid cellular system was developed which based on exhaustive search of all possible mode combinations of the devices.  
 
 %问题
-However, as both the wireless channels and the service demand are time-varying, it is impossible to accurately predict the complete CSI and users' requirements during the service process. Therefore, all of the above user scheduling schemes are state-oriented, i.e, based on the current CSI and service requirements, and the optimization is in a ${\left( {J + 1} \right) \times J}$ 2-dimensional subspace (user count $J$). As the service process information is ignored, the state-oriented schemes lose the potential gain in energy efficiency to a great extent, especially for maritime vessels with dynamic locations and service requirements.
-In our previous study \cite{p108}, a process-oriented user scheduling scheme for maritime cellular-only communication system was developed. The optimization in \cite{p108} was in a  ${J \times T}$ 2-dimensional subspace (time slot count $T$).
+
+%信道
+However, in maritime scenarios, the wireless channel model becomes totally different. Unlike terrestrial senarios, obtaining accurate instantaneous CSI in maritime communications becomes problematic due to the large propagation delay, whereas using large-scale CSI such as the location information will be more feasible. As a result, a new user scheduling scheme based on large-scale CSI, which is able to exploit specific properties of maritime wireless channels, should be designed. To the best of the authors' knowledge, few user scheduling schemes specific to maritime channels have been reported in the literature, and the system performance with only the large-scale CSI has not been sufficiently studied either. 
+
+As both the wireless channels and the users' demands are time-varying, long-term predictions are in general very challenging. Therefore, all of the above user scheduling schemes, are based on the CSI and service requirements in a short time scale, e.g., in the scale of the coherence time ($\mu$s) or several time slots (ms). The duration of the service, however, can last for several seconds, minutes or more. That is to say, these schemes, without considering the long-term CSI during the service process, lose the potential gain that could be achieved by enlarging optimization space in the time dimension. These optimizations in the above cellular-only studies are in 1-dimensional subspaces, i.e. target (user) dimension, as they are based on CSI of a short time period and have only one source, the BS. 
+
+%D2D-海域需求不同
+Current energy-efficient D2D user scheduling study mainly focused on terrestrial scenarios. Given the uncertainty and volatility in terrestrial users' service requirements, the D2D user scheduling in current studies has to be finished within a short period of time in order to keep update with the QoS need changes. Besides, in terrestrial scenarios, the CSI can be easily acquired instantaneously, which makes it easy to complete the user scheduling process within that short period of time. 
+Whereas in maritime scenarios, service requirements differ greatly. Users or ships pay more attention to reliability and data amount rather than service delay. Moreover, instantaneous CSI is difficult to acquire under high propagation delay in maritime scenarios. As a result, current terrestrial D2D user scheduling schemes are unfit for maritime scenarios. 
+
+Nevertheless, implementing D2D transmission in maritime cellular data-distribution system can bring forward great improvements energy-wise, as the introduction of D2D came along with a new dimension in optimization subspace. Since users can  act like relays in D2D scenarios, and can be further regarded as source in data transmission, introducing D2D transmission to cellular-only systems can bring forward a new dimension: the source (BS/relay) dimension. Current D2D user scheduling optimize in a 2-dimensional subspace, one source (BS/relay) dimension and one target (user) dimension, but unable to dig into the time dimension. Hence, a D2D user scheduling scheme focused on maritime specified service requirements and channel characteristics is needed. This time, considering the long-time CSI and delay-tolerant service requirements, the D2D user scheduling can benefit more from the yet-to-explore time dimension. 
+
+
+%All of the above user scheduling schemes, cellular, and the optimization is in a ${\left( {J + 1} \right) \times J}$ 2-dimensional subspace (user count $J$). As the service process information is ignored, the state-oriented schemes lose the potential gain in energy efficiency to a great extent, especially for maritime vessels with dynamic locations and service requirements.
+%In our previous study \cite{p108}, a process-oriented user scheduling scheme for maritime cellular-only communication system was developed. The optimization in \cite{p108} was in a  ${J \times T}$ 2-dimensional subspace (time slot count $T$).
 
 \subsection{Contributions}
-In this paper, we further explore a ${\left( {J + 1} \right) \times J \times T}$ 3-dimensional optimization subspace to reduce the power consumption for maritime D2D underlaid cellular communications by utilizing the service process information, which has not been considered in the previous studies.
-The major challenge for our proposed scheme lies in the long-term prediction of the CSI, as well as the prediction of the users' requirements. We overcome these difficulties by fully utilizing the following unique features of maritime communications:
+
+
+In this paper, we further explore a 3-dimensional optimization subspace, including one source (BS/relay) dimension, inspired by terrestrial D2D communications; one target dimension; and one time dimension, as we make channel estimation by utilizing the service process information, which has not been considered in the previous studies. Through enlarging the optimization subspace, we reduce the energy consumption for maritime D2D underlaid cellular communications. 
+
+Apart from D2D user scheduling, the major challenge for our proposed scheme lies in the long-term prediction of the CSI, as well as the prediction of the users' requirements. We overcome these difficulties by fully utilizing the following unique features of maritime communications:
+
 \textbf{(1)} As there are fewer scatterers on the sea than that in the terrestrial scenario, we exploit the position information of marine users to estimate and predict the slowly-varying large-scale CSI instead of the complete instantaneous CSI;
+
 \textbf{(2)} The users' positions can be predicted based on their specific shipping lanes and timetables;
+
 \textbf{(3)} Besides, we particularly focus on the delay-tolerant information distribution service, which is initiated and terminated when a marine user sails into and out of the BS's coverage, respectively, so that we can make long-term prediction of the users' requirements.
 
 % maritime
 
-Given the delay tolerant characteristic of maritime communication: mobile users focus more on reliability and data volume of cellular download rather than transmission delay, we can sacrifice delay for larger system capacity and less power consumption. Hence we focus on the delay-tolerant information distribution service in this study.
-Since the shipping lanes of maritime mobile users are acquired beforehand, we can use the shipping lanes to predict long-time user locations. And the user locations are of great use in determining the long-time large-scale channel fading, according to the scarcity of scatterers on the sea, which makes it easier to estimate and predict the slowly varying large-scale channel fading. Therefore, we exploit the positional information of each vessel based on its specific shipping lane and timetable to estimate the large-scale channel fading instead of the complete CSI, as the research in \cite{p120} suggests that large-scale channel fading is a good estimate for the complete CSI.%冯伟老师文章
-With delay-tolerant service assumption and large-scale channel fading estimation, we address the user requirement problem and the CSI prediction problem based on the characteristic of maritime communication system.
+Given the delay tolerant characteristic of maritime communication: mobile users focus more on reliability and data volume of cellular download rather than transmission delay, we can sacrifice delay for larger system capacity and less energy consumption. 
+%Hence we focus on the delay-tolerant information distribution service in this study.
+Since the shipping lanes of maritime mobile users are acquired beforehand, we can use the shipping lanes to predict long-time user locations. And the user locations are of great use in determining the long-time large-scale channel fading, according to the scarcity of scatterers on the sea, which makes it easier to estimate and predict the slowly-varying large-scale channel fading. Therefore, we exploit the positional information of each vessel based on its specific shipping lane and timetable to estimate the large-scale channel fading instead of the complete CSI, as the research in \cite{p120} suggests that large-scale channel fading is a good estimate for the complete CSI. %冯伟老师文章
+With delay-tolerant service assumption and large-scale channel fading estimation, we address the user requirement problem and the CSI prediction problem based on the characteristic of maritime communication system. On that basis, we enlarge the optimization subspace by introducing the time dimension. 
 
 % d2d
-
+Since we focus on energy consumption of a maritime data-distribution system, the implementation of D2D communication can be of great help since its superiority in energy consumption, spectral efficiency and cellular coverage. Inspired by terrestrial D2D communication, we introduce the source dimension (BS/relay) in our maritime user scheduling optimization subspace. With the increment of time dimension and source dimension, our D2D-aided user scheduling scheme and explore the 3-dimensional optimization subspace for energy consumption improvement rather than the 1-dimensional (target dimension only) optimization subspace in traditional cellular-only method. 
 
 
 % proposed method
 
-On that basis, we formulate a power consumption optimization problem for user scheduling, aiming to minimize the power consumption while providing users with min-rate max-delay guaranteed services. The problem is proved to be NP-hard. To overcome the difficulties of solving the NP-hard problem, we decompose the problem into two simpler subproblems, and propose an efficient algorithm to solve it in an iterative way with a polynomial time complexity.
-Simulation results reveal that the proposed process-oriented scheme significantly outperforms the state-oriented ones in terms of power consumption with the utilization of the service process information, although it has not taken the small-scale channel fading into consideration.
+In this paper, we formulate a energy consumption optimization problem for D2D-aided user scheduling, aiming to minimize the energy consumption while providing users with delay tolerant data distribution services. The problem is proved to be NP-hard. To overcome the difficulties of solving the NP-hard problem, we enlarge the optimization subspace into 3-dimensional and decompose the problem into three simpler subproblems. We further propose efficient algorithms to solve the subproblems in an iterative way with a polynomial time complexity.
+Simulation results reveal that the proposed process-oriented D2D-aided scheme in a 3-dimensional optimization subspace significantly outperforms the state-oriented ones in terms of energy consumption by taking advantage of the service process information and D2D links, and the impact of the small-scale channel fading is neglectable. 
+
+
+\subsection{Organization and Notation}
+%文章组织
+The rest of the paper is organized as follows.
+
+Section II introduces the system model, where a multi-user maritime communication system is considered in the presence of D2D transmissions, and the formulation of the optimization problem for user scheduling is presented.
+In Section III,  the problem is decomposed into three subproblems and solved in an iterative way.
+Section IV presents simulation results along with further discussions.
+Finally, Section V gives the concluding remarks.
+
+Throughout this paper, lightface symbols represent scalars, while boldface symbols denote vectors and matrices. ${\mathbf{I}}_{M \times N}$ represents an ${M \times N}$ identity matrix, $\mathbb{E}[x]$ denote the expectation of $x$, and $\mathcal{CN}(0, {\sigma}^2)$ denotes the complex Gaussian distribution with zero mean and ${\sigma}^2$ variance. 
+%$[x]^{+}\triangleq{\mathop {\max }(x,0)}$. $\lfloor x \rfloor$ and $\lceil x \rceil$ denote the largest integer not greater than $x$ and the smallest integer not less than $x$, respectively. ${\mathbf{A}}^T$ and ${\mathbf{A}}^H$ represent the transpose and the transpose conjugate of ${\mathbf{A}}$, respectively. 
 
 
 
 \section{System Model}
 
-\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){SysModel.eps}
-{Maritime communication system for information
-distribution service.\label{fig1}}
 
-As shown in Fig.1, the following sections focus on the D2D underlaid cellular downlink transmission of a single-cell marine time communication system, which has an onshore BS equipped with $L$ antennas and  $J$ single-antenna users (ships) in the sea. We assume that the subcarrier bandwidth is ${B_s}$, and the total bandwidth of $N$ subcarriers is $B = N{B_s}$ .
 
-In the studied system, D2D communications between ships use the same licensed band of cellular network, and the same air interface of the underlying cellular communication. As a result, D2D communications consumes part of the resources allocated to the cellular network, i.e., D2D communications also use the $N$ subcarriers whose bandwidths are ${B_s}$. At any given time, each D2D or cellular transmission link will use distinct subcarrier. Here in this paper by `link' we mean the transmission from BS/relay to user during a certain time period. We further assume that the $J$ single-antenna users can either receive data transmission from one source (BS/relay) or send data to another user at a time.
+\begin{figure} [htb]
+\includegraphics*[width=8.8cm]{SysModel.eps}
+\caption{Maritime communication system for information distribution service.}\label{fig:1}
+\end{figure}
 
-Without loss of generality, we assume the cell shape to be a semicircle with radius $R$. Each user sails into and out of the cell according to its shipping lane and timetable. For each user, delay-torrent service is assumed, and the total amount of the data required by the ${j^{th}}$ user is denoted by $C_j^{QoS}$. In order to simplify the problem, we only consider D2D and cellular communications of the ships in the semicircle. We also assume all the users request different data and the system has no D2D data reuse.
 
-We further assume a modified 2-ray propagation model, since the sea surface is relatively flat. For a given subcarrier, we denote the composite channel gain from the BS/relay $i$ to the user $j$ at time slot $t$ by $\sqrt {{\beta _{i,j,t}}} {h_{i,j,t}}$. The small-scale fading vectors ${h_{i,j,t}}$ follows a complex Gaussian distribution with standard deviation ${\sigma _s} = 1$, i.e., ${h_{i,j,t}} \sim \mathbb{C}N\left( {0,{\mathbf{I}}} \right)$. The large-scale fading coefficient ${\beta _{i,j,t}}$ is expressed as
+%\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){SysModel.eps}
+%{Maritime communication system for information distribution service.\label{fig1}}
+
+As shown in Fig.1, the following sections focus on the D2D underlaid cellular downlink transmission of a single-cell maritime communication system. In the system there are one onshore BS
+% equipped with $L$ antennas 
+and  $J$ single-antenna users (ships) in the sea. We assume that there are $N$ subcarriers, and the subcarrier bandwidth is ${B_s}$. 
+
+In the studied system, D2D communications between ships use the same licensed band of cellular network (i.e. one of the $N$ subcarriers), and the same air interface of the underlying cellular communication. As a result, D2D communications consumes part of the resources allocated to the cellular network.
+%, i.e., D2D communications also use the $N$ subcarriers whose bandwidths are ${B_s}$. 
+At any given time, each D2D or cellular transmission link will use distinct subcarrier. Here in this paper by `link' we mean the transmission from BS/relay to user during a certain time period. We further assume that the $J$ single-antenna users can either receive data from one source (BS/relay) or send data to another user (act as a relay) at any given time.
+
+Without loss of generality, we assume the cell shape to be a semicircle. 
+% with radius $R$. 
+Each user sails into and out of the cell according to its shipping lane and timetable. For each user, delay-torrent service is assumed, and the total amount of the data required by the ${j^{th}}$ user is denoted by $C_j^{QoS}$. In order to simplify the problem, we only consider D2D and cellular communications of the ships in the semicircle. We also assume all the users request different data and the system has no D2D data reuse.
+
+We further assume a modified 2-ray propagation model, since the sea surface is relatively flat. For a given subcarrier, we denote the composite channel gain from the BS/relay $i$ to the user $j$ at time slot $t$ by $\sqrt {{\beta _{i,j,t}}} {h_{i,j,t}}$. The small-scale fading vectors ${h_{i,j,t}}$ follows a complex Gaussian distribution with standard deviation ${\sigma _s} = 1$, i.e., ${h_{i,j,t}} \sim \mathcal{CN}(0, \mathbf{I})$. The large-scale fading coefficient ${\beta _{i,j,t}}$ is expressed as
 \begin{align}
 {\beta _{i,j,t}} = {\left( {\frac{\lambda }{{4\pi {d_{i,j,t}}}}} \right)^2}{\left[ {2\sin \left( {\frac{{2\pi {h_t}{h_r}}}{{\lambda {d_{i,j,t}}}}} \right)} \right]^2}
 \end{align}
 where $\lambda $ is the carrier wavelength, ${d_{i,j,t}}$ is the distance between the BS/relay $i$ and the user $j$ at time slot $t$. The antenna height of the transmitter and the receiver are represented by $h_t$ and $h_r$ respectively.
 
+In this paper we proposed a slowly-varying large-scale CSI estimation for the channel under low SNR as shown below in (2)-(4). We justify our approximation by simulations in IV. SIMULATION RESULTS. The channel capacity or transmission speed in this paper can therefore be simplified
 
-To fully utilize the slow time-varying characteristic of the large-scale channel fading, we divide the total service time into $T$ time slots, each lasts $\Delta t$. The value $\Delta t$ is carefully chosen so that $\beta _{i,j,t}$ remains constant in each time slot $t$. Thus, we make it possible to estimate $\beta _{i,j,t}$ for $\forall t \in \left\{ {1,...,T} \right\}$ based on shipping lanes and timetable. With the large-scale channel fading (CSI) known beforehand, we can further design and implement a process-oriented scheme foe user scheduling.
+\begin{align}
+& {r_{i,j,t}} = {\mathbb{E}}\left [ {{B_s}{{\log }_2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{{\left| {{h_{i,j,t}}} \right|}^2}}}{{{\sigma ^2}}}} \right)} \right ] \\
+& \;\;\;\;\;\;\; \approx {B_s}{\log _2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{\mathbb{E}}\left [ {{{\left| {{h_{i,j,t}}} \right|}^2}} \right ]}}{{{\sigma ^2}}}} \right)\\
+& \;\;\;\;\;\;\; \approx {B_s}{\log _2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2}}}} \right)
+\end{align}
+here in (4) ${{\mathbb{E}}\left [ {{{\left| {{h_{i,j,t}}} \right|}^2}} \right ] = \left| {{h_0}} \right|^2} = 1$ represents the variance of the zero-mean small-scale fading vector ${h_{i,j,t}}$. By taking out the expectation operator, we complete our slowly-varying large-scale CSI estimation of complete channel. Any further denotation of CSI in this paper refer to the `slowly-varying large-scale CSI estimation' unless specified. The impact of this estimation is further discussed in IV. SIMULATION RESULTS.
 
-The total energy consumption of the system consists of cellular (BS) transmission part and D2D transmission part. We model the energy consumption as
+To fully utilize the slowly-varying characteristic of the large-scale channel fading, we divide the total service time into $T$ time slots, each lasts $\Delta t$. The value $\Delta t$ is carefully chosen so that $\beta _{i,j,t}$ remains constant in each time slot $t$. Thus, we make it possible to estimate $\beta _{i,j,t}$ for $\forall t \in \left\{ {1,...,T} \right\}$ based on shipping lanes and timetable. With the large-scale channel fading (CSI) known beforehand, we can further design and implement a process-oriented scheme foe user scheduling.
+
+The total energy consumption of the system consists of cellular transmission part and D2D transmission part. The energy consumption in this system is
 
 \begin{align}
 {{E_{total}} = \sum\limits_{j = 1}^J {{E_j}}  = \sum\limits_{j = 1}^J {\left( {\sum\limits_{t = 1}^T {\sum\limits_{i = 0}^J {{P_{i,j,t}}\Delta t} } } \right)} }
 \end{align}
 here ${P_{i,j,t}}$ represents the average power consumed by the transimission from BS/relay $i$ to user $j$ during time slot $t$.
 
-Our objective is to minimize the system energy consumption by means of user scheduling in cellular transmission and D2D transmission. We further denote the transmission link from BS/relay $i \in \left\{ {0,1,...,J} \right\}$($i = 0$ means BS, $i > 0$ means user relay) to user $j$ at time slot $t$ by $i \to j@t$. We assume BS/relay always use their max power $P_i^{\max }$ for transmission $i \to j@t$. For the transmission link $i \to j@t$, we denote the ratio of the used transmission time to time slot's duration by ${\eta _{i,j,t}} \in [0,1]$. ${\eta _{i,j,t}} = 0$ means no subcarrier is scheduled for the transmission $i \to j@t$, whereas ${\eta _{i,j,t}} \in \left( {0,1} \right]$ means a subcarrier is scheduled at time slot $t$ and the transmission uses ${\eta _{i,j,t}}$ of the time slot's duration. By ${C_{j,t}}$ we denote the total data volume user $j$ have by time slot $t$. Since the system has no D2D data reuse, user $j$ must have enough data ${C_{j,t}}$ in order to act as relay and transmit to another user $j'$ at $t$
+Our objective is to minimize the system energy consumption by means of user scheduling in cellular transmission and D2D transmission. We further denote the transmission link from BS/relay $i \in \left\{ {0,1,...,J} \right\}$($i = 0$ means BS, $i > 0$ means user relay) to user $j$ at time slot $t$ by $i \to j@t$. For the transmission link $i \to j@t$, we denote the ratio of used transmission power to max transmission power by 
+
+\begin{align}
+{{\eta _{i,j,t}} = \frac{{{P_{i,j,t}}}}{{P_i^{\max }}},{\eta _{i,j,t}} \in \left[ {0,1} \right]}
+\end{align}
+${\eta _{i,j,t}} = 0$ means there is no transmission from BS/relay $i$ to user $j$ at time slot $t$, while ${\eta _{i,j,t}} \in \left( {0,1} \right]$ means a subcarrier is scheduled at time slot $t$ for the transmission and the transmission uses ${\eta _{i,j,t}}$ of the source's max transmission power. $P_i^{\max } = \left\{ {P_0^{\max },\left\{ {P_j^{\max }} \right\}} \right\}$ represents the maximum transmission power of BS or relays. 
+
+By ${C_{j,t}}$ we denote the total data volume user $j$ currently has at time slot $t$. Since the system has no D2D data reuse, user $j$ must have enough data ${C_{j,t}}$ in order to act as relay and transmit to another user $j'$ at $t$
 
 Thus, we formulate the \textbf{energy consumption optimization problem} as
 
@@ -136,29 +200,28 @@ Thus, we formulate the \textbf{energy consumption optimization problem} as
 & \mathop {\min }\limits_{{\mathbf{{\rm H}}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\sum\limits_{i = 0}^J {{P_{i,j,t}}\Delta t} \,} } } \right\} \\
 & {s.t.} \;\; \sum\limits_{i \ne j} {\left( {{\eta _{i,j,t}} > 0} \right)}  + \sum\limits_{j' \ne j} {\left( {{\eta _{j,j',t}} > 0} \right) \le {\text{1}}} \\
 & \;\;\;\;\;\; \sum\limits_j {\sum\limits_i {\left( {{\eta _{i,j,t}} > 0} \right)} }  \le N \\
-& \;\;\;\;\;\; r_{i,j,t}^{\max } = {\log _2}\left( {1 + \frac{{P_i^{\max }{\beta _{i,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2} + M}}} \right) \\
-& \;\;\;\;\;\; {r_{i,j,t}} = r_{i,j,t}^{\max }{\eta _{i,j,t}},\; {P_{i,j,t}} = P_i^{\max }{\eta _{i,j,t}} \\
 & \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
 & \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {\left( {\sum\limits_i {{r_{i,j,\tau }}}  - \sum\limits_{j'} {{r_{j,j',\tau }}} } \right)\Delta t} ,\; {C_{j,t}} \ge 0
 \end{align}
 \end{subequations}
-where $P_i^{\max } = \left\{ {P_0^{\max },\left\{ {P_j^{\max }} \right\}} \right\}$ represents the maximum transmission power of BS and users, and ${P_{i,j,t}}$ represents on average how much power the transmission actual take in the time slot. ${\mathbf{{\rm H}}}{\text{ = }}{\left\{ {{\eta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}$ since we have to consider transmissions from ${J + 1}$ sources to $J$ targets at $T$ time slots, and our optimization is in a $\left( {J + 1} \right) \times J \times T$ 3-dimensional subspace. Constraint in (3b) guarantees that users can only receive from one source since they have single antenna. Constraint in (3c) guarantees that at most $N$ users can be severed simultaneously in the system, cellular or D2D, since there is only $N$ subcarriers. In (3e) we create two denotations ${r_{i,j,t}}$ and ${P_{i,j,t}}$ for simplicity in (3a) and (3g). (3f) and (3g) make sure that the QoS constraint is met and relays can only transmit all they have at most.
+${\mathbf{{\rm H}}}{\text{ = }}{\left\{ {{\eta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}$ since we have to consider transmissions from ${J + 1}$ sources (BS/relays) to $J$ targets (users) at $T$ time slots, and our optimization is in a $\left( {J + 1} \right) \times J \times T$ 3-dimensional subspace. Constraint in (7b) guarantees that users can only receive from one source since they have single antenna. Constraint in (7c) guarantees that at most $N$ users can be severed simultaneously in the system, cellular or D2D, since there is only $N$ subcarriers. (7d) and (7e) make sure that the QoS constraint is met and relays cannot transmit more than they have currently.
 
 
 \section{Process-Oriented User Scheduling Scheme}
-In this section, we focus on the reduction of system energy consumption while ensuring the users' service requirements (QoS). We decompose the optimization problem in (3) into 3 subproblems. Moreover, we proposed 3 efficient algorithms for the subproblems with polynomial time complexity to solve the NP-hard problem.
+In this section, we focus on the reduction of system energy consumption while ensuring the users' service requirements (QoS). We decompose the optimization problem in (7) into 3 subproblems. Moreover, we proposed an efficient algorithm for each of the subproblems with polynomial time complexity to solve the NP-hard problem.
 
 %\subsection{Problem Formulation}
 
 \subsection{Problem Decomposition}
 
-The problem in (3) is a discrete non-convex optimization problem and is NP-hard. Therefore, conventional methods for solving linear or convex optimization problems are no longer applicable. We decompose the problem into three simpler subproblems.
+The problem in (7) is a discrete non-convex optimization problem and is NP-hard. Therefore, conventional methods for solving linear or convex optimization problems are no longer applicable, and achieving the optimal solution for the NP-hard problem in (7) is not practical. 
+In order to achieve a suboptimal solution, we decompose the problem into three simpler subproblems, each based on its predecessor subproblem. Eventually, after solving three subproblems, we achieve a suboptimal solution for the original problem in (7).
 
-First, in \textbf{Subproblem 1: CT (Cellular Transmission)}, we consider the cellular-only transmission and ignore the subcarrier constraint.
+First, in \textbf{Subproblem 1: CT (Cellular Transmission)}, we consider the cellular-only transmission and ignore the subcarrier constraint. 
 
-Second, in \textbf{Subproblem 2: NCT (N-Subcarrier Cellular Transmission)}, we use an iterative algorithm to make sure the cellular-only transmission uses no more than $N$ subcarriers and get a suboptimal solution for the cellular-only system.
+Second, in \textbf{Subproblem 2: NCT (N-Subcarrier Cellular Transmission)}, we use an iterative algorithm to make sure the cellular-only transmission uses no more than $N$ subcarriers and get a suboptimal solution for the cellular-only system. The cellular-only system in subproblem 1 and 2 remove the source dimension from the optimization subspace since the source only contains BS. Therefore the optimizations in subproblem 1 and 2 are in 2-dimensional subspace.
 
-Last, in \textbf{Subproblem 3: DNCT (D2D-Aided N-Subcarrier Cellular Transmission)}, we consider the D2D underlaid cellular system. We use another iterative algorithm to substitute part of the cellular transmission links for cellular-\&-D2D transmission link clusters for less energy consumption. Each of the substitution link clusters consists of exact one cellular link $0 \to i'@{t_1}$ for BS to transmit data to relay ${i'}$ and one D2D relay transmission link $i' \to j@{t_2}$ for relay ${i'}$ to transmit to target user $j$. Two links $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ (one cellular and one D2D) in the substitution link cluster must use less energy combined than the original cellular-only link $0 \to j@{t_0}$ for improvement energy-wise. This results in that the transmission time of the two links in the substitution link cluster must be less than time slot duration $\Delta t$ ,i.e., ${\eta _{0,i',{t_1}}} \in \left( {0,1} \right)$, ${\eta _{i',j,{t_2}}} \in \left( {0,1} \right)$.
+Last, in \textbf{Subproblem 3: DNCT (D2D-Aided N-Subcarrier Cellular Transmission)}, we consider the D2D underlaid cellular system. We use another iterative algorithm to substitute part of the cellular transmission links for cellular-\&-D2D transmission link clusters for less energy consumption. Each of the substitution link clusters consists of exact one cellular link $0 \to i'@{t_1}$ for BS to transmit data to relay ${i'}$ and one D2D relay transmission link $i' \to j@{t_2}$ for relay ${i'}$ to transmit to target user $j$. Two links $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ (one cellular and one D2D) in the substitution link cluster must use less energy combined than the original cellular-only link $0 \to j@{t_0}$ for improvement energy-wise. As a result, the transmission energy of the two links in the substitution link cluster will be less than the transmission energy in the original link. The optimization subspace in subporblem 3 remains 3-dimensional.
 
 \subsection{Solution to \textbf{Subproblem 1: CT}}
 
@@ -168,54 +231,54 @@ For the first two subproblems, we consider a cellular-only system. We fix $i = 0
 \begin{align}
 & \mathop {\min }\limits_{{\mathbf{{\rm H}}}_{\mathbf{0}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {{P_{0,j,t}}\Delta t} \,} } \right\} \\
 & {s.t.} \;\; \sum\limits_j  {\left( {{\eta _{0,j,t}} > 0} \right)}   \le N \\
-& \;\;\;\;\;\; r_{0,j,t}^{\max } = {\log _2}\left( {1 + \frac{{P_0^{\max }{\beta _{0,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2} + M}}} \right) \\
-& \;\;\;\;\;\; {r_{0,j,t}} = r_{0,j,t}^{\max }{\eta _{0,j,t}},\; {P_{0,j,t}} = P_0^{\max }{\eta _{0,j,t}} \\
 & \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
 & \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {{r_{0,j,\tau }}\Delta t} ,\; {C_{j,t}} \ge 0
 \end{align}
 \end{subequations}
-$P_0^{\max }$ represents the maximum transmission power of BS. Here ${{\mathbf{{\rm H}}}_{\mathbf{0}}}{\text{ = }}{\left\{ {{\eta _{0,j,t}}} \right\}^{J \times T}}$ since the optimization is currently in a $J \times T$ 2-dimensional subspace (only one source BS) in the first two cellular-only sub problems. Constraint in (1b) is not necessary here since users can only receive data from one source, namely BS.
+${{\mathbf{{\rm H}}}_{\mathbf{0}}}{\text{ = }}{\left\{ {{\eta _{0,j,t}}} \right\}^{J \times T}}$ since the optimization is currently in a $J \times T$ 2-dimensional subspace (the source dimension degenerates since there is only one source, namely BS) in the first two cellular-only sub problems. Constraint in (7b) is not necessary here since users can only receive data from BS.
 
-In the first subproblem, we optimize ${{\mathbf{{\rm H}}}_{\mathbf{0}}}$ with constraint (4c)-(4f), ignoring the subcarrier constraint in (4b). This means we assume that the BS can serve infinite number of users, and we ignore the subcarrier constraint. In this case, the optimization variables of different users in no longer correlated, and the optimal solution of this problem can be obtained by scheduling each user separately. The problem can be reduced to $\mathop {\min }\limits_{{{\mathbf{{\rm H}}}_{\mathbf{0}}} \in {{\left[ {0,1} \right]}^T}} \left\{ {\sum\limits_{t = 1}^T {{P_{0,j,t}}\Delta t} } \right\}$. Note that ${r_{0,j,t}}$ is a monotone increasing function of ${\beta _{0,j,t}}$, therefore we can obtain the optimal solution for each user by assigning time slots with best CSI. For each user, we find transmission link $0 \to j@t$ with best ${\beta _{0,j,t}}$ and set the ratio of the used transmission time ${\eta _{0,j,t} = 1}$ until the QoS constraint is met.
+In the first subproblem, we optimize ${{\mathbf{{\rm H}}}_{\mathbf{0}}}$ with constraint (8c) and (8d), ignoring the subcarrier constraint in (8b). This means we assume that the BS can serve infinite number of users, and we ignore the subcarrier constraint. In this case, the optimization variables of different users in no longer correlated, and the optimal solution of this problem can be obtained by scheduling each user separately. The problem can be reduced to $\mathop {\min }\limits_{{{\mathbf{{\rm H}}}_{\mathbf{0}}} \in {{\left[ {0,1} \right]}^T}} \left\{ {\sum\limits_{t = 1}^T {{P_{0,j,t}}\Delta t} } \right\}$. Note that ${r_{0,j,t}}$ is a monotone increasing function of ${\beta _{0,j,t}}$, therefore we can obtain the optimal solution for each user by assigning time slots with best CSI. 
 
-We further define ${{\bf{S}}_{\bf{1}}}$ as the set of chosen cellular transmission link at a specific time slot in \textbf{Subproblem 1: CT}, i.e., $\left( {0,j,t} \right) \in {\bf{S}}_{\bf{1}}$ if $0 \to j@t$ is a chosen transmission link. We propose Algorithm 1 to solve the first subproblem.
+We further define ${{\mathbf{S}}_{\mathbf{1}}}$ as the set of chosen cellular transmission link at a specific time slot in \textbf{Subproblem 1: CT}, i.e., $\left( {0,j,t} \right) \in {\mathbf{S}}_{\mathbf{1}}$ if ${\eta _{i,j,t}} \in \left( {0,1} \right]$. We propose Algorithm 1 to solve the first subproblem.
 
 \begin{algorithm}[h]
 \caption{Optimal User Scheduling for Cellular-only System Regardless of Subcarrier Count}
 \label{alg:1}
 \begin{algorithmic}[1]
-\STATE Initialize ${{\bf{S}}_{\bf{1}}}=\phi$
+\STATE Initialize ${{\mathbf{S}}_{\mathbf{1}}}=\phi$
 \FOR{ each user $j$}
   \WHILE {${C_{j,T}} \ge {C_{j,QoS}}$ not met}
     \STATE Find $\left( {0,j,t} \right) = \arg \max \left\{ {r_{0,j,t}^{\max }} \right\}$.
     \STATE Set ${\eta _{0,j,t}} = 1$.
-    \STATE Update ${C_{j,t}}$, ${P_{0,j,t}}$, ${{\bf{S}}_{\bf{1}}}={{\bf{S}}_{\bf{1}}} \cup \left\{ {\left( {0,j,t} \right)} \right\}$.
+    \STATE Update ${C_{j,t}}$, ${P_{0,j,t}}$, ${{\mathbf{S}}_{\mathbf{1}}}={{\mathbf{S}}_{\mathbf{1}}} \cup \left\{ {\left( {0,j,t} \right)} \right\}$.
   \ENDWHILE
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}
 
+For each user, we find transmission link $0 \to j@t$ with best ${\beta _{0,j,t}}$ and set the ratio of the used transmission power ${\eta _{0,j,t} = 1}$ until the QoS constraint is met.
+
+
 \subsection{Solution to \textbf{Subproblem 2: NCT}}
 
-The solution ${{\bf{S}}_{\bf{1}}}$ returned by Algorithm 1 is not a feasible one for the cellular-only system in (4a)-(4f) since (4b) has not been taken into account. We design an effective method to approach the suboptimal feasible solution ${{\bf{S}}_{\bf{2}}}$ for constraints in (4) iteratively.
+The solution ${{\mathbf{S}}_{\mathbf{1}}}$ returned by Algorithm 1 is not a feasible one for the cellular-only system in (8a)-(8d) since (8b) has not been taken into account. We design an effective method to approach the suboptimal feasible solution ${{\mathbf{S}}_{\mathbf{2}}}$ for constraints in (8) iteratively.
 
-As ${{\bf{S}}_{\bf{1}}}$ is the optimal solution for (4c)-(4f), the original problem in (4a)-(4f) is equivalent to minimizing the energy consumption gap between ${{\bf{S}}_{\bf{1}}}$ and the result ${{\bf{S}}_{\bf{2}}}$ in subproblem 2, and the second subproblem can be expressed as
+As ${{\mathbf{S}}_{\mathbf{1}}}$ is the optimal solution for (8c) and (8d), the original problem in (8) is equivalent to minimizing the energy consumption gap between ${{\mathbf{S}}_{\mathbf{1}}}$ and the result ${{\mathbf{S}}_{\mathbf{2}}}$ in subproblem 2, and the second subproblem can be expressed as
 
 \begin{subequations}
 \begin{align}
-& \mathop {\min }\limits_{{{\bf{{\rm H}}}_{\bf{0}}} \in {{\left[ {0,1} \right]}^{J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\bf{S}}_{\bf{2}}}}  - \mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\bf{S}}_{\bf{1}}}} } \right)} \Delta t} } \right\} \\
+& \mathop {\min }\limits_{{{\mathbf{{\rm H}}}_{\mathbf{0}}} \in {{\left[ {0,1} \right]}^{J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}}  - \mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{1}}}} } \right)} \Delta t} } \right\} \\
 & {s.t.} \;\; \sum\limits_j  {\left( {{\eta _{0,j,t}} > 0} \right)}  \le N \\
-& \;\;\;\;\;\; r_{0,j,t}^{\max } = {\log _2}\left( {1 + \frac{{P_0^{\max }{\beta _{0,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2} + M}}} \right) \\
-& \;\;\;\;\;\; {r_{0,j,t}} = r_{0,j,t}^{\max }{\eta _{0,j,t}},\; {P_{0,j,t}} = P_0^{\max }{\eta _{0,j,t}} \\
 & \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
 & \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {{r_{0,j,\tau }}\Delta t} ,\; {C_{j,t}} \ge 0
 \end{align}
 \end{subequations}
-note that solving this subproblem is a process of adjusting the user scheduling result in ${{\bf{S}}_{\bf{1}}}$.
+note that solving this subproblem is a process of adjusting the user scheduling result in ${{\mathbf{S}}_{\mathbf{1}}}$.
 
-If the constraint (4b) isn't met in time slot ${t}$, we have to use alternative transmission links like $0 \to j@t'$ for replacement. These replacement will satisfy the N-subcarrier constraint at the cost of more energy consumption. According to the transmit-at-maximum-power policy in this system, we have to find substitutions with least system capacity impact.
+If the constraint (9b) isn't met in time slot ${t}$, we have to use alternative transmission links like $0 \to j@t'$ for replacement. These replacement will satisfy the N-subcarrier constraint at the cost of more energy consumption. 
+% Since ${r_{0,j,t}}$ is a monotone increasing function of ${P_{0,j,t}}$, we have to find substitutions with least system capacity impact, and therefore minimize the energy consumption gap.
 
-To acquire the suboptimal solution ${{\bf{S}}_{\bf{2}}}$, we find transmission links in ${{\bf{S}}_{\bf{1}}}$ that have least impact on system capacity if substituted. We drop those transmission links out of ${{\bf{S}}_{\bf{2}}}$ and find substitution links to satisfy the QoS need under the N-subcarrier constraint in (4b).
+To acquire the suboptimal solution ${{\mathbf{S}}_{\mathbf{2}}}$, we find transmission links in ${{\mathbf{S}}_{\mathbf{1}}}$ that have least impact on system capacity if substituted. We drop those transmission links out of ${{\mathbf{S}}_{\mathbf{2}}}$ and find substitution links to satisfy the QoS need under the N-subcarrier constraint in (9b) with minimal energy addition. 
 
 The proposed iterative method is shown in Algorithm 2.
 
@@ -223,15 +286,15 @@ The proposed iterative method is shown in Algorithm 2.
 \caption{Suboptimal User Scheduling for Cellular System}
 \label{alg:1}
 \begin{algorithmic}[1]
-\STATE Initialize ${{\bf{S}}_{\bf{2}}}={{\bf{S}}_{\bf{1}}}$
+\STATE Initialize ${{\mathbf{S}}_{\mathbf{2}}}={{\mathbf{S}}_{\mathbf{1}}}$
 \WHILE{ $\forall t,\sum\limits_j {{\eta _{0,j,t}}}  \le N$ not met}
-  \STATE Find $\left( {0,j,t} \right) = \arg \mathop {\min }\limits_{\scriptstyle \left( {0,j,t} \right) \in {{\bf{S}}_{\bf{1}}} \atop
-  \scriptstyle \left( {0,j,t'} \right) \notin {{\bf{S}}_{\bf{2}}}}  \left\{ {{r_{0,j,t}} - {r_{0,j,t'}}} \right\}$, where $\sum\limits_{j} {{\eta _{0,j,t'}}}  \le N - 1$, $\sum\limits_j {{\eta _{0,j,t}} > N} $.
-  \STATE Set ${{\bf{S}}_{\bf{2}}}={{\bf{S}}_{\bf{2}}}\backslash \left\{ {\left( {0,j,t} \right)} \right\}$, ${\eta _{0,j,t}} = 0$.
+  \STATE Find $\left( {0,j,t} \right) = \arg \mathop {\min }\limits_{\scriptstyle \left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{1}}} \atop
+  \scriptstyle \left( {0,j,t'} \right) \notin {{\mathbf{S}}_{\mathbf{2}}}}  \left\{ {{r_{0,j,t}} - {r_{0,j,t'}}} \right\}$, where $\sum\limits_{j} {{\eta _{0,j,t'}}}  \le N - 1$, $\sum\limits_j {{\eta _{0,j,t}} > N} $.
+  \STATE Set ${{\mathbf{S}}_{\mathbf{2}}}={{\mathbf{S}}_{\mathbf{2}}}\backslash \left\{ {\left( {0,j,t} \right)} \right\}$, ${\eta _{0,j,t}} = 0$.
   \WHILE {${{C_{j,T}} \ge {C_{j,QoS}}}$ not met}
-    \STATE Find ${\left( {0,j,t} \right) = \arg \mathop {\max }\limits_{\left( {0,j,t} \right) \notin {{\bf{S}}_{\bf{2}}}} \left\{ {{r_{0,j,t}}} \right\}}$, where ${\sum\limits_j {{\eta _{0,j,t}}}  \le N - 1}$.
+    \STATE Find ${\left( {0,j,t} \right) = \arg \mathop {\max }\limits_{\left( {0,j,t} \right) \notin {{\mathbf{S}}_{\mathbf{2}}}} \left\{ {{r_{0,j,t}}} \right\}}$, where ${\sum\limits_j {{\eta _{0,j,t}}}  \le N - 1}$.
     \STATE Set ${\eta _{0,j,t}} = 1$.
-    \STATE Update ${C_{j,t}}$, ${P_{0,j,t}}$, ${{\bf{S}}_{\bf{2}}}={{\bf{S}}_{\bf{2}}} \cup \left\{ {\left( {0,j,t} \right)} \right\}$.
+    \STATE Update ${C_{j,t}}$, ${P_{0,j,t}}$, ${{\mathbf{S}}_{\mathbf{2}}}={{\mathbf{S}}_{\mathbf{2}}} \cup \left\{ {\left( {0,j,t} \right)} \right\}$.
   \ENDWHILE
 \ENDWHILE
 \end{algorithmic}
@@ -239,70 +302,59 @@ The proposed iterative method is shown in Algorithm 2.
 
 \subsection{Solution to \textbf{Subproblem 3: DNCT}}
 
-After solving the first two subproblems, we have already claimed an approximation of the optimal solution for the cellular-only system in a $J \times T$ subspace. In subproblem 3, we change part of the cellular transmission links into D2D transmission links for better energy efficiency. The optimization in a $\left( {J + 1} \right) \times J \times T$ subspace get the solution ${{\bf{S}}_{\bf{3}}}$. ${{\bf{S}}_{\bf{2}}}$ contains both cellular links like $0 \to j@t'$ and cellular-\&-D2D link clusters like $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$.
-Given that ${{\bf{S}}_{\bf{2}}}$ is only based on constraint (4a)-(4f), the original problem in (1a)-(1g) is equivalent to maximizing the energy consumption reduction between ${{\bf{S}}_{\bf{3}}}$ and the result ${{\bf{S}}_{\bf{2}}}$ in subproblem 2, and the third subproblem can be expressed as
+After solving the first two subproblems, we have already claimed an approximation of the optimal solution for the cellular-only system in a $J \times T$ subspace. In subproblem 3, we change part of the cellular transmission links into D2D transmission links for better energy efficiency. The optimization in subproblem 3 derives the final solution ${{\mathbf{S}}_{\mathbf{3}}}$. ${{\mathbf{S}}_{\mathbf{3}}}$ contains both cellular links like $0 \to j@t'$ and cellular-\&-D2D link clusters like $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$.
+
+Given that ${{\mathbf{S}}_{\mathbf{2}}}$ is only based on constraint (8a)-(8d), the original problem in (7a)-(7e) is equivalent to maximizing the energy consumption reduction between ${{\mathbf{S}}_{\mathbf{3}}}$ and the result ${{\mathbf{S}}_{\mathbf{2}}}$ in subproblem 2, and the third subproblem can be expressed as
 
 \begin{subequations}
 \begin{align}
-& \mathop {\max }\limits_{{\bf{{\rm H}}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\bf{S}}_{\bf{2}}}}  - \sum\limits_{i = 0}^J {\mathop {{P_{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\bf{S}}_{\bf{3}}}} } } \right)\Delta t} } } \right\} \\
+& \mathop {\max }\limits_{{\mathbf{{\rm H}}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}}  - \sum\limits_{i = 0}^J {\mathop {{P_{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\mathbf{S}}_{\mathbf{3}}}} } } \right)\Delta t} } } \right\} \\
 & {s.t.} \;\; \sum\limits_{i \ne j} {\left( {{\eta _{i,j,t}} > 0} \right)}  + \sum\limits_{j' \ne j} {\left( {{\eta _{j,j',t}} > 0} \right) \le {\text{1}}} \\
 & \;\;\;\;\;\; \sum\limits_j {\sum\limits_i {\left( {{\eta _{i,j,t}} > 0} \right)} }  \le N \\
-& \;\;\;\;\;\; r_{i,j,t}^{\max } = {\log _2}\left( {1 + \frac{{P_i^{\max }{\beta _{i,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2} + M}}} \right) \\
-& \;\;\;\;\;\; {r_{i,j,t}} = r_{i,j,t}^{\max }{\eta _{i,j,t}},\; {P_{i,j,t}} = P_i^{\max }{\eta _{i,j,t}} \\
 & \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
 & \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {\left( {\sum\limits_i {{r_{i,j,\tau }}}  - \sum\limits_{j'} {{r_{j,j',\tau }}} } \right)\Delta t} ,\; {C_{j,t}} \ge 0
 \end{align}
 \end{subequations}
-here ${\bf{{\rm H}}}{\text{ = }}{\left\{ {{\eta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}$ since the optimization is now in a $\left( {J + 1} \right) \times J \times T$ subspace: there are $\left( {J + 1} \right)$ sources (BS/users), $J$ targets and $T$ time slots. For simplicity, by $0 \to j@{t_0}$ we denote the cellular transmission link in ${{\bf{S}}_{\bf{2}}}$ that is to be replaced by a cellular-\&-D2D link cluster in subproblem 3. Whereas the substitution link cluster $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in this paper consist of exact one cellular link $0 \to i'@{t_1}$ and one D2D relay transmission link $i' \to j@{t_2}$. Two links (one cellular and one D2D) in the substitution link cluster must use less energy combined than the original cellular one.
+here ${\mathbf{{\rm H}}}{\text{ = }}{\left\{ {{\eta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}$ since the optimization is now in a $\left( {J + 1} \right) \times J \times T$ subspace: there are $\left( {J + 1} \right)$ sources (BS/relays), $J$ targets (users) and $T$ time slots. For simplicity, by $0 \to j@{t_0}$ we denote the cellular transmission link in ${{\mathbf{S}}_{\mathbf{2}}}$ that is to be replaced by a cellular-\&-D2D link cluster $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in subproblem 3. Whereas the substitution link cluster $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in this paper consist of exact one cellular link $0 \to i'@{t_1}$ and one D2D relay transmission link $i' \to j@{t_2}$. Two links (one cellular and one D2D) in the substitution link cluster must use less energy combined than the original cellular one.
 
 We propose another iterative method as shown in Algorithm 3.
 
-\begin{algorithm}[h]
+\begin{algorithm}[!h]
 \caption{Suboptimal User Scheduling for Cellular System}
 \label{alg:1}
 \begin{algorithmic}[1]
-\STATE Initialize ${{\bf{S}}_{\bf{3}}}={{\bf{S}}_{\bf{2}}}$
+\STATE Initialize ${{\mathbf{S}}_{\mathbf{3}}}={{\mathbf{S}}_{\mathbf{2}}}$
 \FOR{all user $j$}
-  \STATE Set ${\bf{R}} = \phi $ as group for all plausible cellular-\&-D2D link clusters.
-  \STATE $r_0^{\min } = \mathop {\min }\limits_{\left( {0,j,t} \right) \in {{\bf{S}}_{\bf{2}}}} \left\{ {r_{0,j,t}^{\max }{\eta _{0,j,t}}} \right\}$.
-  \FOR{all time slot ${t_2}$}
-    \FOR{all relays $i' \ne j$}
-      \IF{${i'}$ \& $j$ \& SYSTEM are FREE at ${t_2}$ and $r_{i',j,{t_2}}^{\max } \geqslant r_0^{\min }$}
-        \FOR{all time slot ${t_1}$ where ${i'}$ \& SYSTEM are FREE at ${t_1}$ and ${t_1} \ne {t_2}$ and $r_{0,i',{t_1}}^{\max } \geqslant r_0^{\min }$}
-          \IF{$\left\{ \begin{array}{c}
-{C_{i',{t_2} - 1}} \ge r_0^{\min }\Delta t,{\bf{if}} \,\, {t_1} > {t_2}\\
-{C_{i',{t_2} - 1}} + r_{0,i',{t_1}}^{\max }\Delta t \ge r_0^{\min }\Delta t, \bf{else}
-\end{array} \right.$}
-            \STATE Set ${\bf{R = R}} \cup \left\{ {\left[ {\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right]} \right\}$.
+  \STATE Initialize ${\mathbf{R}} = \phi $ as group for all plausible cellular-\&-D2D link clusters.
+  \STATE $r_0^{\min } = \mathop {\min }\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}} \left\{ {r_{0,j,t}^{\max }{\eta _{0,j,t}}} \right\}$.
+  \FOR{all relays $i' \ne j$}
+    \FOR{all time slot ${t_2}$ where $r_{i',j,{t_2}}^{\max } \geqslant r_0^{\min }$}
+      \IF{${i'}$ \& $j$ \& SYSTEM are FREE at ${t_2}$}
+        \FOR{all time slot ${t_1}$ where $r_{0,i',{t_1}}^{\max } \geqslant r_0^{\min }$ and ${i'}$ \& SYSTEM are FREE at ${t_1}$ and ${t_1} \ne {t_2}$}
+          \IF{${C_{i',{t_2}}}$ is ENOUGH}
+            \STATE Set ${\mathbf{R = R}} \cup \left\{ {\left[ {\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right]} \right\}$.
           \ENDIF
         \ENDFOR
       \ENDIF
     \ENDFOR
   \ENDFOR
-  \WHILE{${\bf{R}} \ne \phi $}
-    \STATE Update $r_0^{\min } = \mathop {\min }\limits_{\left( {0,j,t} \right) \in {{\bf{S}}_{\bf{2}}}} \left\{ {r_{0,j,t}^{\max }{\eta _{0,j,t}}} \right\}$.
-    \IF{${\eta _{0,i',{t_1}}} + \frac{{r_0^{\min }}}{{r_{0,i',{t_1}}^{\max }}} \leqslant 1$ and ${\eta _{i',j,{t_2}}} + \frac{{r_0^{\min }}}{{r_{i',j,{t_2}}^{\max }}} \leqslant 1$ where $\left[ {\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right] \in \bf{R}$ and ${i'}$ \& $j$ \&  SYSTEM are FREE at ${t_2}$ and ${i'}$ \& SYSTEM are FREE at ${t_1}$}
-      \STATE $\Delta P = {P_{0,j,{t_0}}} - \left( {{P_{0,i',{t_1}}} + {P_{i',j,{t_2}}}} \right)$
-    \ELSE{}
-      \STATE $\Delta P =  - \infty $
-    \ENDIF
-    \IF{$\max \left\{ {\Delta P} \right\} > 0$}
-      \STATE $\left[ {\left( {0,j,{t_0}} \right),\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right] = \arg \max \left\{ {\Delta P} \right\}$.
-      \STATE Set ${\eta _{0,j,{t_0}}} = 0,{\eta _{0,i',{t_1}}} +  = \frac{{r_0^{\min }}}{{r_{0,i',{t_1}}^{\max }}},{\eta _{i',j,{t_2}}} +  = \frac{{r_0^{\min }}}{{r_{i',j,{t_2}}^{\max }}}$.
-      \STATE Update ${{\bf{S}}_{\bf{3}}} \leftarrow {{\bf{S}}_{\bf{3}}}\backslash \left\{ {\left( {0,j,{t_0}} \right)} \right\},{{\bf{S}}_{\bf{3}}} \leftarrow {{\bf{S}}_{\bf{3}}} \cup \left\{ {\left[ {\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right]} \right\}$, update ${C_{j,t}},{C_{i',t}}$ and ${P_{0,j,{t_0}}},{P_{0,i',{t_1}}},{P_{i',j,{t_2}}}$.
-      \STATE $\bf{R} \leftarrow \bf{R}\backslash \left\{ {\left[ {\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right]} \right\}$.
-    \ELSE
+  \WHILE{${\mathbf{R}} \ne \phi $}
+    \STATE Find $\left[ {\left( {0,j,{t_0}} \right),\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right] = \arg \max \left\{ {\Delta P} \right\}$, where ${\left\{ {\Delta P} \right\}}$ is group for substitution power gains $\Delta P = {P_{0,j,{t_0}}} - \left( {{P_{0,i',{t_1}}^{temp}} + {P_{i',j,{t_2}}^{temp}}} \right)$. 
+    \IF{$\max \left\{ {\Delta P} \right\} \le 0$}
       \STATE Break.
     \ENDIF
+    \STATE Set ${\eta _{0,j,{t_0}} = 0}$, ${\eta _{0,i',{t_1}}} += \frac{{{P_{0,i',{t_1}}^{{\rm{temp}}}}}}{{P_{i'}^{\max }}}$, ${\eta _{i',j,{t_2}}} += \frac{{{P_{i',j,{t_2}}^{{\rm{temp}}}}}}{{P_{0}^{\max }}}$.
+    \STATE Update ${{\mathbf{S}}_{\mathbf{3}}} \leftarrow \left( {{{\mathbf{S}}_{\mathbf{3}}}\backslash \left\{ {\left( {0,j,{t_1}} \right)} \right\}} \right) \cup \left\{ {\left[ {\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right]} \right\}$ and ${C_{j,t}},{C_{i',t}}$ and ${P_{0,j,{t_0}}},{P_{0,i',{t_1}}},{P_{i',j,{t_2}}}$.
+    \STATE Set $\mathbf{R} \leftarrow \mathbf{R}\backslash \left\{ {\left[ {\left( {0,i',{t_1}} \right),\left( {i',j,{t_2}} \right)} \right]} \right\}$.
   \ENDWHILE
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}
 
 
-For each user $j$, we first record all plausible cellular-\&-D2D link clusters like $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in a temporary set $\bf{R}$. Here `plausible' means that the single antenna constraint in (6b) and the N-subcarrier constraint in (6c) are satisfied and both links in the cluster are at speed greater than the that of the original links. Further exploration will be conducted in the plausible cellular-\&-D2D link cluster set $\bf{R}$.
+For each user $j$, we first record all plausible cellular-\&-D2D link clusters like $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in a temporary set $\mathbf{R}$. Here `plausible' means that the single antenna constraint in (10b) and the N-subcarrier constraint in (10c) are satisfied and both links in the cluster are at speed greater than the that of the original links. Further exploration will be conducted in the plausible cellular-\&-D2D link cluster set $\mathbf{R}$.
 
-Once we have the plausible set $\bf{R}$, we check the cellular link and the D2D link in each cluster to see if they are capable of substitution, i.e., whether there are enough time unused in those link to complete the transmission in the original cellular link $0 \to j @{t_0}$. Of all the cellular-\&-D2D link clusters that pass the test, we find the combination of cluster $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ and original link $0 \to j @{t_0}$ that save most power, remove $0 \to j @{t_0}$ from ${{\bf{S}}_{\bf{3}}}$ and move $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ from $\bf{R}$ to ${{\bf{S}}_{\bf{3}}}$. Continue those steps until the plausible cluster set $\bf{R}$ become empty or there are no power gain from substitution.
+Once we have the plausible set $\mathbf{R}$, we check the cellular link and the D2D link in each cluster to see if they are capable of substitution, i.e., whether there are enough power unused in those link to complete the transmission in the original cellular link $0 \to j @{t_0}$. Of all the cellular-\&-D2D link clusters that pass the test, we find the combination of cluster $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ and original link $0 \to j @{t_0}$ that save most power, remove $0 \to j @{t_0}$ from ${{\mathbf{S}}_{\mathbf{3}}}$ and move $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ from $\mathbf{R}$ to ${{\mathbf{S}}_{\mathbf{3}}}$. Continue those steps until the plausible cluster set $\mathbf{R}$ become empty or there are no power gain from substitution.
 
 
 
@@ -319,67 +371,101 @@ and ``${i'}$ \& SYSTEM are FREE at ${t_1}$'' means that
 {\sum\limits_{{i^*} \ne i'} {\left( {{\eta _{{i^*},i',{t_1}}} > 0} \right)}  + \sum\limits_{{j^*} \ne i'} {\left( {{\eta _{i',{j^*},{t_1}}} > 0} \right) \le 1}}\\
 {\sum\limits_{{j^*}} {\left( {\sum\limits_{{i^*}} {\left( {{\eta _{{i^*},{j^*},{t_1}}} > 0} \right)} } \right)}  \le N}
 \end{subnumcases}
-therefore the system constraint in (6b) and (6c) is met.
+therefore the system constraints in (10b) and (10c) are met. ``${C_{i',{t_2}}}$ is ENOUGH'' means that 
+\begin{subnumcases}
+{}
+{C_{j',{t_2} - 1}} \ge r_0^{\min }\Delta t,\;\;{\rm{if}}{t_1} > {t_2}\\
+{C_{j',{t_2} - 1}} + r_{0,j',{t_1}}^{\max }\Delta t \ge r_0^{\min }\Delta t,\;\;{\rm{else}}
+\end{subnumcases}
+therefore the system constraint in (10e) is met. In Algorithm 3, $P_{0,i',{t_1}}^{{\rm{temp}}}$ and $P_{i',j,{t_2}}^{{\rm{temp}}}$ are calculated by
+\begin{subnumcases}
+{}
+P_{0,i',{t_1}}^{{\rm{temp}}} = {\raise0.7ex\hbox{${{\sigma ^2}\left( {{2^{{\raise0.7ex\hbox{${{r_{0,i',{t_1}}}}$} \!\mathord{\left/
+ {\vphantom {{{r_{0,i',{t_1}}}} {{B_s}}}}\right.\kern-\nulldelimiterspace}
+\!\lower0.7ex\hbox{${{B_s}}$}}}} - 1} \right)}$} \!\mathord{\left/
+ {\vphantom {{{\sigma ^2}\left( {{2^{{\raise0.7ex\hbox{${{r_{0,i',{t_1}}}}$} \!\mathord{\left/
+ {\vphantom {{{r_{0,i',{t_1}}}} {{B_s}}}}\right.\kern-\nulldelimiterspace}
+\!\lower0.7ex\hbox{${{B_s}}$}}}} - 1} \right)} {{\beta _{0,i',{t_1}}}{{\left| {{h_0}} \right|}^2}}}}\right.\kern-\nulldelimiterspace}
+\!\lower0.7ex\hbox{${{\beta _{i',j,{t_2}}}{{\left| {{h_0}} \right|}^2}}$}}\\
+P_{i',j,{t_2}}^{{\rm{temp}}} = {\raise0.7ex\hbox{${{\sigma ^2}\left( {{2^{{\raise0.7ex\hbox{${{r_{i',j,{t_2}}}}$} \!\mathord{\left/
+ {\vphantom {{{r_{i',j,{t_2}}}} {{B_s}}}}\right.\kern-\nulldelimiterspace}
+\!\lower0.7ex\hbox{${{B_s}}$}}}} - 1} \right)}$} \!\mathord{\left/
+ {\vphantom {{{\sigma ^2}\left( {{2^{{\raise0.7ex\hbox{${{r_{i',j,{t_2}}}}$} \!\mathord{\left/
+ {\vphantom {{{r_{i',j,{t_2}}}} {{B_s}}}}\right.\kern-\nulldelimiterspace}
+\!\lower0.7ex\hbox{${{B_s}}$}}}} - 1} \right)} {{\beta _{i',j,{t_2}}}{{\left| {{h_0}} \right|}^2}}}}\right.\kern-\nulldelimiterspace}
+\!\lower0.7ex\hbox{${{\beta _{i',j,{t_2}}}{{\left| {{h_0}} \right|}^2}}$}}
+\end{subnumcases}
+They stand for the sufficient power for the  cellular-\&-D2D link clusters $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ to substitute the original cellular link $0 \to j @{t_0}$.
+
+
+
+
 
 \section{Simulation Results}
 
-In this section, we provide numerical results for the cellular-only method in the first two subproblems and the proposed D2D method in the third subproblem, as well as a reference greedy cellular-only method, which based on current CSI only. The reference method optimize the cellular-only systme based on current CSI, therefore the optimization is in a 1-dimensional subspace $J$, rather than the $J \times T$ 2-dimensional subspace for subproblem 1 and 2 or the $\left( {J + 1} \right) \times J \times T$ 3-dimensional subspace in subproblem 3. In the reference cellular-only method, in each time slot, we find and choose $N$ ships that have highest transmission speed under given BS broadcast power and current CSI.
+In this section, we provide numerical results for the cellular-only method in the first two subproblems and the proposed D2D method in the third subproblem, as well as a reference greedy cellular-only method, which based on current CSI only. The reference method optimize the cellular-only systme based on current CSI, therefore the optimization is in a 1-dimensional subspace $J$, rather than the $J \times T$ 2-dimensional subspace for subproblem 1 and 2 or the $\left( {J + 1} \right) \times J \times T$ 3-dimensional subspace in subproblem 3. For the reference cellular-only method, in each time slot, we find and choose $N$ ships that have highest transmission speed under given BS broadcast power and current CSI.
 
-As for the simulation parameters, the BS is located in the central position at the plane, while the ships traverse along two intersecting shipping lanes. Moreover, the two lanes have same amount of ships. Ships leave the harbors every 15 minutes, and all sail at the speed of 36km/h. We assume that the system uses a carrier frequency of 1.9GHz , and has 3 subcarriers, which have identical bandwidth 2MHz. The BS power for cellular-only transmission is set to be 10W whereas the ships' D2D transmission power are 1W, since they are arguably smaller in size. The antenna height of the BS and the ships is 100m and 10m respectively. The power density of the additive white Gaussian noise is -110dBm/Hz.
-
-
-
-%\begin{figure} [htb]
-%\begin{center}
-%\includegraphics*[width=9cm]{Cqos.eps}
-%\end{center}
-%\vspace*{-4mm} \caption{Average energy consumption per user $E_{avg}$ versus the QoS constraint ${C_{QoS}}$}\label{fig:2}
-%\vspace*{-2mm}
-%\end{figure}
+As for the simulation parameters, the BS is located in the central position at the plane, while the ships traverse along two intersecting shipping lanes since we focus on passenger ships scenarios in this study. Moreover, passenger ship assumption suits our study since their shipping lanes are fixed and their positional information can be easily determined. Ships leave the harbors every 15 minutes, and all sail at the speed of 36km/h. We assume that the system uses a carrier frequency of 1.9GHz , and has 3 subcarriers, which have identical bandwidth 2MHz. The BS power for cellular-only transmission is set to be 10W whereas the ships' D2D transmission power are 1W, since they are arguably smaller in size. The antenna height of the BS and the ships is 100m and 10m respectively. The power density of the additive white Gaussian noise is -140dBm/Hz.
 
 
-\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){Cqos.eps}
-{Average energy consumption per user $E_{avg}$ versus the QoS constraint ${C_{QoS}}$.\label{fig2}}
+\begin{figure} [htb]
+\includegraphics*[width=8.8cm]{sigma2s.eps}
+\caption{Average energy consumption per user $E_{avg}$ per Gbit versus the noise function ${\sigma ^2}$.}\label{fig:2}
+\end{figure}
 
 
-Fig.2 shows the bit-wise average power consumption under different QoS constraint.
+%\Figure[htb]{sigma2s.png}
+%{Average energy consumption per user $E_{avg}$ per Gbit versus the noise function ${\sigma ^2}$.\label{fig2}}
 
-As we can see, our proposed D2D method outmatches the cellular-only method and the reference method, especially when there is a smaller QoS constraint. When the QoS constraint is 1Gbits/user, the D2D method consummates 50\% less energy than the cellular-only method. The proposed D2D method's energy consumption approaches the cellular-only method as the QoS constraint gets larger. This is because the cellular-only part in first two subproblems might take up too many time slots and left the D2D method in the third subproblem few time slots with feasible D2D links to choose from.
+Fig.2 shows average energy consumption versus noise ${\sigma ^2}$. While energy consumption increases as the noise rises, the gap between large-scale CSI approximation (${h_0}$ constant) and the actual channel (${h_0}$ gaussian) shrinks. The Gaussian noise ${\sigma ^2 = 10^-14}$ is more often the case in following simulations. For further tests we increase the noise ${\sigma ^2}$. The worsening in SNR result in the increase in energy consumption. The relationship between SNR and  gap between large-scale CSI approximation and the actual channel is explored below. 
+
+When carrying out the large-scale estimation, we estimate ${r_{i,j,t}}$ in (2)-(4) where  ${h_{i,j,t}} \sim \mathcal{CN}(0, \mathbf{I})$ and ${\left| {{h_0}} \right|^2} = 1$. Since $x \ge {\log _2}\left( {1 + x} \right)$ when ${x \ge 0}$, the estimations is smaller than the original ones when ${r_{i,j,t}}$ is concerned. Therefore, the energy consumptions with the large-scale CSI estimation are smaller than the original ones, just as showed in Fig.2. The difference between large-scale CSI approximation (${h_0}$ constant) and the actual channel (${h_0}$ gaussian) is about 10\% at maximum under simulation settings (as shown in Fig.3 - Fig.5), and the difference are regarded neglectable since their similarity in trend and shape. 
+
+Since the large-scale CSI approximation is based on a low SNR assumption, as the noise function ${\sigma ^2}$ increases, the proposed large-scale CSI estimations approximate the original ones in energy consumption. These characteristics justify our large-scale CSI estimation.
+
+
+\begin{figure} [htb]
+\includegraphics*[width=8.8cm]{Cqos.eps}
+\caption{Average energy consumption per user $E_{avg}$ versus the QoS constraint ${C_{QoS}}$.}\label{fig:3}
+\end{figure}
+
+
+%\Figure[htb]{Cqos.png}
+%{Average energy consumption per user $E_{avg}$ versus the QoS constraint ${C_{QoS}}$.\label{fig3}}
+
+
+Fig.3 shows the bit-wise average energy consumption under different QoS constraint.
+
+As we can see, our proposed D2D method outmatches the cellular-only method and the reference method, especially when there is a smaller QoS constraint, which is more often the case in the simulations. When the QoS constraint is 1Gbits/user, the D2D method consummates 50\% less energy than the cellular-only method. The proposed D2D method's energy consumption approaches the cellular-only method as the QoS constraint gets larger. This is because the cellular-only part in first two subproblems might take up too many time slots and left the D2D method in the third subproblem few time slots with feasible D2D links to choose from.
 
 The reference method's energy consumption decreases as the QoS constraint get larger, while the proposed methods' energy consumptions increase. The decrease in reference method's energy consumption is because the reference method is a greedy one, and it aims to meet the QoS constraint as soon as possible. When the QoS constraint is smaller, the reference method may choose many time slots with relatively low ${\beta _{0,j,t}}$ and can still satisfy the QoS constraint. When the QoS constraint gets larger, the reference method has to choose more time slots, and therefore the ratio of time slots with relatively low ${\beta _{0,j,t}}$ to total chosen time slots decreases. Thus, the reference method's energy consumption per user per Gbit decreases.
 
-The rise in proposed methods' energy consumption is because the proportion of chosen time slots with relatively low speed gets larger when the QoS constraint increase. Moreover, the reference method can only meet the QoS constraint of 30Gbits/user while our proposed method can serve as much as 90Gbits/user.
+The rise in proposed methods' energy consumption is because the proportion of chosen time slots with relatively low speed gets larger when the QoS constraint increase. Moreover, the reference method can only meet the QoS constraint of 20Gbits/user while our proposed method can serve as much as 90Gbits/user.
 
-%\begin{figure} [htb]
-%\begin{center}
-%\includegraphics*[width=9cm]{Tranges.eps}
-%\end{center}
-%\vspace*{-4mm} \caption{Average energy consumption per user $E_{avg}$ versus the percentage of pre-acquired CSI} \label{fig:3}
-%\vspace*{-2mm}
-%\end{figure}
+\begin{figure} [htb]
+\includegraphics*[width=8.8cm]{Tranges.eps}
+\caption{Average energy consumption per user $E_{avg}$ versus the percentage of pre-acquired CSI.} \label{fig:4}
+\end{figure}
 
-\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){Tranges.eps}
-{Average energy consumption per user $E_{avg}$ versus the percentage of pre-acquired CSI.\label{fig3}}
+%\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){Tranges.png}
+%{Average energy consumption per user $E_{avg}$ versus the percentage of pre-acquired CSI.\label{fig4}}
 
 
 
-Fig.3 demonstrates the relationship between average energy consumption and the percentage of time slots whose CSI we can acquire in advance. The QoS constraint here is 1Gbits/user.
-When we can only acquire present CSI, our proposed method retrogresses to the reference method. The longer can we predict the CSI, the more feasible transmission time slots we can choose from in our method and therefore the more improvement we can get from our process-oriented D2D and cellular-only methods.
+Fig.4 demonstrates the relationship between average energy consumption and the percentage of time slots whose CSI we can estimate in advance. The QoS constraint here is 1Gbits/user. 
+When we can only acquire present CSI, our proposed method retrogresses to the reference method. The longer can we predict the CSI, the more feasible transmission time slots we can choose from in our method and therefore the more improvement we can get from our process-oriented D2D and cellular-only methods. When we can estimate more than 70\% of the slowly-varying large-scale CSI, the performance become steady, and in ideal conditions (which means we can estimate all CSI just like the other simulations) we can achieve about 40\% energy consumption reduction in D2D-aided mode over the cellular-only mode.
 
-%\begin{figure} [htb]
-%\begin{center}
-%\includegraphics*[width=9cm]{Ns.eps}
-%\end{center}
-%\vspace*{-4mm} \caption{Average energy consumption per user $E_{avg}$ versus the number of subcarriers} \label{fig:4}
-%\vspace*{-2mm}
-%\end{figure}
+\begin{figure} [htb]
+\includegraphics*[width=8.8cm]{Ns.eps}
+\caption{Average energy consumption per user $E_{avg}$ versus the number of subcarriers.} \label{fig:5}
+\end{figure}
 
-\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){Ns.eps}
-{Average energy consumption per user $E_{avg}$ versus the number of subcarriers.\label{fig4}}
+%\Figure[ht](topskip=0pt, botskip=0pt, midskip=0pt){Ns.png}
+%{Average energy consumption per user $E_{avg}$ versus the number of subcarriers.\label{fig5}}
 
 
 
-Average energy consumption versus number of subcarriers is shown in Fig.4. Half of the ships in the system hold still in the BS coverage, while the other half still traverse along the shipping lanes at 36km/h. The QoS constraint here is 10Gbits/user for traversing ships and 1Gbits/user for ships that hold still.
+Average energy consumption versus number of subcarriers is shown in Fig.5. To explore the impact of subcarrier count, in this particular scenario, half of the ships in the system are fishing boats. They randomly choose their shipping lanes and voyage at 12km/h. Whereas the other half are passenger boats just as other simulations. They still traverse along the fixed shipping lanes at 36km/h. The QoS constraint here is 10Gbits/user for passenger ships, higher than usual, and 1Gbits/user for fishing boats. We make these assumptions since passenger ships have fixed shipping lanes and have higher QoS requirement overall, while fishing boats voyage randomly and have lower QoS needs.
 
 When there is only 1 subcarrier, our proposed D2D method's average energy consumption is very close to the cellular-only method. This is because the QoS constraint is relatively large and hence cellular-only method takes up too many time slots since there being only 1 subcarrier. As a result, there are few time slots available for the D2D optimization.
 
@@ -388,7 +474,9 @@ Our proposed D2D method gets better when there are more subcarriers. The referen
 
 \section{Conclusion}\label{sec:4}
 
-In this paper, we focused on the process-oriented user scheduling in a D2D underlaid D2D maritime communication system. Our aim is to minimize the average downlink transmission energy while providing users with min-rate max-delay guaranteed services. By utilizing each users' positional information acquired from their specific shipping lanes, we make it possible to estimate the large-scale channel fading during the whole service process. Based on that, we formulate the power consumption optimization problem by partitioning the total service duration into time solts. Further, we decompose the NP-hard problem into 3 subproblems. By solving the first two subproblem we acquire a sub-optimal solution for cellular system in a 2-dimensional optimization subspace. During the 3rd subproblem, we further explore the 3-dimensional subspace with D2D transmission links. The iterative algorithm we proposed can solve the 3 subproblems with a polynomial time complexity. Simulation results show that the proposed process-oriented schemes significantly enhances the system performance in terms of energy consumption.
+In this paper, we focused on the reduction of energy consumption of the process-oriented user scheduling in a D2D underlaid cellular maritime communication system. 
+We reduce the energy consumption by making channel estimation and implementing D2D transmission, which introduce the time dimension and source (BS/relay) dimension in our optimization subspace respectively. Together with the target (user) dimension which has been studied previously, our optimization subspace becomes 3-dimensional and therefore provides great potential. 
+By utilizing each users' positional information acquired from their specific shipping lanes, we approximate the complete channel with large-scale channel fading during the whole service process. Further, we decompose the NP-hard energy consumption optimization problem into 3 subproblems. By solving the first two subproblems (cellular transmission without or with $N$-subcarrier constraint) we acquire a sub-optimal solution for cellular-only system in a 2-dimensional optimization subspace (one target dimension and one time dimension). Proceeding to the 3rd subproblem (D2D-aided $N$-subcarrier cellular transmission), we further explore the 3-dimensional (source, target and time) subspace with D2D-aided transmission and achieved a 50\% improvement over the cellular-only scheme. The iterative algorithms we proposed can solve the three subproblems with polynomial time complexity. Simulation results justify our large-scale CSI estimation and show that the proposed process-oriented schemes significantly enhances the system performance in terms of energy consumption.
 
 
 \appendices
