@@ -47,7 +47,7 @@ Energy consumption reduction is a critical issue for maritime communication syst
 In this paper, we reduce the energy consumption by making channel estimation and implementing D2D transmission, which introduce the time dimension and source (BS/relay) dimension in our optimization subspace respectively. Together with the target (user) dimension which has been studied previously, our optimization subspace becomes 3-dimensional and therefore provides great potential. 
 Since the wireless channels are time-varying, it is impossible to accurately predict the complete channel state information (CSI). We exploit the positional information of each vessel based on its specific shipping lane and timetable. Utilizing the positional information, we replace the complete CSI with the slowly-varying large-scale channel fading estimation. Besides, we particularly focus on the delay-tolerant information distribution service, and implement D2D transmission for further improvement energy-wise. 
 On that basis, we decompose the NP-hard energy consumption optimization problem into 3 subproblems. We propose an efficient algorithm for each subproblem in an iterative way with a polynomial time complexity. 
-Simulation results justify our large-scale CSI estimation and reveal that the proposed D2D-aided process-oriented scheme significantly reduces the energy consumption by 50\% over the cellular-only ones, benefiting from higher dimensional optimization subspace.
+Simulation results justify our large-scale CSI estimation and reveal that the proposed D2D-aided process-oriented scheme significantly reduces the energy consumption by up to 50\% over the cellular-only ones, benefiting from higher dimensional optimization subspace.
 
 \end{abstract}
 
@@ -148,7 +148,7 @@ Throughout this paper, lightface symbols represent scalars, while boldface symbo
 %\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){SysModel.eps}
 %{Maritime communication system for information distribution service.\label{fig1}}
 
-As shown in Fig.1, the following sections focus on the D2D underlaid cellular downlink transmission of a single-cell maritime communication system. In the system there are one onshore BS
+As shown in Figure 1, the following sections focus on the D2D underlaid cellular downlink transmission of a single-cell maritime communication system. In the system there are one onshore BS
 % equipped with $L$ antennas 
 and  $J$ single-antenna users (ships) in the sea. We assume that there are $N$ subcarriers, and the subcarrier bandwidth is ${B_s}$. 
 
@@ -173,7 +173,7 @@ In this paper we proposed a slowly-varying large-scale CSI estimation for the ch
 \begin{subnumcases}
 {}
 {r_{i,j,t}} = {\mathbb{E}}\left [ {{B_s}{{\log }_2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{{\left| {{h_{i,j,t}}} \right|}^2}}}{{{\sigma ^2}}}} \right)} \right ] \\
-\;\;\;\;\;\;\;\; = {\mathbb{E}}\left [  {B_s}\log \left( {1 + {\gamma _{i,j,t}}{{\left| {{h_{i,j,t}}} \right|}^2}} \right)  \right ] \\
+\;\;\;\;\;\;\;\; = {\mathbb{E}}\left [  {B_s}{\log }_2 \left( {1 + {\gamma _{i,j,t}}{{\left| {{h_{i,j,t}}} \right|}^2}} \right)  \right ] \\
 \;\;\;\;\;\;\;\; \approx \left( {{{\log }_2}e} \right){e^{\frac{1}{{{\gamma _{i,j,t}}}}}}\int_1^\infty  {\frac{1}{u}{e^{ - \frac{u}{{{\gamma _{i,j,t}}}}}}du} 
 \end{subnumcases}
 
@@ -394,9 +394,16 @@ therefore the system constraint in (8e) is met.
 
 \section{Simulation Results}
 
-In this section, we provide numerical results for the cellular-only method in the first two subproblems and the proposed D2D method in the third subproblem, as well as a reference greedy cellular-only method, which based on current CSI only. The reference method optimize the cellular-only systme based on current CSI, therefore the optimization is in a 1-dimensional subspace $J$, rather than the $J \times T$ 2-dimensional subspace for subproblem 1 and 2 or the $\left( {J + 1} \right) \times J \times T$ 3-dimensional subspace in subproblem 3. For the reference cellular-only method, in each time slot, we find and choose $N$ ships that have highest transmission speed under given BS broadcast power and current CSI.
+In this section, we provide numerical results for the cellular-only method in the first two subproblems and the proposed D2D method in the third subproblem, as well as a reference greedy cellular-only method, which based on current CSI only. The reference method optimize the cellular-only systme based on current CSI, therefore the optimization is in a \textbf{1-dimensional} subspace $J$, rather than the $J \times T$ \textbf{2-dimensional} subspace for the cellular-only system in subproblem 1 and 2 or the $\left( {J + 1} \right) \times J \times T$ \textbf{3-dimensional} subspace for D2D underlaid system in subproblem 3. For the reference cellular-only method, in each time slot, we find and choose $N$ ships that have highest transmission speed under given BS broadcast power and current CSI. 
 
-As for the simulation parameters, the BS is located in the central position at the plane, while the ships traverse along two intersecting shipping lanes since we focus on passenger ships scenarios in this study. Moreover, passenger ship assumption suits our study since their shipping lanes are fixed and their positional information can be easily determined. Ships leave the harbors every 15 minutes, and all sail at the speed of 36km/h. We assume that the system uses a carrier frequency of 1.9GHz , and has 3 subcarriers, which have identical bandwidth 2MHz. The BS power for cellular-only transmission is set to be 10W whereas the ships' D2D transmission power are 1W, since they are arguably smaller in size. The antenna height of the BS and the ships is 100m and 10m respectively. The power density of the additive white Gaussian noise is -140dBm/Hz.
+We compare the large-scale CSI estimation in (2c) with the complete channel in the following simulations. Moreover, we take one step further by taking the expectation operator out from the original channel in (2a) and replace ${h_{i,j,t}} \sim \mathcal{CN}(0, \mathbf{I})$ with ${\left| {{h_0}} \right|^2} = 1$. Based on a low SNR assumption, we get 
+
+\begin{align}
+{r_{i,j,t}} \approx {B_s}{\log _2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2}}}} \right)
+\end{align}
+we further discuss the performance of this estimation and the large-scale CSI estimation in (2c) in this section.
+
+As for the simulation parameters, the BS is located in the central position at the plane, while the ships traverse along two intersecting shipping lanes since we focus on passenger ships scenarios in this study. Moreover, passenger ship assumption suits our study since their shipping lanes are fixed and their positional information can be easily determined. Ships leave the harbors every 15 minutes, and all sail at the speed of 36km/h. We assume that the system uses a carrier frequency of 1.9GHz , and has 3 subcarriers (a pretty strict constraint, as we can see later in Figure 6), which have identical bandwidth 2MHz. The BS power for cellular-only transmission is set to be 10W whereas the ships' D2D transmission power are 1W, since they are arguably smaller in size. The antenna height of the BS and the ships is 100m and 10m respectively. The power density of the additive white Gaussian noise is -140dBm/Hz.
 
 
 \begin{figure} [htb]
@@ -408,11 +415,11 @@ As for the simulation parameters, the BS is located in the central position at t
 %\Figure[htb]{sigma2s.png}
 %{Average energy consumption per user $E_{avg}$ per Gbit versus the noise function ${\sigma ^2}$.\label{fig2}}
 
-Fig.2 shows average energy consumption versus noise ${\sigma ^2}$. As we can see, the energy consumption increases as the noise rises, while the gap between large-scale CSI approximation (${h_0}$ constant) and the actual channel (${h_0}$ gaussian) shrinks. The Gaussian noise ${\sigma ^2 = 10^-14}$ is more often the case in following simulations. For further tests we increase the noise ${\sigma ^2}$. The worsening in SNR result in the increase in energy consumption. The relationship between SNR and  gap between large-scale CSI approximation and the actual channel is explored below. 
+Figure 2 shows average energy consumption versus noise ${\sigma ^2}$. As we can see, the energy consumption increases as the noise rises. The gap between large-scale CSI approximation (2c) and the actual channel remains minimal, whereas the gap between the ${h_0}$ constant estimation and the actual channel shrinks as the noise rises. The Gaussian noise ${\sigma ^2 ={10^{ - 14}}}$ is more often the case in following simulations. For further tests we increase the noise ${\sigma ^2}$. The worsening in SNR result in the increase in energy consumption. The relationship between SNR and the gaps are explored below. 
 
-When carrying out the large-scale estimation, we estimate ${r_{i,j,t}}$ in (2a)-(2c) where  ${h_{i,j,t}} \sim \mathcal{CN}(0, \mathbf{I})$ and ${\left| {{h_0}} \right|^2} = 1$. Since $x \ge {\log _2}\left( {1 + x} \right)$ when ${x \ge 0}$, the estimations is smaller than the original ones when ${r_{i,j,t}}$ is concerned. Therefore, the energy consumptions with the large-scale CSI estimation are smaller than the original ones, just as showed in Fig.2. The difference between large-scale CSI approximation (${h_0}$ constant) and the actual channel (${h_0}$ gaussian) is about 10\% at maximum under simulation settings (as shown in Fig.3 - Fig.5), and the difference are regarded neglectable since their similarity in trend and shape. 
+We estimate ${r_{i,j,t}}$ in (2c) and in (12). Since $x \ge {\log _2}\left( {1 + x} \right)$ when ${x \ge 0}$, the transmission speed or channel capacity ${r_{i,j,t}}$ is smaller in estimation in (12) than the actual channel or large-scale CSI estimation in (2c). Therefore, the energy consumptions with the ${h_0}$ constant estimation are smaller than the others, just as showed in Figure 2. The difference between ${h_0}$ constant approximation and the actual channel is around 10\% under simulation settings (as shown in Figure 3 - Figure 5), while the gap between our large-scale CSI estimation in (2c) and the complete channel is only a mere 3\% worst case. This as well as other simulations show that the large-scale CSI estimation in (2c) is quite explicit and acceptable. If we are less strict with the approximation, the ${h_0}$ constant estimation may be acceptable since the estimation in (12) shares similarity in trend and shape with the actual channel. 
 
-Since the large-scale CSI approximation is based on a low SNR assumption, as the noise function ${\sigma ^2}$ increases, the proposed large-scale CSI estimations approximate the original ones in energy consumption. These characteristics justify our large-scale CSI estimation.
+Since the ${h_0}$ constant approximation is based on a low SNR assumption, as the noise function ${\sigma ^2}$ increases, the ${h_0}$ constant estimations approximate the large-scale CSI estimation in (2c) and the complete channel energy-wise.
 
 
 \begin{figure} [htb]
@@ -425,17 +432,16 @@ Since the large-scale CSI approximation is based on a low SNR assumption, as the
 %{Average energy consumption per user $E_{avg}$ versus the QoS constraint ${C_{QoS}}$.\label{fig3}}
 
 
-Fig.3 shows the bit-wise average energy consumption under different QoS constraint.
+Figure 3 shows the bit-wise average energy consumption under different QoS constraint.
 
-As we can see, our proposed D2D method outmatches the cellular-only method and the reference method, especially when there is a smaller QoS constraint, which is more often the case in the simulations. When the QoS constraint is 1Gbits/user, the D2D method consummates 50\% less energy than the cellular-only method. The proposed D2D method's energy consumption approaches the cellular-only method as the QoS constraint gets larger. This is because the cellular-only part in first two subproblems might take up too many time slots and left the D2D method in the third subproblem few time slots with feasible D2D links to choose from.
+As we can see, our proposed D2D method outmatches the cellular-only method and the reference method, especially when there is a smaller QoS constraint, which is more often the case in the simulations. When the QoS constraint is 1Gbits/user, the D2D method consummates 40\% less energy than the cellular-only method, 50\% less than the reference method. This shows the superiority in our 3-dimensional optimization over 2-dimensional and 1-dimensional ones. The proposed D2D method's energy consumption approaches the cellular-only method as the QoS constraint gets larger. This is because the large QoS demands might take up too many time slots in first two subproblems, and left the D2D optimization in the third subproblem few time slots with feasible D2D links to choose from.
 
-The reference method's energy consumption decreases as the QoS constraint get larger, while the proposed methods' energy consumptions increase. The decrease in reference method's energy consumption is because the reference method is a greedy one, and it aims to meet the QoS constraint as soon as possible. When the QoS constraint is smaller, the reference method may choose many time slots with relatively low ${\beta _{0,j,t}}$ and can still satisfy the QoS constraint. When the QoS constraint gets larger, the reference method has to choose more time slots, and therefore the ratio of time slots with relatively low ${\beta _{0,j,t}}$ to total chosen time slots decreases. Thus, the reference method's energy consumption per user per Gbit decreases.
-
-The rise in proposed methods' energy consumption is because the proportion of chosen time slots with relatively low speed gets larger when the QoS constraint increase. Moreover, the reference method can only meet the QoS constraint of 27Gbits/user while our proposed method can serve as much as 80Gbits/user.
+The reference method's energy consumption decreases as the QoS constraint get larger, while the proposed methods' energy consumptions increase. The decrease in reference method's energy consumption is because the reference method is a greedy one, and it aims to meet the QoS constraint as soon as possible. When the QoS constraint is smaller, the reference method may end up choosing many time slots with relatively low ${\beta _{0,j,t}}$ and can still satisfy the QoS constraint. When the QoS constraint gets larger, the reference method has to choose more time slots, and therefore the ratio of time slots with relatively low ${\beta _{0,j,t}}$ to total chosen time slots decreases. Thus, the reference method's energy consumption per user per Gbit decreases. The rise in proposed methods' energy consumption is because we have to choose more time slots with relatively low speed in order to meet the increasing QoS constraint. This results in a larger energy consumption per user per Gbit. 
+%Moreover, the reference method can only meet the QoS constraint of 27Gbits/user while our proposed method can serve as much as 80Gbits/user.
 
 \begin{figure} [htb]
 \includegraphics*[width=8.8cm]{Tranges.eps}
-\caption{Average energy consumption per user versus the ratio of $T$ to total service time duration.} \label{fig:4}
+\caption{Average energy consumption per user versus the ratio of ${T_{acq}}$ to total service time duration.} \label{fig:4}
 \end{figure}
 
 %\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){Tranges.png}
@@ -443,31 +449,43 @@ The rise in proposed methods' energy consumption is because the proportion of ch
 
 
 
-Fig.4 demonstrates the relationship between average energy consumption and the ratio of $T$ to total service time duration. Here $T$ represents the time duration whose CSI we can acquire or estimate in advance. The QoS constraint here is 1Gbits/user. 
-When we can only acquire present CSI, i.e. $T = 1$, our proposed method retrogresses to the reference method. The larger $T$ is, the longer can we predict the CSI, and hence the more feasible transmission time slots we can choose from in our method. As a result, we can get more improvement from our process-oriented D2D-aided or cellular-only method when $T$ approximate the total service time duration. When we can estimate more than 70\% of the slowly-varying large-scale CSI (ratio of $T$ to total service time larger than 0.7), the performance become steady, and in ideal conditions (which means we can estimate all CSI, $T=$ total service time) we can achieve about 40\% energy consumption reduction in D2D-aided mode over the cellular-only mode.
+Figure 4 demonstrates the relationship between average energy consumption and the ratio of ${T_{acq}}$ to total service time duration. Here ${T_{acq}}$ represents the time duration whose CSI we can acquire or estimate in advance. The QoS constraint here is 1Gbits/user. 
+When we can only acquire present CSI, i.e. ${T_{acq}} = 1$, our proposed method retrogresses to the reference method. The larger ${T_{acq}}$ is, the longer can we predict the CSI, and hence the more feasible transmission time slots we can choose from in our method. As a result, we can get more improvement from our process-oriented D2D-aided or cellular-only method when ${T_{acq}}$ approximate the total service time duration. When we can estimate more than 70\% of the slowly-varying large-scale CSI (ratio of ${T_{acq}}$ to total service time larger than 0.7), the performance become steady, and in ideal conditions (which means we can estimate all CSI, ${T_{acq}}=$ total service time) we can achieve about 40\% energy consumption reduction in D2D-aided mode over the cellular-only mode.
+
+
+\begin{figure} [htb]
+\includegraphics*[width=8.8cm]{delays.eps}
+\caption{Average energy consumption per user versus the ratio of delay tolerance.} \label{fig:5}
+\end{figure}
+
+Figure 5 shows the relationship between average energy consumption and the ratio of delay tolerance to service time duration. In this paper, we assumed delay-tolerant service in order to bring forward the time dimension. Here we further checked the performance of our method under different delay tolerance.
+
+When the delay tolerance ratio $= 1$, the system is delay tolerant, and we once again see the 40\%percent improvement over 2-dimensional optimization. As the delay tolerance gets smaller, the energy consumption of both cellular-only method and D2D-aided method gets larger, and the gap between them shrinks. When the delay tolerance decreases, the data distribution service has to be done more quickly, and therefore the optimizations' time dimension gets smaller in size. The size drop in time dimension directly result in the energy consumption rise since there are less time slots to choose from. When the service delay tolerance decrease, the system has to schedule the service in a shorter time period, and the cellular-\&-D2D link cluster are even more difficult in such short time period. Thus the gap between the cellular-only and D2D-aided optimizations shrinks as the delay tolerance gets smaller.
+
+
+
 
 \begin{figure} [htb]
 \includegraphics*[width=8.8cm]{Ns.eps}
-\caption{Average energy consumption per user $E_{avg}$ versus the number of subcarriers.} \label{fig:5}
+\caption{Average energy consumption per user $E_{avg}$ versus the number of subcarriers.} \label{fig:6}
 \end{figure}
 
 %\Figure[ht](topskip=0pt, botskip=0pt, midskip=0pt){Ns.png}
-%{Average energy consumption per user $E_{avg}$ versus the number of subcarriers.\label{fig5}}
+%{Average energy consumption per user $E_{avg}$ versus the number of subcarriers.\label{fig6}}
 
 
 
-Average energy consumption versus number of subcarriers is shown in Fig.5. To explore the impact of subcarrier count, in this particular scenario, half of the ships in the system are fishing boats. They randomly choose their shipping lanes and voyage at 12km/h. Whereas the other half are passenger boats just as other simulations. They still traverse along the fixed shipping lanes at 36km/h. The QoS constraint here is 10Gbits/user for passenger ships, higher than usual, and 1Gbits/user for fishing boats. We make these assumptions since passenger ships have fixed shipping lanes and have higher QoS requirement overall, while fishing boats voyage randomly and have lower QoS needs.
+Average energy consumption versus number of subcarriers is shown in Figure 6. To explore the impact of subcarrier count, in this particular scenario, half of the ships in the system are fishing boats. They randomly choose their shipping lanes and voyage at 12km/h. Whereas the other half are passenger boats just as other simulations. They still traverse along the fixed shipping lanes at 36km/h. The QoS constraint here is 10Gbits/user for passenger ships, higher than usual, and 1Gbits/user for fishing boats. We make these assumptions since passenger ships have fixed shipping lanes and have higher QoS requirement overall, while fishing boats voyage randomly and have lower QoS needs.
 
-When there is only 1 subcarrier, our proposed D2D method's average energy consumption is very close to the cellular-only method. This is because the QoS constraint is relatively large and hence cellular-only method takes up too many time slots since there being only 1 subcarrier. As a result, there are few time slots available for the D2D optimization.
+When there is only 3 subcarriers, same as other simulations, our proposed D2D method's average energy consumption is pretty close to the cellular-only method. This is because the QoS demand is high and hence cellular-only method takes up too many time slots since there being only 3 subcarriers. As a result, there are few time slots available for the D2D optimization.
 
-Our proposed D2D method gets better when there are more subcarriers. The reference cannot meet the QoS need until there are more than 5 subcarriers. Since the reference method is a greedy one and aims to meet the QoS need as soon as possible, its average energy consumption gets larger as the subcarriers increases.
-
+Our proposed D2D method gets better when there are more subcarriers. Since the reference method is a greedy one and aims to meet the QoS need as soon as possible, its average energy consumption gets larger as the subcarriers increases.
 
 \section{Conclusion}\label{sec:4}
 
 In this paper, we focused on the reduction of energy consumption of the process-oriented user scheduling in a D2D underlaid cellular maritime communication system. 
 We reduce the energy consumption by making channel estimation and implementing D2D transmission, which introduce the time dimension and source (BS/relay) dimension in our optimization subspace respectively. Together with the target (user) dimension which has been studied previously, our optimization subspace becomes 3-dimensional and therefore provides great potential. 
-By utilizing each users' positional information acquired from their specific shipping lanes, we approximate the complete channel with large-scale channel fading during the whole service process. Further, we decompose the NP-hard energy consumption optimization problem into 3 subproblems. By solving the first two subproblems (cellular transmission without or with $N$-subcarrier constraint) we acquire a sub-optimal solution for cellular-only system in a 2-dimensional optimization subspace (one target dimension and one time dimension). Proceeding to the 3rd subproblem (D2D-aided $N$-subcarrier cellular transmission), we further explore the 3-dimensional (source, target and time) subspace with D2D-aided transmission and achieved a 50\% improvement over the cellular-only scheme. The iterative algorithms we proposed can solve the three subproblems with polynomial time complexity. Simulation results justify our large-scale CSI estimation and show that the proposed process-oriented schemes significantly enhances the system performance in terms of energy consumption.
+By utilizing each users' positional information acquired from their specific shipping lanes, we approximate the complete channel with large-scale channel fading during the whole service process. Further, we decompose the NP-hard energy consumption optimization problem into 3 subproblems. By solving the first two subproblems (cellular transmission without or with $N$-subcarrier constraint) we acquire a sub-optimal solution for cellular-only system in a 2-dimensional optimization subspace (one target dimension and one time dimension). Proceeding to the 3rd subproblem (D2D-aided $N$-subcarrier cellular transmission), we further explore the 3-dimensional (source, target and time) subspace with D2D-aided transmission and achieved a 50\% improvement from optimization subspace with higher dimension. The iterative algorithms we proposed can solve the three subproblems with polynomial time complexity. Simulation results justify our large-scale CSI estimation and show that the proposed process-oriented schemes significantly enhances the system performance in terms of energy consumption.
 
 
 \appendices

@@ -150,7 +150,7 @@ for j=(1:J_range)%for all user j
     [r0_max,~]=max(r0_j);
     for j_prime_R=(1:J_range)
         
-        t2s=(bt(j_prime_R):et(j_prime_R));
+        t2s=(bt(j):et(j));
         t2s=t2s(r(j_prime_R+1,j,t2s)>r0_max);
         for t2=t2s
             %disp([j_prime_R j sum(delta(:,j_prime_R,t2)>0)+sum(delta(j_prime_R+1,:,t2)>0)-(delta(j_prime_R+1,j,t2)>0) sum(delta(:,j,t2)>0)-(delta(j_prime_R+1,j,t2)>0)+sum(delta(j+1,:,t2)>0) t2])

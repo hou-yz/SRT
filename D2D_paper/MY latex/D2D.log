@@ -1,11 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.17)  24 OCT 2017 13:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.17)  24 OCT 2017 22:51
 entering extended mode
-**"C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/D2D.tex"
-("C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/D2D.tex"
+**./D2D.tex
+(D2D.tex
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 75 language(s) loaded.
-("C:/Users/Johnny/Git/SRT/D2D_paper/MY latex\ieeeaccess.cls"
-("C:\Program Files\MiKTeX 2.9\tex\latex\ieeetran\ieeetran.cls"
+(ieeeaccess.cls ("C:\Program Files\MiKTeX 2.9\tex\latex\ieeetran\ieeetran.cls"
 
 LaTeX Warning: You have requested document class `ieeetran',
                but the document class provides `IEEEtran'.
@@ -132,14 +131,16 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )){C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
-pdfTeX warning: pdflatex.EXE (file t1-times.map): cannot open font map file
+pdfTeX warning: miktex-pdftex.exe (file t1-times.map): cannot open font map fil
+e
 
 
-pdfTeX warning: pdflatex.EXE (file t1-formata.map): cannot open font map file
+pdfTeX warning: miktex-pdftex.exe (file t1-formata.map): cannot open font map f
+ile
 
 
-pdfTeX warning: pdflatex.EXE (file t1-giovannistd.map): cannot open font map fi
-le
+pdfTeX warning: miktex-pdftex.exe (file t1-giovannistd.map): cannot open font m
+ap file
 \@draftversionrule=\dimen126
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
@@ -381,8 +382,7 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
-)
-("C:/Users/Johnny/Git/SRT/D2D_paper/MY latex\D2D.aux"
+) (D2D.aux
 
 LaTeX Warning: Label `alg:1' multiply defined.
 
@@ -563,8 +563,7 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 [1
 
 
- <C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/Logo.png> <C:/Users/Johnny/Git/SRT
-/D2D_paper/MY latex/bullet.png>]
+ <./Logo.png> <./bullet.png>]
 
 LaTeX Warning: Citation `p61' on page 2 undefined on input line 72.
 
@@ -641,7 +640,7 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[2 <C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/notaglineLogo.png>]
+[2 <./notaglineLogo.png>]
 
 LaTeX Warning: Citation `p120' on page 3 undefined on input line 111.
 
@@ -726,7 +725,7 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[4 <C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/SysModel-eps-converted-to.pdf>]
+[4 <./SysModel-eps-converted-to.pdf>]
 Underfull \hbox (badness 7944) in paragraph at lines 229--230
 []\T1/ptm/n/n/10 Last, in \T1/ptm/b/n/10 Sub-prob-lem 3: DNCT (D2D-Aided N-
  []
@@ -825,49 +824,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 360--361
 
 Underfull \vbox (badness 5847) has occurred while \output is active []
 
-Package epstopdf Info: Source file: <sigma2s.eps>
-(epstopdf)                    date: 2017-10-19 13:50:22
-(epstopdf)                    size: 50980 bytes
-(epstopdf)             Output file: <sigma2s-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-10-19 14:16:45
-(epstopdf)                    size: 7285 bytes
-(epstopdf)             Command: <epstopdf --outfile=sigma2s-eps-converted-to.pd
-f sigma2s.eps>
-(epstopdf)             \includegraphics on input line 403.
-Package epstopdf Info: Output file is already uptodate.
-
-<sigma2s-eps-converted-to.pdf, id=53, 576.1525pt x 348.30125pt>
-File: sigma2s-eps-converted-to.pdf Graphic file (type pdf)
-
-<use sigma2s-eps-converted-to.pdf>
-Package pdftex.def Info: sigma2s-eps-converted-to.pdf used on input line 403.
-(pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
-
-Overfull \hbox (7.71078pt too wide) in paragraph at lines 403--404
-[][] 
- []
-
-! Undefined control sequence.
-\@makecaption ...capfont #2\strut }\ifdim \xfigwd 
-                                                  >\columnwidth \setbox \@te...
-l.404 ...versus the noise function ${\sigma ^2}$.}
-                                                  \label{fig:2}
-? 
-! Missing number, treated as zero.
-<to be read again> 
-                   >
-l.404 ...versus the noise function ${\sigma ^2}$.}
-                                                  \label{fig:2}
-? 
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   >
-l.404 ...versus the noise function ${\sigma ^2}$.}
-                                                  \label{fig:2}
-? 
 File: notaglineLogo.png Graphic file (type png)
+
 <use notaglineLogo.png>
-Package pdftex.def Info: notaglineLogo.png used on input line 412.
+Package pdftex.def Info: notaglineLogo.png used on input line 407.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -885,87 +845,132 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [7]
-Package epstopdf Info: Source file: <Cqos.eps>
-(epstopdf)                    date: 2017-10-19 13:13:21
-(epstopdf)                    size: 29265 bytes
-(epstopdf)             Output file: <Cqos-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-10-19 14:16:46
-(epstopdf)                    size: 6793 bytes
-(epstopdf)             Command: <epstopdf --outfile=Cqos-eps-converted-to.pdf C
-qos.eps>
-(epstopdf)             \includegraphics on input line 419.
+Package epstopdf Info: Source file: <sigma2s.eps>
+(epstopdf)                    date: 2017-10-24 14:35:54
+(epstopdf)                    size: 51235 bytes
+(epstopdf)             Output file: <sigma2s-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-10-24 21:10:16
+(epstopdf)                    size: 6677 bytes
+(epstopdf)             Command: <epstopdf --outfile=sigma2s-eps-converted-to.pd
+f sigma2s.eps>
+(epstopdf)             \includegraphics on input line 410.
 Package epstopdf Info: Output file is already uptodate.
- <Cqos-eps-converted-to.pdf, id=60, 576.1525pt x 348.30125pt>
-File: Cqos-eps-converted-to.pdf Graphic file (type pdf)
+ <sigma2s-eps-converted-to.pdf, id=58, 576.1525pt x 348.30125pt>
+File: sigma2s-eps-converted-to.pdf Graphic file (type pdf)
 
-<use Cqos-eps-converted-to.pdf>
-Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 419.
+<use sigma2s-eps-converted-to.pdf>
+Package pdftex.def Info: sigma2s-eps-converted-to.pdf used on input line 410.
 (pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
 
-Overfull \hbox (7.71078pt too wide) in paragraph at lines 419--420
+Overfull \hbox (7.71078pt too wide) in paragraph at lines 410--411
 [][] 
  []
 
 ! Undefined control sequence.
 \@makecaption ...capfont #2\strut }\ifdim \xfigwd 
                                                   >\columnwidth \setbox \@te...
-l.420 ...$ versus the QoS constraint ${C_{QoS}}$.}
+l.411 ...versus the noise function ${\sigma ^2}$.}
+                                                  \label{fig:2}
+? 
+! Missing number, treated as zero.
+<to be read again> 
+                   >
+l.411 ...versus the noise function ${\sigma ^2}$.}
+                                                  \label{fig:2}
+? 
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   >
+l.411 ...versus the noise function ${\sigma ^2}$.}
+                                                  \label{fig:2}
+? 
+
+Underfull \hbox (badness 1609) in paragraph at lines 420--421
+[]\T1/ptm/n/n/10 We es-ti-mate $[]$ in (2c) and in (12). Since $\OML/cmm/m/it/1
+0 x \OMS/cmsy/m/n/10 
+ []
+
+Package epstopdf Info: Source file: <Cqos.eps>
+(epstopdf)                    date: 2017-10-24 21:44:28
+(epstopdf)                    size: 27790 bytes
+(epstopdf)             Output file: <Cqos-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-10-24 21:44:49
+(epstopdf)                    size: 5382 bytes
+(epstopdf)             Command: <epstopdf --outfile=Cqos-eps-converted-to.pdf C
+qos.eps>
+(epstopdf)             \includegraphics on input line 426.
+Package epstopdf Info: Output file is already uptodate.
+<Cqos-eps-converted-to.pdf, id=60, 576.1525pt x 348.30125pt>
+File: Cqos-eps-converted-to.pdf Graphic file (type pdf)
+
+<use Cqos-eps-converted-to.pdf>
+Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 426.
+(pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
+
+Overfull \hbox (7.71078pt too wide) in paragraph at lines 426--427
+[][] 
+ []
+
+! Undefined control sequence.
+\@makecaption ...capfont #2\strut }\ifdim \xfigwd 
+                                                  >\columnwidth \setbox \@te...
+l.427 ...$ versus the QoS constraint ${C_{QoS}}$.}
                                                   \label{fig:3}
 ? 
 ! Missing number, treated as zero.
 <to be read again> 
                    >
-l.420 ...$ versus the QoS constraint ${C_{QoS}}$.}
+l.427 ...$ versus the QoS constraint ${C_{QoS}}$.}
                                                   \label{fig:3}
 ? 
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    >
-l.420 ...$ versus the QoS constraint ${C_{QoS}}$.}
+l.427 ...$ versus the QoS constraint ${C_{QoS}}$.}
                                                   \label{fig:3}
 ? 
 Package epstopdf Info: Source file: <Tranges.eps>
-(epstopdf)                    date: 2017-10-19 13:49:01
-(epstopdf)                    size: 34299 bytes
+(epstopdf)                    date: 2017-10-24 16:36:22
+(epstopdf)                    size: 35871 bytes
 (epstopdf)             Output file: <Tranges-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-10-19 14:16:47
-(epstopdf)                    size: 7751 bytes
+(epstopdf)                    date: 2017-10-24 21:10:20
+(epstopdf)                    size: 5951 bytes
 (epstopdf)             Command: <epstopdf --outfile=Tranges-eps-converted-to.pd
 f Tranges.eps>
-(epstopdf)             \includegraphics on input line 437.
+(epstopdf)             \includegraphics on input line 443.
 Package epstopdf Info: Output file is already uptodate.
 <Tranges-eps-converted-to.pdf, id=62, 576.1525pt x 348.30125pt>
 File: Tranges-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Tranges-eps-converted-to.pdf>
-Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 437.
+Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 443.
 (pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
 
-Overfull \hbox (7.71078pt too wide) in paragraph at lines 437--438
+Overfull \hbox (7.71078pt too wide) in paragraph at lines 443--444
 [][] 
  []
 
 ! Undefined control sequence.
 \@makecaption ...capfont #2\strut }\ifdim \xfigwd 
                                                   >\columnwidth \setbox \@te...
-l.438 ...o of $T$ to total service time duration.}
+l.444 ..._{acq}}$ to total service time duration.}
                                                    \label{fig:4}
 ? 
 ! Missing number, treated as zero.
 <to be read again> 
                    >
-l.438 ...o of $T$ to total service time duration.}
+l.444 ..._{acq}}$ to total service time duration.}
                                                    \label{fig:4}
 ? 
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    >
-l.438 ...o of $T$ to total service time duration.}
+l.444 ..._{acq}}$ to total service time duration.}
                                                    \label{fig:4}
 ? 
 File: notaglineLogo.png Graphic file (type png)
 <use notaglineLogo.png>
-Package pdftex.def Info: notaglineLogo.png used on input line 448.
+Package pdftex.def Info: notaglineLogo.png used on input line 445.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -982,62 +987,94 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[8 <C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/sigma2s-eps-converted-to.pdf> <C
-:/Users/Johnny/Git/SRT/D2D_paper/MY latex/Cqos-eps-converted-to.pdf> <C:/Users/
-Johnny/Git/SRT/D2D_paper/MY latex/Tranges-eps-converted-to.pdf>]
+[8 <./sigma2s-eps-converted-to.pdf> <./Cqos-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <delays.eps>
+(epstopdf)                    date: 2017-10-24 22:51:08
+(epstopdf)                    size: 25235 bytes
+(epstopdf)             Output file: <delays-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-10-24 22:20:56
+(epstopdf)                    size: 4764 bytes
+(epstopdf)             Command: <epstopdf --outfile=delays-eps-converted-to.pdf
+ delays.eps>
+(epstopdf)             \includegraphics on input line 457.
+runsystem(epstopdf --outfile=delays-eps-converted-to.pdf delays.eps)...executed
+ (allowed).
+
+Package epstopdf Info: Result file: <delays-eps-converted-to.pdf>
+(epstopdf)                    date: 2017-10-24 22:52:00
+(epstopdf)                    size: 4765 bytes.
+
+<delays-eps-converted-to.pdf, id=75, 576.1525pt x 348.30125pt>
+File: delays-eps-converted-to.pdf Graphic file (type pdf)
+
+<use delays-eps-converted-to.pdf>
+Package pdftex.def Info: delays-eps-converted-to.pdf used on input line 457.
+(pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
+
+Overfull \hbox (7.71078pt too wide) in paragraph at lines 457--458
+[][] 
+ []
+
+! Undefined control sequence.
+\@makecaption ...capfont #2\strut }\ifdim \xfigwd 
+                                                  >\columnwidth \setbox \@te...
+l.458 ...ser versus the ratio of delay tolerance.}
+                                                   \label{fig:5}
+? 
+! Missing number, treated as zero.
+<to be read again> 
+                   >
+l.458 ...ser versus the ratio of delay tolerance.}
+                                                   \label{fig:5}
+? 
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   >
+l.458 ...ser versus the ratio of delay tolerance.}
+                                                   \label{fig:5}
+? 
 Package epstopdf Info: Source file: <Ns.eps>
-(epstopdf)                    date: 2017-10-19 13:47:44
-(epstopdf)                    size: 28219 bytes
+(epstopdf)                    date: 2017-10-24 16:28:02
+(epstopdf)                    size: 26392 bytes
 (epstopdf)             Output file: <Ns-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-10-19 14:16:48
-(epstopdf)                    size: 5859 bytes
+(epstopdf)                    date: 2017-10-24 21:10:21
+(epstopdf)                    size: 5000 bytes
 (epstopdf)             Command: <epstopdf --outfile=Ns-eps-converted-to.pdf Ns.
 eps>
-(epstopdf)             \includegraphics on input line 450.
+(epstopdf)             \includegraphics on input line 469.
 Package epstopdf Info: Output file is already uptodate.
-
-<Ns-eps-converted-to.pdf, id=79, 576.1525pt x 348.30125pt>
+<Ns-eps-converted-to.pdf, id=77, 576.1525pt x 348.30125pt>
 File: Ns-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Ns-eps-converted-to.pdf>
-Package pdftex.def Info: Ns-eps-converted-to.pdf used on input line 450.
+Package pdftex.def Info: Ns-eps-converted-to.pdf used on input line 469.
 (pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
 
-Overfull \hbox (7.71078pt too wide) in paragraph at lines 450--451
+Overfull \hbox (7.71078pt too wide) in paragraph at lines 469--470
 [][] 
  []
 
 ! Undefined control sequence.
 \@makecaption ...capfont #2\strut }\ifdim \xfigwd 
                                                   >\columnwidth \setbox \@te...
-l.451 ...{avg}$ versus the number of subcarriers.}
-                                                   \label{fig:5}
+l.470 ...{avg}$ versus the number of subcarriers.}
+                                                   \label{fig:6}
 ? 
 ! Missing number, treated as zero.
 <to be read again> 
                    >
-l.451 ...{avg}$ versus the number of subcarriers.}
-                                                   \label{fig:5}
+l.470 ...{avg}$ versus the number of subcarriers.}
+                                                   \label{fig:6}
 ? 
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    >
-l.451 ...{avg}$ versus the number of subcarriers.}
-                                                   \label{fig:5}
+l.470 ...{avg}$ versus the number of subcarriers.}
+                                                   \label{fig:6}
 ? 
-
-LaTeX Font Warning: Font shape `T1/ptm/n/it' undefined
-(Font)              using `T1/ptm/n/n' instead on input line 507.
-
-
-LaTeX Warning: Citation `b1' on page 9 undefined on input line 509.
-
-
-LaTeX Warning: Citation `b2' on page 9 undefined on input line 509.
-
 File: notaglineLogo.png Graphic file (type png)
 <use notaglineLogo.png>
-Package pdftex.def Info: notaglineLogo.png used on input line 510.
+Package pdftex.def Info: notaglineLogo.png used on input line 483.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -1054,112 +1091,153 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[9 <C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/Ns-eps-converted-to.pdf>]
+[9 <./Tranges-eps-converted-to.pdf> <./delays-eps-converted-to.pdf> <./Ns-eps-c
+onverted-to.pdf>]
 
-LaTeX Warning: Citation `b3' on page 10 undefined on input line 513.
-
-
-LaTeX Warning: Citation `b5' on page 10 undefined on input line 513.
-
-
-LaTeX Warning: Citation `b6' on page 10 undefined on input line 517.
+LaTeX Font Warning: Font shape `T1/ptm/n/it' undefined
+(Font)              using `T1/ptm/n/n' instead on input line 525.
 
 
-LaTeX Warning: Citation `b7' on page 10 undefined on input line 517.
+LaTeX Warning: Citation `b1' on page 10 undefined on input line 527.
 
 
-LaTeX Warning: Citation `b8' on page 10 undefined on input line 521.
+LaTeX Warning: Citation `b2' on page 10 undefined on input line 527.
 
 
-LaTeX Warning: Citation `b9' on page 10 undefined on input line 521.
+LaTeX Warning: Citation `b3' on page 10 undefined on input line 531.
 
 
-LaTeX Warning: Citation `b10' on page 10 undefined on input line 528.
+LaTeX Warning: Citation `b5' on page 10 undefined on input line 531.
 
 
-LaTeX Warning: Citation `b13' on page 10 undefined on input line 528.
+LaTeX Warning: Citation `b6' on page 10 undefined on input line 535.
 
 
-LaTeX Warning: Citation `b14' on page 10 undefined on input line 532.
+LaTeX Warning: Citation `b7' on page 10 undefined on input line 535.
 
 
-LaTeX Warning: Citation `b16' on page 10 undefined on input line 532.
+LaTeX Warning: Citation `b8' on page 10 undefined on input line 539.
 
 
-Underfull \hbox (badness 2050) in paragraph at lines 530--533
+LaTeX Warning: Citation `b9' on page 10 undefined on input line 539.
+
+
+LaTeX Warning: Citation `b10' on page 10 undefined on input line 546.
+
+
+LaTeX Warning: Citation `b13' on page 10 undefined on input line 546.
+
+
+LaTeX Warning: Citation `b14' on page 10 undefined on input line 550.
+
+
+LaTeX Warning: Citation `b16' on page 10 undefined on input line 550.
+
+
+Underfull \hbox (badness 2050) in paragraph at lines 548--551
 \T1/ptm/n/it/10 J. K. Au-thor, ``Name of pa-per,'' Ab-brev. Ti-tle of
  []
 
 
-Underfull \hbox (badness 4168) in paragraph at lines 530--533
+Underfull \hbox (badness 4168) in paragraph at lines 548--551
 \T1/ptm/n/it/10 Pe-ri-od-i-cal, vol. $\OML/cmm/m/it/10 x$\T1/ptm/n/it/10 , no. 
 $\OML/cmm/m/it/10 x$\T1/ptm/n/it/10 , pp. xxx--xxx, Ab-brev.
  []
 
 
-LaTeX Warning: Citation `b17' on page 10 undefined on input line 536.
+LaTeX Warning: Citation `b17' on page 10 undefined on input line 554.
 
 
-Underfull \hbox (badness 1394) in paragraph at lines 534--537
+Underfull \hbox (badness 1394) in paragraph at lines 552--555
 \T1/ptm/n/it/10 J.K. Au-thor. (year, month). Ti-tle. pre-sented at ab-
  []
 
 
-LaTeX Warning: Citation `b18' on page 10 undefined on input line 540.
+LaTeX Warning: Citation `b18' on page 10 undefined on input line 558.
 
 
-LaTeX Warning: Citation `b19' on page 10 undefined on input line 540.
+LaTeX Warning: Citation `b19' on page 10 undefined on input line 558.
 
 
-LaTeX Warning: Citation `b20' on page 10 undefined on input line 545.
+LaTeX Warning: Citation `b20' on page 10 undefined on input line 563.
 
 
-LaTeX Warning: Citation `b21' on page 10 undefined on input line 549.
+LaTeX Warning: Citation `b21' on page 10 undefined on input line 567.
 
 
-LaTeX Warning: Citation `b22' on page 10 undefined on input line 553.
+LaTeX Warning: Citation `b22' on page 10 undefined on input line 571.
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png used on input line 572.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
 
 
-LaTeX Warning: Citation `b23' on page 10 undefined on input line 556.
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
 
 
-LaTeX Warning: Citation `b24' on page 10 undefined on input line 560.
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[10]
+
+LaTeX Warning: Citation `b23' on page 11 undefined on input line 574.
 
 
-LaTeX Warning: Citation `b25' on page 10 undefined on input line 567.
+LaTeX Warning: Citation `b24' on page 11 undefined on input line 578.
 
 
-LaTeX Warning: Citation `b26' on page 10 undefined on input line 567.
+LaTeX Warning: Citation `b25' on page 11 undefined on input line 585.
 
 
-Underfull \hbox (badness 1406) in paragraph at lines 571--572
+LaTeX Warning: Citation `b26' on page 11 undefined on input line 585.
+
+
+Underfull \hbox (badness 1406) in paragraph at lines 589--590
 []\T1/ptm/n/it/10 J. K. Au-thor, pri-vate com-mu-ni-ca-tion, Ab-brev.
  []
 
 
-LaTeX Warning: Citation `b27' on page 10 undefined on input line 575.
+LaTeX Warning: Citation `b27' on page 11 undefined on input line 593.
 
 
-LaTeX Warning: Citation `b29' on page 10 undefined on input line 575.
+LaTeX Warning: Citation `b29' on page 11 undefined on input line 593.
 
 
-LaTeX Warning: Citation `b30' on page 10 undefined on input line 582.
+LaTeX Warning: Citation `b30' on page 11 undefined on input line 600.
 
 
-LaTeX Warning: Citation `b31' on page 10 undefined on input line 582.
+LaTeX Warning: Citation `b31' on page 11 undefined on input line 600.
 
 
-LaTeX Warning: Citation `b32' on page 10 undefined on input line 585.
+LaTeX Warning: Citation `b32' on page 11 undefined on input line 603.
 
 
-LaTeX Warning: Citation `b33' on page 10 undefined on input line 585.
+LaTeX Warning: Citation `b33' on page 11 undefined on input line 603.
 
 
-LaTeX Warning: Citation `b34' on page 10 undefined on input line 588.
+LaTeX Warning: Citation `b34' on page 11 undefined on input line 606.
 
+<a1.png, id=98, 58.7796pt x 77.5698pt>
+File: a1.png Graphic file (type png)
+ <use a1.png>
+Package pdftex.def Info: a1.png used on input line 689.
+(pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
+File: a1.png Graphic file (type png)
+ <use a1.png>
+Package pdftex.def Info: a1.png used on input line 689.
+(pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
 File: notaglineLogo.png Graphic file (type png)
+
 <use notaglineLogo.png>
-Package pdftex.def Info: notaglineLogo.png used on input line 625.
+Package pdftex.def Info: notaglineLogo.png used on input line 715.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -1176,43 +1254,33 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[10] <a1.png, id=92, 58.7796pt x 77.5698pt>
-File: a1.png Graphic file (type png)
- <use a1.png>
-Package pdftex.def Info: a1.png used on input line 671.
-(pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
-File: a1.png Graphic file (type png)
- <use a1.png>
-Package pdftex.def Info: a1.png used on input line 671.
-(pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
-
-<a2.png, id=96, 58.7796pt x 77.5698pt>
+[11 <./a1.png>] <a2.png, id=107, 58.7796pt x 77.5698pt>
 File: a2.png Graphic file (type png)
  <use a2.png>
-Package pdftex.def Info: a2.png used on input line 697.
+Package pdftex.def Info: a2.png used on input line 715.
 (pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
 File: a2.png Graphic file (type png)
- <use a2.png>
-Package pdftex.def Info: a2.png used on input line 697.
-(pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
 
-<a3.png, id=99, 58.7796pt x 77.5698pt>
+<use a2.png>
+Package pdftex.def Info: a2.png used on input line 715.
+(pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
+ <a3.png, id=110, 58.7796pt x 77.5698pt>
 File: a3.png Graphic file (type png)
  <use a3.png>
-Package pdftex.def Info: a3.png used on input line 717.
+Package pdftex.def Info: a3.png used on input line 735.
 (pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
 File: a3.png Graphic file (type png)
  <use a3.png>
-Package pdftex.def Info: a3.png used on input line 717.
+Package pdftex.def Info: a3.png used on input line 735.
 (pdftex.def)             Requested size: 68.4606pt x 90.34557pt.
 File: bullet.png Graphic file (type png)
 
 <use bullet.png>
-Package pdftex.def Info: bullet.png used on input line 736.
+Package pdftex.def Info: bullet.png used on input line 754.
 (pdftex.def)             Requested size: 5.0pt x 14.6871pt.
 File: notaglineLogo.png Graphic file (type png)
  <use notaglineLogo.png>
-Package pdftex.def Info: notaglineLogo.png used on input line 738.
+Package pdftex.def Info: notaglineLogo.png used on input line 756.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -1229,9 +1297,9 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[11 <C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/a1.png> <C:/Users/Johnny/Git/SR
-T/D2D_paper/MY latex/a2.png> <C:/Users/Johnny/Git/SRT/D2D_paper/MY latex/a3.png
->] (D2D.aux)
+[12
+
+ <./a2.png> <./a3.png>] (D2D.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -1243,13 +1311,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4794 strings out of 493323
- 69587 string characters out of 3139062
- 147933 words of memory out of 3000000
- 8206 multiletter control sequences out of 15000+200000
+ 4797 strings out of 493323
+ 69368 string characters out of 3139062
+ 147942 words of memory out of 3000000
+ 8210 multiletter control sequences out of 15000+200000
  99679 words of font info for 131 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,18n,53p,1998b,723s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 39i,18n,53p,1955b,723s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmbx5.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
@@ -1271,9 +1339,9 @@ m Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX
 pe1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utm
 bi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Prog
 ram Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on D2D.pdf (11 pages, 839698 bytes).
+Output written on D2D.pdf (12 pages, 842080 bytes).
 PDF statistics:
- 183 PDF objects out of 1000 (max. 8388607)
+ 192 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 130 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 141 words of extra memory for PDF output out of 10000 (max. 10000000)
 
