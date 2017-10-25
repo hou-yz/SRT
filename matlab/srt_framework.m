@@ -64,13 +64,15 @@ for i=(1:length(multis))
     fprintf('multi=%2.2f\n',multi)
     [srt_E0(1,i),srt_E0(2,i),~]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,1,bt,et);
     [ref_E0(1,i),~]=ref_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,1,bt,et);
-    [srt_E1(1,i),srt_E1(2,i),~]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0_constant,bt,et);
-    [ref_E1(1,i),~]=ref_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0_constant,bt,et);
-    
-    [srt_Es(1,i),srt_Es(2,i),C_unsatisfied]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0,bt,et);
+    [srt_E1(1,i),srt_E1(2,i),C_unsatisfied]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0_constant,bt,et);
     srt_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
-    [ref_Es(1,i),C_unsatisfied]=ref_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0,bt,et);
+    [ref_E1(1,i),C_unsatisfied]=ref_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0_constant,bt,et);
     ref_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
+    
+    [srt_Es(1,i),srt_Es(2,i),~]=srt_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0,bt,et);
+    
+    [ref_Es(1,i),~]=ref_algorithm(beta,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,h0,bt,et);
+    
 end
 srt_E0_means=[srt_E0(1,:)./J_range./(multis);srt_E0(2,:)./J_range./(multis)];
 ref_E0_means=ref_E0./J_range./(multis);
@@ -88,7 +90,7 @@ xlabel('C_Q_o_S(Gbit)')
 ylabel('Energy Consumption per User per Gbit (J)')
 legend('estimation in (2c), cellular-only','estimation in (2c), D2D underlaid','estimation in (2c), reference','h0 constant, cellular-only','h0 constant, D2D underlaid','h0 constant, reference','complete channel, cellular-only','complete channel, D2D underlaid','complete channel, reference')
 
-% %% N 
+%% N 
 % Ns=[1,2,3,4,5,6,8,10,12,15,20];
 % srt_E0_means=zeros(2,length(Ns));ref_E0_means=zeros(1,length(Ns));
 % srt_E1_means=zeros(2,length(Ns));ref_E1_means=zeros(1,length(Ns));
@@ -151,7 +153,7 @@ legend('estimation in (2c), cellular-only','estimation in (2c), D2D underlaid','
 % xlabel('Number of Subcarriers')
 % ylabel('Energy Consumption per User (J)')
 % 
-% %% T_range
+%% T_range
 % delta_t=60;
 % T_range=6*3600/delta_t;
 % [pos_j,C_qos]=srt_pos_and_qos(J_range,T_range,delta_t,interval,ratio);
@@ -229,7 +231,7 @@ legend('estimation in (2c), cellular-only','estimation in (2c), D2D underlaid','
 % ylabel('Energy Consumption per User (J)')
 % legend('estimation in (2c), cellular-only','estimation in (2c), D2D underlaid','estimation in (2c), reference','h0 constant, cellular-only','h0 constant, D2D underlaid','h0 constant, reference','complete channel, cellular-only','complete channel, D2D underlaid','complete channel, reference')
 % 
-% %% h0
+%% h0
 % T_range=2*3600/delta_t;
 % J_range=8;
 % h0=ones(J_range+1,J_range,T_range);
@@ -293,7 +295,7 @@ legend('estimation in (2c), cellular-only','estimation in (2c), D2D underlaid','
 % xlabel('Sigma^2')
 % ylabel('Energy Consumption per User per Gbit (J)')
 % 
-% %% delay tolerant
+%% delay tolerant
 % delta_t=60*2;
 % T_range=6*3600/delta_t;%an hour
 % J_range=(T_range*delta_t-2*3600)/interval*2;
