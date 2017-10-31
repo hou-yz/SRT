@@ -14,33 +14,33 @@
 \history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
 \doi{10.1109/ACCESS.2017.DOI}
 
-\title{Energy Efficient User Scheduling for Maritime Communication with Internet of Vessels}
+\title{Energy Efficient User Scheduling for Maritime Ship-to-Ship/Shore Communications}
 \author{\uppercase{Yunzhong Hou}\authorrefmark{1}, 
 \uppercase{Te Wei}\authorrefmark{1}, \IEEEmembership{Student Member, IEEE},\\
 \uppercase{Wei Feng}\authorrefmark{1}, \IEEEmembership{Member, IEEE}, 
 \uppercase{Ning Ge}\authorrefmark{1}, \IEEEmembership{Member, IEEE},
-\\ \uppercase{and Jianhua Lu}\authorrefmark{1}, \IEEEmembership{Fellow, IEEE}}
+\\ \uppercase{and Yunfei Chen}\authorrefmark{2}, \IEEEmembership{Senior Member, IEEE}}
 
 \address[1]{Tsinghua National Laboratory for Information Science and Technology, Tsinghua University, Beijing 100084, P. R. China}
+\address[2]{School of Engineering, University of Warwick, Coventry CV4 7AL, U.K.}
 
-\tfootnote{This work was partially supported by the National Basic Research Program of China under grant No. 2013CB329001, and
-the National Science Foundation of China under grant No. 91638205 and grant No. 61621091. The authors Yunzhong Hou and Te Wei contributed equally to this work.}
+\tfootnote{This work was partially supported by the National Science Foundation of China under grant No. 61771286 and grant No. 91638205 and grant No. 61621091. The authors Yunzhong Hou and Te Wei contributed equally to this work.}
 
 \markboth
-{Hou \headeretal: Energy Efficient User Scheduling for Maritime Communication with Internet of Vessels}
-{Hou \headeretal: Energy Efficient User Scheduling for Maritime Communication with Internet of Vessels}
+{Y. Hou \headeretal: Energy Efficient User Scheduling for Maritime Ship-to-Ship/Shore Communications}
+{Y. Hou \headeretal: Energy Efficient User Scheduling for Maritime Ship-to-Ship/Shore Communications}
 
-\corresp{Corresponding author: Yunzhong Hou (e-mail: houyz14@mails.tsinghua.edu.cn).}
+\corresp{Corresponding author: Wei Feng (e-mail: fengwei@tsinghua.edu.cn).}
 
 \begin{abstract}
 
-Maritime communication systems have to cover vast area with limited base stations (BSs) due to the restriction of geographically available BS sites. Therefore, their energy consumption are usually much larger than terrestrial cellular networks. To solve this problem, we optimize user scheduling for a typical maritime communication system with internet of vessels (IoV). IoV enables direct communication between neighboring vessels, which is effective for reducing the energy consumption. 
-In general, the channel state information (CSI) is crucial for user scheduling. However, it is difficult to acquire perfect CSI in practical applications due to the time-varying channel fading. Different from traditional studies, we use only the large-scale CSI, which varies much slowly and can be obtained according to the positional information of each vessel based on its specific shipping lane and timetable. 
-The optimization problem is formulated to minimize the total energy consumption, while guaranteeing the quality of service. The problem is uncovered to be NP-hard. To solve it, we simplify the original problem into three sub-problems and propose an efficient algorithm for each sub-problem. The algorithms we proposed only require polynomial computational complexity. Simulation results reveal that the user scheduling scheme we provided significantly reduces the energy consumption by up to 81\% over the existing ones in certain cases.
+The maritime ship-to-shore communication system has to cover a vast area with limited base stations (BSs) due to the restriction of geographically available BS sites. Therefore, its energy consumption is usually much larger than terrestrial cellular networks. To solve this problem, we optimize user scheduling for a typical maritime ship-to-ship/shore communication system, where ship-to-ship enables direct communication between neighboring vessels, so as to reduce the energy consumption. 
+In general, the channel state information (CSI) is crucial for user scheduling. However, it is difficult to acquire perfect CSI in practical applications due to the time-varying channel fading. Different from traditional studies, we use only the large-scale CSI, which varies much slowly and can be obtained through the positional information of each vessel based on its specific shipping lane and timetable. 
+We formulate an optimization problem to minimize the total energy consumption, while guaranteeing the quality of service (QoS). The problem is uncovered to be NP-hard. To solve it, we simplify the original problem into three sub-problems and propose an efficient algorithm for each sub-problem. The algorithms we proposed only require polynomial computational complexity. Simulation results reveal that the user scheduling scheme we provided significantly reduces the energy consumption by up to 81\% over the existing ones in certain cases.
 \end{abstract}
 
 \begin{keywords}
-Maritime communications, user scheduling, long-term large-scale CSI, IoV
+Maritime communication, user scheduling, large-scale channel status information (CSI), ship-to-ship/shore communication
 \end{keywords}
 
 \titlepgskip=-15pt
@@ -48,70 +48,86 @@ Maritime communications, user scheduling, long-term large-scale CSI, IoV
 \maketitle
 
 \section{Introduction}
-\IEEEPARstart{W}{ith} the rapid development of marine activities such as marine tourism, offshore aquaculture and oceanic mineral exploration, the demand for reliable and high-speed maritime communication services increases sharply. In order to meet the increasing demand, several maritime communication network (MCN) projects have been developed in recent years, e.g., the BLUECOM+ project, the MarCom project, and the TRITON project \cite{p321}--\cite{p32}.
-Unlike terrestrial cellular networks, a maritime communication system has quite limited geographically available base station (BS) sites. In order to cover a vast area with limited BSs, the system usually adopts high-powered BSs, which increases the operational costs of mobile network operators and poses a global threat to the environment \cite{p33}.
+\IEEEPARstart{W}{ith} the rapid development of marine activities such as marine tourism, offshore aquaculture and oceanic mineral exploration, the demand for reliable and high-speed ship-to-shore maritime communication services increases sharply. In order to meet the increasing demand, several maritime communication network (MCN) projects have been developed in recent years, e.g., the BLUECOM+ project, the MarCom project, and the TRITON project \cite{p321}--\cite{p32}.
+Unlike terrestrial cellular networks, a maritime ship-to-shore communication system has quite limited geographically available base station (BS) sites. In order to cover a vast area with limited BSs, the system usually adopts high-powered BSs, which increases the operational costs of mobile network operators and poses a global threat to the environment \cite{p33}.
 
-Accordingly, reducing energy consumption becomes a critical issue for maritime communications. User scheduling, as a crucial technique for power reduction, has been extensively studied in previous studies. In this paper, by introducing the idea of internet of vessels (IoV), we achieved similar power reduction as terrestrial device-to-device (D2D) underlaid cellular systems, since they both allow direct communication between mobile users \cite{p3331}-\cite{p3333}. With proximate communication opportunities, IoV communication may increase spectral efficiency, improve BS coverage, as well as reduce energy consumption, while ensuring quality of service (QoS). Unfortunately, the introduction of IoV greatly increases the difficulties for user scheduling. 
-Therefore, advanced wireless transmission and radio resource management techniques for maritime communication systems with IoV are in urgent need to solve the power reduction problem.
+Accordingly, reducing energy consumption becomes a critical issue for maritime communications. User scheduling, as an important perspective for saving energy, has attracted increasingly worldwide attention. 
+%In this paper, we introduce the idea of ship-to-ship communications, which, mimicking terrestrial device-to-device (D2D) communications \cite{p3331}-\cite{p3333}, may reduce the total energy consumption by exploiting direct communications between neighboring users. With proximate communication opportunities, ship-to-ship communication may increase spectral efficiency, improve BS coverage, as well as reduce energy consumption, while ensuring quality of service (QoS). Unfortunately, the introduction of ship-to-ship communications greatly increases the difficulties for user scheduling. 
+%Therefore, advanced wireless transmission and radio resource management techniques for maritime ship-to-ship/shore communication systems are in urgent need to solve the power reduction problem.
 
+%\subsection{Related work}
 
-\subsection{Related work}
-%cellular
-So far, energy-efficient user scheduling techniques have been extensively studied for terrestrial cellular networks, such as the proportional fairness based schemes in \cite{p61}--\cite{p63}, the signal-to-leakage-interference-plus-noise ratio based methods in \cite{p64}--\cite{p66}, the coordinated scheduling with cyclic beamforming in \cite{p67}\cite{p68}, and the iterative algorithms in \cite{p69}\cite{p70}. Based on the utilization degree of CSI, user scheduling schemes can be classified into three categories. The first one required no CSI, such as the simple but efficient round-robin scheme for fair queuing \cite{p51}. The second one exploited statistical and outdated CSI, as studied in \cite{p52} and \cite{p53}. The third one assumed full CSI, and utilized the instantaneous CSI for user scheduling in a minuscule time scale, i.e., in each coherence time \cite{p3}--\cite{p7}. In \cite{p3}, a joint antenna-subcarrier-power allocation scheme was proposed for distributed antenna systems with limited backhaul capacity to maximize the energy efficiency while providing min-rate guaranteed services. In \cite{p6}, a matching algorithm of joint sub-channel assignment and power allocation was developed for non-orthogonal multiple access networks to maximize the total sum-rate with user fairness taken into consideration. In \cite{p4}, a joint power allocation and user scheduling algorithm based on dynamic programming (DP) was proposed for multi-user MIMO systems to minimize the total energy consumption under hard delay constraints. In \cite{p5}, a cross-layer cooperative user scheduling and power allocation scheme was developed for hybrid-delay services, and the fundamental tradeoff between delay and energy consumption was illustrated. More recently in \cite{p7}, a user scheduling and pilot assignment scheme was proposed for massive MIMO systems to serve the maximum number of users with guaranteed QoS.
+%terrestrial
+So far, the majority of energy-efficient user scheduling techniques focused on terrestrial cellular networks, and CSI is a crucial factor therein.  
+%such as the proportional fairness based schemes in \cite{p61}--\cite{p63}, the signal-to-leakage-interference-plus-noise ratio based methods in \cite{p64}--\cite{p66}, the coordinated scheduling with cyclic beamforming in \cite{p67}\cite{p68}, and the iterative algorithms in \cite{p69}\cite{p70}. 
+Based on the utilization degree of CSI, terrestrial user scheduling schemes can be classified into three categories. The first one required no CSI, such as the simple but efficient round-robin scheme for fair queuing \cite{p51}. The second one exploited statistical and outdated CSI, as studied in \cite{p52} and \cite{p53}. The third one assumed full CSI, and utilized the instantaneous CSI for user scheduling in a minuscule time scale, i.e., in each coherence time \cite{p3}-\cite{p7}. 
+In \cite{p3}, a joint antenna-subcarrier-power allocation scheme was proposed for distributed antenna systems with limited backhaul capacity to maximize the energy efficiency while providing min-rate guaranteed services. In \cite{p6}, a matching algorithm of joint sub-channel assignment and power allocation was developed for non-orthogonal multiple access networks to maximize the total sum-rate with user fairness taken into consideration. In \cite{p4}, a joint power allocation and user scheduling algorithm based on dynamic programming (DP) was proposed for multi-user MIMO systems to minimize the total energy consumption under hard delay constraints. In \cite{p5}, a cross-layer cooperative user scheduling and power allocation scheme was developed for hybrid-delay services, and the fundamental tradeoff between delay and energy consumption was illustrated. More recently in \cite{p7}, a user scheduling and pilot assignment scheme was proposed for massive MIMO systems to serve the maximum number of users with guaranteed QoS.
 
-%D2D
-There are also several power control scheme developed for terrestrial D2D underlaid cellular systems so far. They are of great use for reference in our maritime communication system with IoV. Xiao et al. proposed a power optimization scheme with joint resource (i.e. subcarrier and bit allocation) allocation and mode selection in an OFDMA system with integrated D2D communications in \cite{p801}. In \cite{p802}, Lee et al. proposed a random network model for a D2D underlaid cellular system using stochastic geometry and developed centralized and distributed power control algorithms. \cite{p801} and \cite{p802} assumed full CSI, which is used for user scheduling in coherence time. In \cite{p803}, a distributed power control algorithm was developed which iteratively determines the SINR receivers in a mixed cellular and D2D environment and allocates transmit powers such that the overall power consumption is minimized subject to a sum-rate constraint. In \cite{p804}, a power-efficient mode selection and power allocation scheme in D2D underlaid cellular system was developed which based on exhaustive search of all possible mode combinations of the devices.  
+%maritime
+As for maritime user scheduling, few work concentrated on energy efficiency has been done. In \cite{p400}, 
+%Optimized time-shifted pilots for maritime massive MIMO communication systems
+an efficient user scheduling algorithm aiming to optimize the pilot power under the average power constraint was proposed. 
+In \cite{p401}, 
+%Interference Range Analysis and Scheduling among Three-Hop Neighborhood in Maritime WiMAX Mesh Networks
+scheduling transmission of MAC control messages and data packets within three-hop neighborhood is investigated for the purpose of minimizing interference. 
 
-%问题
-However, given the difficulties for obtaining perfect CSI as well as other differences in maritime communication systems, current study on terrestrial user scheduling of D2D underlaid cellular systems require significant modifications. 
-%1.业务需求区别：延时vs量
+All of the mentioned energy-efficient user scheduling heavily depend on CSI. However, it is rather costly to acquire perfect CSI, due to the excessive system overhead including pilot overhead and feedback overhead \cite{p403}. 
+%when mmwave communications meet network densification
+With respect to maritime ship-to-ship/shore communication, the conflict between the limitation in power and spectrum (limited BSs covering vast area) and heavy overhead for full CSI becomes more intense, on account of the dynamic of maritime channel.
 
-\textbf{1.} Current energy-efficient D2D user scheduling studies mainly focused on time-varying delay-sensitive QoS needs. Given the uncertainty and volatility in terrestrial users' service requirements, the D2D user scheduling in current studies has to be finished within a short period of time in order to keep update with the QoS need changes. 
-Whereas in maritime scenarios with IoV, service requirements differ greatly. Users or ships pay more attention to reliability and data amount rather than service delay; 
-%2.海域实时CSI难以获取
+Aside from heavy overhead for full CSI, the introduction of ship-to-ship communication \cite{p404}\cite{p405}
+%High Speed Maritime Ship-to-Ship/Shore Mesh Networks
+%NETWORKING AND SHIP-TO-SHORE SHIP-TO-SHIP COMMUNICATION 
+makes it even more difficult for user scheduling. We consider ship-to-ship communications in our system since the direct communication between neighboring ships may greatly reduce the system energy consumption. Unfortunately, more transmitters (BS/relays) to choose from brings more difficulties in user scheduling. 
 
-\textbf{2.} Unlike terrestrial scenarios, obtaining accurate instantaneous CSI in maritime communications becomes problematic due to the large propagation delay. Therefore, we have to use large-scale CSI in maritime communication systems to overcome this difficulty; 
-%3.航线·位置信息
+%问题-》帽子
+Given the difficulties for obtaining perfect CSI as well as choosing from transmitters in ship-to-ship/shore maritime communication systems, current studies on user scheduling for terrestrial scenarios require systematic redesign for the following reasons. 
 
-\textbf{3.} Different from people in terrestrial scenarios where the previous studies focused on, most vessels have their specific shipping lanes and timetables that are fixed and can be acquired beforehand, thus their positional information can be easily predicted. From these positional information, we can obtain long-term large-scale CSI information. With both long-term large-scale CSI and delay tolerance in maritime QoS, we can have extensive gain by considering the whole service process instead of the short time scale in terrestrial scenarios. 
+%1.海域模型，大尺度主导
+\textbf{1.} As there are fewer scatterers on the sea than that in the terrestrial scenario, the large-scale channel fading becomes the dominant factor for the maritime channel \cite{p403}. Hence, we can use the position information of vessels to exploit long-term large-scale CSI instead of the complete instantaneous CSI. Through large-scale CSI, we avoid the heavy overhead for full CSI; 
+%when mmwave communications meet network densification
 
-\subsection{Contributions}
+%2.航线·位置信息
+\textbf{2.} Different from human beings in terrestrial scenarios where the previous studies focused on, most vessels have their specific shipping lanes and timetables that are fixed and can be acquired beforehand, thus their positional information can be easily predicted. From these positional information, we can obtain long-term large-scale CSI information. With long-term large-scale CSI, we can have extensive gain by considering the whole service process instead of the short time scale in terrestrial scenarios. 
+
+%\subsection{Contributions}
 
 
 %In this paper, we further explore a 3-dimensional optimization subspace, including one transmitter (BS/relay) dimension, benefiting from IoV; one receiver dimension; and one time dimension, as we make channel estimation by utilizing the service process information, which has not been considered in the previous studies. Through enlarging the optimization subspace, we reduce the energy consumption for maritime communications with IoV. 
-We introduced IoV since IoV allows direct transmission between neighboring vessels and reduce system energy consumption. Unfortunately, IoV links bring forward great difficulties in user scheduling since receivers have to choose transmitters between BS and other vessels (relays) for best efficiency. 
-Apart from IoV user scheduling, the major challenge for our proposed scheme lies in the calculation of long-term large-scale CSI, as well as obtaining the long-term user requirements. We overcome these difficulties by fully utilizing the following unique features of maritime communications: 
+%We introduced IoV since IoV allows direct transmission between neighboring vessels and reduce system energy consumption. Unfortunately, IoV links bring forward great difficulties in user scheduling since receivers have to choose transmitters between BS and other vessels (relays) for best efficiency. 
+%Apart from IoV user scheduling, the major challenge for our proposed scheme lies in the calculation of long-term large-scale CSI, as well as obtaining the long-term user requirements. We overcome these difficulties by fully utilizing the following unique features of maritime communications: 
 %1.业务需求区别：延时vs量
 
-\textbf{1.} We particularly focus on the delay-tolerant information distribution service, which is initiated and terminated when a marine user sails into and out of the BS's coverage, respectively, so that we can obtain long-term user requirements. 
+%\textbf{1.} We particularly focus on the delay-tolerant information distribution service, which is initiated and terminated when a marine user sails into and out of the BS's coverage, respectively, so that we can obtain long-term user requirements. 
 
 %2.海域实时CSI难以获取
 
-\textbf{2.} As there are fewer scatterers on the sea than that in the terrestrial scenario, we use the position information of vessels to exploit long-term large-scale CSI instead of the complete instantaneous CSI, as the research in \cite{p120} suggests that large-scale channel fading is a good estimate for the complete CSI; 
+%\textbf{2.} As there are fewer scatterers on the sea than that in the terrestrial scenario, we use the position information of vessels to exploit long-term large-scale CSI instead of the complete instantaneous CSI, as the research in \cite{p120} suggests that large-scale channel fading is a good estimate for the complete CSI; 
 %3.航线·位置信息
 
-\textbf{3.} Besides, the users' positions can be predicted based on their specific shipping lanes and timetables. 
-With delay-tolerant service assumption and large-scale CSI, we address the long-term user requirement problem and the CSI obtaining problem based on the characteristic of maritime communication system. 
+%\textbf{3.} Besides, the users' positions can be predicted based on their specific shipping lanes and timetables. 
+%With delay-tolerant service assumption and large-scale CSI, we address the long-term user requirement problem and the CSI obtaining problem based on the characteristic of maritime communication system. 
 
 %On that basis, we enlarge the optimization subspace by introducing the time dimension. Together with the transmitter dimension introduced by IoV since IoV's superiority in energy consumption, spectral efficiency and BS coverage, our maritime user scheduling scheme explore the 3-dimensional optimization subspace for energy consumption improvement rather than the 1-dimensional (receiver dimension only) optimization subspace in traditional BS-only method. 
 
 
 % proposed method
 
-In this paper, we formulate a energy consumption optimization problem for user scheduling for maritime communication system with IoV, aiming to minimize the energy consumption while providing users with delay-tolerant data distribution services. The problem is proved to be NP-hard. To overcome the difficulties of solving the NP-hard problem, we decompose the problem into three simpler subproblems. We further propose efficient algorithms to solve the subproblems in an iterative way with a polynomial time complexity.
+In this paper, we formulate an optimization problem for user scheduling in maritime ship-to-ship/shore communication systems, aiming to minimize the energy consumption. % while providing users with delay-tolerant data distribution services. 
+The problem is proved to be NP-hard (see Appendix A). To overcome the difficulties of solving the NP-hard problem, we decompose the problem into three simpler subproblems. We further propose efficient algorithms to solve the subproblems in an iterative way with a polynomial time complexity.
 
 
 
-\subsection{Organization and Notation}
+%\subsection{Organization and Notation}
 %文章组织
 The rest of the paper is organized as follows.
 
-Section II introduces the system model, where a multi-user maritime communication system is considered in the presence of IoV transmissions, and the formulation of the optimization problem for user scheduling is presented.
+Section II introduces the system model, where a multi-user maritime ship-to-ship/shore communication system is considered, and the formulation of the optimization problem for user scheduling is presented.
 In Section III,  the problem is decomposed into three subproblems and solved in an iterative way.
 Section IV presents simulation results along with further discussions.
 Finally, Section V gives the concluding remarks.
 
-Throughout this paper, lightface symbols represent scalars, while boldface symbols denote vectors and matrices. ${\mathbf{I}}_{M \times N}$ represents an ${M \times N}$ identity matrix, $\mathbb{E}[x]$ denote the expectation of $x$, and $\mathcal{CN}(0, {\sigma}^2)$ denotes the complex Gaussian distribution with zero mean and ${\sigma}^2$ variance. 
+Throughout this paper, lightface symbols represent scalars, while boldface symbols denote vectors, matrices or sets. ${\mathbf{I}}$ represents an identity matrix, $\mathbb{E}[x]$ denote the expectation of $x$, and $\mathcal{CN}(0, {\sigma}^2)$ denotes the complex Gaussian distribution with zero mean and ${\sigma}^2$ variance. 
 %$[x]^{+}\triangleq{\mathop {\max }(x,0)}$. $\lfloor x \rfloor$ and $\lceil x \rceil$ denote the largest integer not greater than $x$ and the smallest integer not less than $x$, respectively. ${\mathbf{A}}^T$ and ${\mathbf{A}}^H$ represent the transpose and the transpose conjugate of ${\mathbf{A}}$, respectively. 
 
 
@@ -122,82 +138,86 @@ Throughout this paper, lightface symbols represent scalars, while boldface symbo
 
 \begin{figure} [htb]
 \includegraphics*[width=8.8cm]{SysModel.png}
-\caption{Maritime communication system for information distribution service.}\label{fig:1}
+\caption{Maritime ship-to-ship/shore communication system for data distribution service.}\label{fig:1}
 \end{figure}
 
 
 %\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){SysModel.eps}
 %{Maritime communication system for information distribution service.\label{fig1}}
 
-As shown in Figure 1, the following sections focus on the downlink transmission of a single-BS maritime communication system with IoV. In the system there are one onshore BS
+As shown in Figure 1, the following sections focus on the downlink transmission of a single-BS maritime ship-to-ship/shore communication system. In the system there are one on-shore BS
 % equipped with $L$ antennas 
 and  $J$ single-antenna users (ships) in the sea. We assume that there are $N$ subcarriers, and the subcarrier bandwidth is ${B_s}$. 
 
-In the studied system, IoV links between ships use the same licensed band of BS transmission (i.e. one of the $N$ subcarriers), and the same air interface of the BS transmission. 
+In the studied system, ship-to-ship transmissions use the same licensed band of ship-to-shore transmissions (i.e. one of the $N$ subcarriers), and the same air interface of the ship-to-shore transmissions. 
 % As a result, IoV links consumes part of the resources allocated to the BS links.
 %, i.e., D2D communications also use the $N$ subcarriers whose bandwidths are ${B_s}$. 
-At any given time, each IoV or BS links will use distinct subcarrier. Here in this paper by `link' we mean the transmission from BS/relay to user during a certain time period. We further assume that the $J$ single-antenna users can either receive data from one transmitter (BS/relay) or send data to another user (act as a relay) at any given time.
+At any given time, each ship-to-ship or ship-to-shore links will use distinct subcarrier. Here in this paper by `link' we mean the transmission from BS/relay to user during a certain time period. We further assume that the $J$ single-antenna users can either receive data from one transmitter (BS/relay) or send data to another user (act as a relay) at any given time.
 
-Without loss of generality, we assume the BS coverage shape to be a semicircle. 
+Without loss of generality, we assume the on-shore BS coverage shape to be a semicircle. 
 % with radius $R$. 
-Each user sails into and out of the semicircle according to its shipping lane and timetable. For each user, delay-torrent service is assumed, and the total amount of the data required by the ${j^{th}}$ user is denoted by $C_j^{QoS}$. In order to simplify the problem, we only consider IoV and BS transmission of the ships in the semicircle. We also assume all the users request different data and the system has no IoV data reuse.
+Each user sails into and out of the semicircle according to its shipping lane and timetable. For each user, delay-torrent service is assumed, and the total amount of the data required by the ${j^{th}}$ user is denoted by $C_j^{QoS}$. Together with long-term large-scale CSI, the delay-tolerant assumption in QoS can bring forward great potential in long-term user scheduling. 
+In order to simplify the problem, we only consider ship-to-ship and ship-to-shore transmissions of the ships in the semicircle. We also assume all the users request different data and the system has no ship-to-ship link data reuse.
 
 We further assume a modified 2-ray propagation model, since the sea surface is relatively flat \cite{p0}--\cite{p2}. For a given subcarrier, we denote the composite channel gain from the BS/relay $i$ to the user $j$ at time $\tau $ by $\sqrt {{\beta _{i,j,\tau }}} {h_{i,j,\tau }}$. The small-scale fading vectors ${h_{i,j,\tau }}$ follows a complex Gaussian distribution with standard deviation ${\sigma _s} = 1$, i.e., ${h_{i,j,\tau }} \sim \mathcal{CN}(0, \mathbf{I})$. The large-scale fading coefficient ${\beta _{i,j,\tau }}$ is expressed as
 \begin{align}
-{\beta _{i,j,\tau }} = {\left( {\frac{\lambda }{{4\pi {d_{i,j,\tau }}}}} \right)^2}{\left[ {2\sin \left( {\frac{{2\pi {h_t}{h_r}}}{{\lambda {d_{i,j,\tau }}}}} \right)} \right]^2}
+{\beta _{i,j,\tau }} = {\left( {\frac{\lambda }{{4\pi {d_{i,j,\tau }}}}} \right)^2}{\left[ {2\sin \left( {\frac{{2\pi {h_t}{h_r}}}{{\lambda {d_{i,j,\tau }}}}} \right)} \right]^2} ,
 \end{align}
 where $\lambda $ is the carrier wavelength, ${d_{i,j,\tau }}$ is the distance between the BS/relay $i$ and the user $j$ at time $\tau $. The antenna height of the transmitter and the receiver are represented by $h_t$ and $h_r$ respectively.
 
-To fully utilize the slowly-varying characteristic of the large-scale channel fading, we divide the total service time into $T$ time slots, each lasts $\Delta \tau$. The value $\Delta \tau$ is carefully chosen so that $\beta _{i,j,\tau }$ remains constant in each time slot $t$. Thus, we make it possible to acquire $\beta _{i,j,t} = \mathbb{E} \left [ {\beta _{i,j,\tau }} \right ]$ for $\forall t \in \left\{ {1,...,T} \right\}$ from positional information based on shipping lanes and timetable. 
-In this paper we replace the perfect CSI with long-term large-scale CSI \cite{p41} as shown in (2a)-(2d). We justify our replacement by simulations in Section IV. SIMULATION RESULTS. Denote ${\gamma _{i,j,\tau }} = {\raise0.7ex\hbox{${{P_{i,j,\tau }}{\beta _{i,j,\tau }}}$} \!\mathord{\left/
+To fully utilize the slowly-varying characteristic of the large-scale channel fading, we divide the total service time into $T$ time slots, each lasts $\Delta \tau$. The value $\Delta \tau$ is carefully chosen so that $\beta _{i,j,\tau }$ remains constant in each time slot $t$ (ship $j$ holds still during time slot $t$). Thus, we make it possible to acquire $\beta _{i,j,t} = \mathbb{E} \left [ {\beta _{i,j,\tau }} \right ]$ for $\forall t \in \left\{ {1,...,T} \right\}$ from positional information based on shipping lanes and timetable. 
+In this paper we replace the perfect CSI with long-term large-scale CSI as shown in (2a)-(2d). We justify our replacement by simulations in Section IV. SIMULATION RESULTS. Denote ${\gamma _{i,j,\tau }} = {\raise0.7ex\hbox{${{P_{i,j,\tau }}{\beta _{i,j,\tau }}}$} \!\mathord{\left/
  {\vphantom {{{P_{i,j,\tau }}{\beta _{i,j,\tau }}} {{\sigma ^2}}}}\right.\kern-\nulldelimiterspace}
 \!\lower0.7ex\hbox{${{\sigma ^2}}$}}$ for simplicity, the channel capacity or transmission speed in this paper can therefore be simplified as
 
 \begin{subequations}
 \begin{align}
-{r_{i,j,t}} & = {\mathbb{E}}\left [ {{B_s}{{\log }_2}\left( {1 + \frac{{{P_{i,j,\tau }}{\beta _{i,j,\tau }}{{\left| {{h_{i,j,\tau }}} \right|}^2}}}{{{\sigma ^2}}}} \right)} \right ] \\
-& = {\mathbb{E}}\left [  {B_s}{\log }_2 \left( {1 + {\gamma _{i,j,\tau }}{{\left| {{h_{i,j,\tau }}} \right|}^2}} \right)  \right ] \\
-& = {\mathbb{E}}\left [  \left( {{{\log }_2}e} \right){e^{\frac{1}{{{\gamma _{i,j,\tau }}}}}}\int_1^\infty  {\frac{1}{u}{e^{ - \frac{u}{{{\gamma _{i,j,\tau }}}}}}du} \right ] \\
-&  \approx \left( {{{\log }_2}e} \right){e^{\frac{1}{{{\gamma _{i,j,t}}}}}}\int_1^\infty  {\frac{1}{u}{e^{ - \frac{u}{{{\gamma _{i,j,t}}}}}}du}
+{r_{i,j,t}} & = {\mathbb{E}}\left [ {{B_s}{{\log }_2}\left( {1 + \frac{{{P_{i,j,\tau }}{\beta _{i,j,\tau }}{{\left| {{h_{i,j,\tau }}} \right|}^2}}}{{{\sigma ^2}}}} \right)} \right ] ,\\
+& = {\mathbb{E}}\left [  {B_s}{\log }_2 \left( {1 + {\gamma _{i,j,\tau }}{{\left| {{h_{i,j,\tau }}} \right|}^2}} \right)  \right ] ,\\
+& = {\mathbb{E}}\left [  \left( {{{\log }_2}e} \right){e^{\frac{1}{{{\gamma _{i,j,\tau }}}}}}\int_1^\infty  {\frac{1}{u}{e^{ - \frac{u}{{{\gamma _{i,j,\tau }}}}}}du} \right ] ,\\
+&  \approx \left( {{{\log }_2}e} \right){e^{\frac{1}{{{\gamma _{i,j,t}}}}}}\int_1^\infty  {\frac{1}{u}{e^{ - \frac{u}{{{\gamma _{i,j,t}}}}}}du} ,
 \end{align}
 \end{subequations}
-here in (2) $\tau  \in \left[ {\left( {t - 1} \right),t} \right]\Delta \tau$ represents all time within time slot $t$. 
-By assuming that $\beta _{i,j,\tau }$ remains constant in each time slot $t$ and taking out the expectation operator, we complete our long-term large-scale CSI replacement of complete channel in (2d). Any further denotation of CSI in this paper refer to the `long-term large-scale CSI' unless specified. The impact of this replacement (assuming that $\beta _{i,j,\tau }$ remains constant in each time slot $t$ and taking out the expectation operator) is further discussed in Section IV. SIMULATION RESULTS. 
+where $\tau  \in \left[ {\left( {t - 1} \right),t} \right]\Delta \tau$ represents all time $\tau $ within time slot $t$. 
+The transmission speed in (2c) is derived based on current study \cite{p41}. We take one step further and complete our long-term large-scale CSI replacement of full CSI in (2d) by assuming that $\beta _{i,j,\tau }$ remains constant (ship $j$ stays in the same position) in each time slot $t$ and taking out the expectation operator. Any further denotation of CSI in this paper refer to the `long-term large-scale CSI in (2d)' unless specified. The impact of this replacement (assuming that ship $j$ stays in the same position and $\beta _{i,j,\tau }$ remains constant in each time slot $t$) is further discussed in Section IV. SIMULATION RESULTS. 
 %With the long-term large-scale channel fading (CSI) known beforehand, we can further design and implement an user scheduling scheme.
 
-The total energy consumption of the system consists of BS transmission part and IoV transmission part. The energy consumption in this system is
+The total energy consumption of the system consists of ship-to-shore transmission part and ship-to-ship transmission part. The energy consumption in this system is
 
 \begin{align}
-{{E_{total}} = \sum\limits_{j = 1}^J {{E_j}}  = \sum\limits_{j = 1}^J {\left( {\sum\limits_{t = 1}^T {\sum\limits_{i = 0}^J {{P_{i,j,t}}\Delta t} } } \right)} }
+{{E_{total}} = \sum\limits_{j = 1}^J {{E_j}}  = \sum\limits_{j = 1}^J {\left( {\sum\limits_{t = 1}^T {\sum\limits_{i = 0}^J {{P_{i,j,t}}\Delta \tau } } } \right)} },
 \end{align}
-here ${P_{i,j,t}}$ represents the average power consumed by the transmission from BS/relay $i$ to user $j$ during time slot $t$.
+where ${P_{i,j,t}}$ represents the average power consumed by the transmission from BS/relay $i$ to user $j$ during time slot $t$.
 
-Our objective is to minimize the system energy consumption by means of user scheduling in BS transmission and IoV transmission. We further denote the link from transmitter $i \in \left\{ {0,1,...,J} \right\}$(BS/relay, $i = 0$ means BS, $i > 0$ means relay) to receiver (user) $j$ at time slot $t$ by $i \to j@t$. For the link $i \to j@t$, we denote the ratio of used transmission power to max transmission power by 
+Our objective is to minimize the system energy consumption by means of user scheduling in ship-to-shore transmissions and ship-to-ship transmissions. We further denote the link from transmitter $i \in \left\{ {0,1,...,J} \right\}$ (BS/relay, $i = 0$ means BS, $i > 0$ means relay) to receiver $j$ (user) at time slot $t$ by $i \to j@t$. For the link $i \to j@t$, we denote the ratio of used transmission power to max transmission power by 
 
 \begin{align}
-{{\eta _{i,j,t}} = \frac{{{P_{i,j,t}}}}{{P_i^{\max }}},{\eta _{i,j,t}} \in \left[ {0,1} \right]}
+{{\eta _{i,j,t}} = \frac{{{P_{i,j,t}}}}{{P_i^{\max }}},{\eta _{i,j,t}} \in \left[ {0,1} \right]}.
 \end{align}
-${\eta _{i,j,t}} = 0$ means there is no transmission from BS/relay $i$ to user $j$ at time slot $t$, while ${\eta _{i,j,t}} \in \left( {0,1} \right]$ means a subcarrier is scheduled at time slot $t$ for the link and the transmission uses ${\eta _{i,j,t}}$ of the transmitter's max transmission power. $P_i^{\max } = \left\{ {P_0^{\max },\left\{ {P_j^{\max }} \right\}} \right\}$ represents the maximum transmission power of BS or relays. 
+${\eta _{i,j,t}} = 0$ means there is no transmission from BS/relay $i$ to user $j$ at time slot $t$, while ${\eta _{i,j,t}} \in \left( {0,1} \right]$ means a subcarrier is scheduled at time slot $t$ for the link and the transmission uses ${\eta _{i,j,t}}$ of the transmitter's max transmission power. $P_i^{\max } = \left\{ {P_0^{\max },\left\{ {P_j^{\max }} \right\}} \right\}$ represents the maximum transmission power of BS or relays (ships). 
 
-By ${C_{j,t}}$ we denote the total data volume user $j$ currently has at time slot $t$. Since the system has no IoV data reuse, user $j$ must have enough data ${C_{j,t}}$ in order to act as relay and transmit to another user $j'$ at $t$
+By ${C_{j,t}}$ we denote the total data volume user $j$ currently has at time slot $t$. Since the system has no ship-to-ship link data reuse, user $j$ must have enough data ${C_{j,t}}$ in order to act as relay and transmit to another user $j'$ at $t$
 
-Thus, we formulate the \textbf{energy consumption optimization problem} as
+Thus, we formulate the energy consumption optimization problem as
 
 \begin{subequations}
 \begin{align}
-& \mathop {\min }\limits_{{\mathbf{{\rm H}}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\sum\limits_{i = 0}^J {{P_{i,j,t}}\Delta t} \,} } } \right\} \\
-& {s.t.} \;\; \sum\limits_{i \ne j} {\left( {{\eta _{i,j,t}} > 0} \right)}  + \sum\limits_{j' \ne j} {\left( {{\eta _{j,j',t}} > 0} \right) \le {\text{1}}} \\
-& \;\;\;\;\;\; \sum\limits_j {\sum\limits_i {\left( {{\eta _{i,j,t}} > 0} \right)} }  \le N \\
-& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
-& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {\left( {\sum\limits_i {{r_{i,j,\tau }}}  - \sum\limits_{j'} {{r_{j,j',\tau }}} } \right)\Delta t} ,\; {C_{j,t}} \ge 0
+& \mathop {\min }\limits_{{\mathbf{{\rm H}}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\sum\limits_{i = 0}^J {{P_{i,j,t}}\Delta \tau } \,} } } \right\} ,\\
+& {s.t.} \;\; \sum\limits_{i \ne j} {\left( {{\eta _{i,j,t}} > 0} \right)}  + \sum\limits_{j' \ne j} {\left( {{\eta _{j,j',t}} > 0} \right) \le {1}} ,\\
+& \;\;\;\;\;\; \sum\limits_j {\sum\limits_i {\left( {{\eta _{i,j,t}} > 0} \right)} }  \le N ,\\
+& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS}, \\
+& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {\left( {\sum\limits_i {{r_{i,j,\tau }}}  - \sum\limits_{j'} {{r_{j,j',\tau }}} } \right)\Delta \tau } ,\; {C_{j,t}} \ge 0.
 \end{align}
 \end{subequations}
 ${\mathbf{{\rm H}}}{\text{ = }}{\left\{ {{\eta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}$ since we have to consider transmissions from ${J + 1}$ transmitters (BS/relays) to $J$ receivers (users) at $T$ time slots. 
 %, and our optimization is in a $\left( {J + 1} \right) \times J \times T$ 3-dimensional subspace. 
-Constraint in (5b) guarantees that users can only receive from one transmitter since they have single antenna. Constraint in (5c) guarantees that at most $N$ users can be severed simultaneously in the system, by BS or relays, since there is only $N$ subcarriers. (5d) and (5e) make sure that the QoS constraint is met and relays cannot transmit more than they have currently.
+Constraint (5b) guarantees that each user has access to at most one BS/user at a given time, and serves either as a transmitter or as a receiver. Constraint in (5c) guarantees that at most $N$ users can be severed simultaneously in the system, by BS or relays, since there is only $N$ subcarriers. (5d) and (5e) make sure that the QoS constraint is met and relays cannot transmit more than they have currently.
 
+\textit{Theorem 1:} The problem in (5) is NP-hard.
 
-\section{User Scheduling for Maritime Communication with IoV }
+\textit{Proof:} See Appendix A. 
+
+\section{User Scheduling for Maritime Ship-to-Ship/Shore Communication}
 In this section, we focus on the reduction of system energy consumption while ensuring the users' service requirements (QoS). We decompose the optimization problem in (5) into 3 subproblems. Moreover, we proposed an efficient algorithm for each of the subproblems with polynomial time complexity to solve the NP-hard problem.
 
 %\subsection{Problem Formulation}
@@ -221,17 +241,17 @@ For the first two subproblems, we consider a BS-only system. We fix $i = 0$ sinc
 
 \begin{subequations}
 \begin{align}
-& \mathop {\min }\limits_{{\mathbf{{\rm H}}}_{\mathbf{0}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {{P_{0,j,t}}\Delta t} \,} } \right\} \\
-& {s.t.} \;\; \sum\limits_j  {\left( {{\eta _{0,j,t}} > 0} \right)}   \le N \\
-& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
-& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {{r_{0,j,\tau }}\Delta t} ,\; {C_{j,t}} \ge 0
+& \mathop {\min }\limits_{{\mathbf{{\rm H}}}_{\mathbf{0}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {{P_{0,j,t}}\Delta \tau } \,} } \right\} ,\\
+& {s.t.} \;\; \sum\limits_j  {\left( {{\eta _{0,j,t}} > 0} \right)}   \le N, \\
+& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS}, \\
+& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {{r_{0,j,\tau }}\Delta \tau } ,\; {C_{j,t}} \ge 0.
 \end{align}
 \end{subequations}
 ${{\mathbf{{\rm H}}}_{\mathbf{0}}}{\text{ = }}{\left\{ {{\eta _{0,j,t}}} \right\}^{J \times T}}$ since in the first two BS-only sub problems, there is only one transmitter. 
 %since the optimization is currently in a $J \times T$ 2-dimensional subspace (the transmitter dimension degenerates since there is only one transmitter, namely BS) 
 Constraint in (5b) is not necessary here since users can only receive data from BS.
 
-In the first subproblem, we optimize ${{\mathbf{{\rm H}}}_{\mathbf{0}}}$ with constraint (6c) and (6d), ignoring the subcarrier constraint in (6b). This means we assume that the BS can serve infinite number of users, and we ignore the subcarrier constraint. In this case, the optimization variables of different users in no longer correlated, and the optimal solution of this problem can be obtained by scheduling each user separately. The problem can be reduced to $\mathop {\min }\limits_{{{\mathbf{{\rm H}}}_{\mathbf{0}}} \in {{\left[ {0,1} \right]}^T}} \left\{ {\sum\limits_{t = 1}^T {{P_{0,j,t}}\Delta t} } \right\}$. Note that ${r_{0,j,t}}$ is a monotone increasing function of ${\beta _{0,j,t}}$, therefore we can obtain the optimal solution for each user by assigning time slots with best CSI. 
+In the first subproblem, we optimize ${{\mathbf{{\rm H}}}_{\mathbf{0}}}$ with constraint (6c) and (6d), ignoring the subcarrier constraint in (6b). This means we assume that the BS can serve infinite number of users, and we ignore the subcarrier constraint. In this case, the optimization variables of different users in no longer correlated, and the optimal solution of this problem can be obtained by scheduling each user separately. The problem can be reduced to $\mathop {\min }\limits_{{{\mathbf{{\rm H}}}_{\mathbf{0}}} \in {{\left[ {0,1} \right]}^T}} \left\{ {\sum\limits_{t = 1}^T {{P_{0,j,t}}\Delta \tau } } \right\}$. Note that ${r_{0,j,t}}$ is a monotone increasing function of ${\beta _{0,j,t}}$, therefore we can obtain the optimal solution for each user by assigning time slots with best CSI. 
 
 We further define ${{\mathbf{S}}_{\mathbf{1}}}$ as the set of chosen BS-only link at a specific time slot in \textbf{Subproblem 1: BT}, i.e., $\left( {0,j,t} \right) \in {\mathbf{S}}_{\mathbf{1}}$ if ${\eta _{i,j,t}} \in \left( {0,1} \right]$. We propose Algorithm 1 to solve the first subproblem.
 For each user, we find link $0 \to j@t$ with best ${\beta _{0,j,t}}$ and set the ratio of the used transmission power ${\eta _{0,j,t} = 1}$ until the QoS constraint is met.
@@ -261,13 +281,13 @@ As ${{\mathbf{S}}_{\mathbf{1}}}$ is the optimal solution for (6c) and (6d), the 
 
 \begin{subequations}
 \begin{align}
-& \mathop {\min }\limits_{{{\mathbf{{\rm H}}}_{\mathbf{0}}} \in {{\left[ {0,1} \right]}^{J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}}  - \mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{1}}}} } \right)} \Delta t} } \right\} \\
-& {s.t.} \;\; \sum\limits_j  {\left( {{\eta _{0,j,t}} > 0} \right)}  \le N \\
-& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
-& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {{r_{0,j,\tau }}\Delta t} ,\; {C_{j,t}} \ge 0
+& \mathop {\min }\limits_{{{\mathbf{{\rm H}}}_{\mathbf{0}}} \in {{\left[ {0,1} \right]}^{J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}}  - \mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{1}}}} } \right)} \Delta \tau } } \right\}, \\
+& {s.t.} \;\; \sum\limits_j  {\left( {{\eta _{0,j,t}} > 0} \right)}  \le N, \\
+& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS}, \\
+& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {{r_{0,j,\tau }}\Delta \tau } ,\; {C_{j,t}} \ge 0.
 \end{align}
 \end{subequations}
-note that solving this subproblem is a process of adjusting the user scheduling result in ${{\mathbf{S}}_{\mathbf{1}}}$.
+Note that solving this subproblem is a process of adjusting the user scheduling result in ${{\mathbf{S}}_{\mathbf{1}}}$.
 
 If the constraint (7b) isn't met in time slot ${t}$, we have to use alternative links like $0 \to j@t'$ for replacement. These replacements will satisfy the N-subcarrier constraint at the cost of more energy consumption. 
 % Since ${r_{0,j,t}}$ is a monotone increasing function of ${P_{0,j,t}}$, we have to find substitutions with least system capacity impact, and therefore minimize the energy consumption gap.
@@ -304,14 +324,14 @@ Given that ${{\mathbf{S}}_{\mathbf{2}}}$ is only based on constraint (6a)-(6d), 
 
 \begin{subequations}
 \begin{align}
-& \mathop {\max }\limits_{{\mathbf{{\rm H}}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}}  - \sum\limits_{i = 0}^J {\mathop {{P_{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\mathbf{S}}_{\mathbf{3}}}} } } \right)\Delta t} } } \right\} \\
-& {s.t.} \;\; \sum\limits_{i \ne j} {\left( {{\eta _{i,j,t}} > 0} \right)}  + \sum\limits_{j' \ne j} {\left( {{\eta _{j,j',t}} > 0} \right) \le {\text{1}}} \\
-& \;\;\;\;\;\; \sum\limits_j {\sum\limits_i {\left( {{\eta _{i,j,t}} > 0} \right)} }  \le N \\
-& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} \\
-& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {\left( {\sum\limits_i {{r_{i,j,\tau }}}  - \sum\limits_{j'} {{r_{j,j',\tau }}} } \right)\Delta t} ,\; {C_{j,t}} \ge 0
+& \mathop {\max }\limits_{{\mathbf{{\rm H}}} \in {{\left[ {0,1} \right]}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\left( {\mathop {{P_{0,j,t}}}\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}}  - \sum\limits_{i = 0}^J {\mathop {{P_{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\mathbf{S}}_{\mathbf{3}}}} } } \right)\Delta \tau } } } \right\}, \\
+& {s.t.} \;\; \sum\limits_{i \ne j} {\left( {{\eta _{i,j,t}} > 0} \right)}  + \sum\limits_{j' \ne j} {\left( {{\eta _{j,j',t}} > 0} \right) \le {1}}, \\
+& \;\;\;\;\;\; \sum\limits_j {\sum\limits_i {\left( {{\eta _{i,j,t}} > 0} \right)} }  \le N, \\
+& \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS}, \\
+& \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {\left( {\sum\limits_i {{r_{i,j,\tau }}}  - \sum\limits_{j'} {{r_{j,j',\tau }}} } \right)\Delta \tau } ,\; {C_{j,t}} \ge 0,
 \end{align}
 \end{subequations}
-here ${\mathbf{{\rm H}}}{\text{ = }}{\left\{ {{\eta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}$ since 
+where ${\mathbf{{\rm H}}}{\text{ = }}{\left\{ {{\eta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}$ since 
 %since the optimization is now in a $\left( {J + 1} \right) \times J \times T$ subspace: 
 there are $\left( {J + 1} \right)$ transmitters (BS/relays), $J$ receivers (users) and $T$ time slots. For simplicity, by $0 \to j@{t_0}$ we denote the BS-only link in ${{\mathbf{S}}_{\mathbf{2}}}$ that is to be replaced by a BS-\&-IoV link $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in subproblem 3. Whereas the BS-\&-IoV substitution link $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in this paper consist of exact a BS part $0 \to i'@{t_1}$ and an IoV relay transmission part $i' \to j@{t_2}$. Two parts (one BS and one IoV) in the substitution link must use less energy combined than the original BS one.
 
@@ -319,7 +339,7 @@ there are $\left( {J + 1} \right)$ transmitters (BS/relays), $J$ receivers (user
 We propose another iterative method as shown in Algorithm 3. 
 
 
-For each user $j$, we first record all plausible BS-\&-IoV links like $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in a temporary set $\mathbf{R}$. Here `plausible' means that the single antenna constraint in (8b) and the N-subcarrier constraint in (8c) are satisfied and both parts of the links are at speed greater than the that of the original links. Further exploration will be conducted in the plausible BS-\&-IoV link set $\mathbf{R}$.
+For each user $j$, we first record all plausible BS-\&-IoV links like $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ in a temporary set $\mathbf{R}$. Here `plausible' means that the constraint in (8b) and the N-subcarrier constraint in (8c) are satisfied and both parts of the links are at speed greater than the that of the original links. Further exploration will be conducted in the plausible BS-\&-IoV link set $\mathbf{R}$.
 
 Once we have the plausible set $\mathbf{R}$, we check the BS part and the IoV part in each BS-\&-IoV link to see if they are capable of substitution, i.e., whether there are enough power unused in those link to complete the transmission in the original BS-only link $0 \to j @{t_0}$. Of all the BS-\&-IoV links that pass the test, we find the combination of link $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ and original link $0 \to j @{t_0}$ that save most power, remove $0 \to j @{t_0}$ from ${{\mathbf{S}}_{\mathbf{3}}}$ and move $\left[ {{\rm{0}} \to i'@{t_1},i' \to j@{t_2}} \right]$ from $\mathbf{R}$ to ${{\mathbf{S}}_{\mathbf{3}}}$. Continue those steps until the plausible link set $\mathbf{R}$ become empty or there are no power gain from substitution.
 
@@ -360,26 +380,26 @@ Here in Algorithm 3 ${P_{0,i',{t_1}}^{temp}}$ and ${P_{i',j,{t_2}}^{temp}}$ repr
 ``${i'}$ \& $j$ \& SYSTEM are FREE at ${t_2}$'' means that
 \begin{subnumcases}
 {}%\begin{align}
-\sum\limits_{{i^*} \ne j} {\left( {{\eta _{{i^*},j,{t_2}}} > 0} \right)}  + \sum\limits_{{j^*} \ne j} {\left( {{\eta _{j,{j^*},{t_2}}} > 0} \right)}  \le 1\\
-\sum\limits_{{i^*} \ne i'} {\left( {{\eta _{{i^*},i',{t_2}}} > 0} \right)}  + \sum\limits_{{j^*} \ne i'} {\left( {{\eta _{i',{j^*},{t_2}}} > 0} \right)}  \le 1 \\
-\sum\limits_{{j^*}} {\sum\limits_{{i^*}} {\left( {{\eta _{{i^*},{j^*},{t_2}}}} \right)} }  \le N
+\sum\limits_{{i^*} \ne j} {\left( {{\eta _{{i^*},j,{t_2}}} > 0} \right)}  + \sum\limits_{{j^*} \ne j} {\left( {{\eta _{j,{j^*},{t_2}}} > 0} \right)}  \le 1,\\
+\sum\limits_{{i^*} \ne i'} {\left( {{\eta _{{i^*},i',{t_2}}} > 0} \right)}  + \sum\limits_{{j^*} \ne i'} {\left( {{\eta _{i',{j^*},{t_2}}} > 0} \right)}  \le 1 ,\\
+\sum\limits_{{j^*}} {\sum\limits_{{i^*}} {\left( {{\eta _{{i^*},{j^*},{t_2}}}} \right)} }  \le N.
 %\end{align}
 \end{subnumcases}
-and ``${i'}$ \& SYSTEM are FREE at ${t_1}$'' means that
+And ``${i'}$ \& SYSTEM are FREE at ${t_1}$'' means that
 \begin{subnumcases}
 {}%\begin{align}
-{\sum\limits_{{i^*} \ne i'} {\left( {{\eta _{{i^*},i',{t_1}}} > 0} \right)}  + \sum\limits_{{j^*} \ne i'} {\left( {{\eta _{i',{j^*},{t_1}}} > 0} \right) \le 1}}\\
-{\sum\limits_{{j^*}} {\left( {\sum\limits_{{i^*}} {\left( {{\eta _{{i^*},{j^*},{t_1}}} > 0} \right)} } \right)}  \le N}
+{\sum\limits_{{i^*} \ne i'} {\left( {{\eta _{{i^*},i',{t_1}}} > 0} \right)}  + \sum\limits_{{j^*} \ne i'} {\left( {{\eta _{i',{j^*},{t_1}}} > 0} \right) \le 1}},\\
+{\sum\limits_{{j^*}} {\left( {\sum\limits_{{i^*}} {\left( {{\eta _{{i^*},{j^*},{t_1}}} > 0} \right)} } \right)}  \le N}.
 %\end{align}
 \end{subnumcases}
-therefore the system constraints in (8b) and (8c) are met. ``${C_{i',{t_2}}}$ is ENOUGH'' means that 
+And the system constraints in (8b) and (8c) are met. ``${C_{i',{t_2}}}$ is ENOUGH'' means that 
 \begin{subnumcases}
-%{}\begin{align}
-{C_{j',{t_2} - 1}} \ge r_0^{\min }\Delta t,\;\;{\rm{if}}{t_1} > {t_2}\\
-{C_{j',{t_2} - 1}} + r_{0,j',{t_1}}^{\max }\Delta t \ge r_0^{\min }\Delta t,\;\;{\rm{else}}
+{}%\begin{align}
+{C_{j',{t_2} - 1}} \ge r_0^{\min }\Delta \tau ,{\textit{if}}\;{t_1} > {t_2},\\
+{C_{j',{t_2} - 1}} + r_{0,j',{t_1}}^{\max }\Delta \tau  \ge r_0^{\min }\Delta \tau ,{\textit{else}}.
 %\end{align}
 \end{subnumcases}
-therefore the system constraint in (8e) is met. 
+Therefore the system constraint in (8e) is met. 
 
 
 
@@ -394,9 +414,9 @@ For the reference BS-only method, in each time slot, we find and choose $N$ ship
 We compare the large-scale CSI replacement in (2d) with the complete channel in the following simulations. Moreover, we take one step further by taking the expectation operator out from the original channel in (2a) and replace ${h_{i,j,t}} \sim \mathcal{CN}(0, \mathbf{I})$ with ${\left| {{h_0}} \right|^2} = 1$. Based on a low SNR assumption, we get 
 
 \begin{align}
-{r_{i,j,t}} \approx {B_s}{\log _2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2}}}} \right)
+{r_{i,j,t}} \approx {B_s}{\log _2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2}}}} \right).
 \end{align}
-we further discuss the performance of this estimation and the large-scale CSI replacement in (2d) in this section.
+We further discuss the performance of this estimation and the large-scale CSI replacement in (2d) in this section.
 
 As for the simulation parameters, the BS is located in the central position at the plane, while the ships traverse along two intersecting shipping lanes.
 % since we focus on passenger ships scenarios in this study. Moreover, passenger ship assumption suits our study since their shipping lanes are fixed and their positional information can be easily determined. 
@@ -422,7 +442,7 @@ As we can see, our proposed IoV method outmatches the BS-only method and the ref
 When we can acquire all CSI, i.e. ${T_{acq}}$ approximate the total service time duration, we have maximum benefit from the long-term CSI. The IoV method consummates 40\% less energy than the BS-only method, 50\% less than the reference method, since the introduction of IoV transmission brings forward more transmitters (relays) to choose from. As the ratio of ${T_{acq}}$ to total service time decreases, %, the size of the time dimension drops. This result in the increase in 
 energy consumption increases, mainly because we aim to satisfy as much as possible in fewer time slots. When we can only acquire present CSI, i.e. ${T_{acq}} = 1$, our proposed method retrogresses to the reference method since we no longer any long-term CSI and the proposed methods become greedy with no `future information' about the CSI. Since the BS-\&-IoV link are even more difficult to find in such short time period, the energy consumption gap between BS-only and IoV underlaid shrinks.  
 
-As shown in Figure 2 - Figure 4, the difference between ${h_0}$ constant approximation and the actual channel is around 10\% under simulation settings. On the other hand, the gap between the large-scale CSI replacement we proposed in (2d) and the complete channel is only a mere 3\% worst case, where the error comes from assuming $\beta _{i,j,\tau }$ remains constant in each time slot $t$ and taking out the expectation operator in (2c). This as well as other simulations show that the large-scale CSI replacement in (2d) is quite explicit and acceptable. If we are less strict with the approximation, the ${h_0}$ constant estimation may be acceptable since the estimation in (12) shares similarity in trend and shape with the actual channel. 
+As shown in Figure 2 - Figure 4, the difference between ${h_0}$ constant approximation and the actual channel is around 10\% under simulation settings. On the other hand, the gap between the large-scale CSI replacement we proposed in (2d) and the complete channel is only a mere 3\% worst case, where the error comes from assuming that ship $j$ stays in the same position and $\beta _{i,j,\tau }$ remains constant in each time slot $t$ and taking out the expectation operator in (2c). This as well as other simulations show that the large-scale CSI replacement in (2d) is quite explicit and acceptable. If we are less strict with the approximation, the ${h_0}$ constant estimation may be acceptable since the estimation in (12) shares similarity in trend and shape with the actual channel. 
 
 
 \begin{figure} [htb]
@@ -479,6 +499,34 @@ By utilizing each users' positional information acquired from their specific shi
 Proceeding to the 3rd subproblem (IoV-aided $N$-subcarrier BS transmission), we further benefit from more transmitters (relays) with IoV-aided transmission and achieved an improvement up to 81\% in certain cases.% from optimization subspace with higher dimension. 
 The iterative algorithms we proposed can solve the three subproblems with polynomial time complexity. Simulation results justify our large-scale CSI replacement and show that the schemes significantly enhances the system performance in terms of energy consumption.
 
+\appendices
+
+\section{Proof of Theorem 1}
+For simplicity, we transform the variables in (5) into functions of $r_{i,j,t}$.
+Express (2d) as ${r_{i,j,t}} = f\left( P \right)$ and we have 
+\begin{subequations}
+  \begin{align}
+  & {P_{i,j,t}} = g\left( {{r_{i,j,t}}} \right) = {f^{ - 1}}\left( {{r_{i,j,t}}} \right), \\
+  & {\eta _{i,j,t}} = \frac{{{P_{i,j,t}}}}{{P_i^{\max }}} = \frac{{g\left( {{r_{i,j,t}}} \right)}}{{P_i^{\max }}}.
+  \end{align}
+\end{subequations}
+Thus, the original problem in (5) is equivalent to 
+\begin{subequations}
+  \begin{align}
+  & \mathop {\min }\limits_{{{\left\{ {{r_{i,j,t}}} \right\}}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{t = 1}^T {\sum\limits_{j = 1}^J {\sum\limits_{i = 0}^J {g\left( {{r_{i,j,t}}} \right) \Delta \tau } } } } \right\}, \\
+  & {s.t.} \;\; \sum\limits_{i \ne j} {\left( {\frac{{g\left( {{r_{i,j,t}}} \right)}}{{P_i^{\max }}} > 0} \right)}  + \sum\limits_{j' \ne j} {\left( {\frac{{g\left( {{r_{j,j',t}}} \right)}}{{P_j^{\max }}} > 0} \right) \le {1}}, \\
+  & \;\;\;\;\;\; \sum\limits_j {\sum\limits_i {\left( {\frac{{g\left( {{r_{i,j,t}}} \right)}}{{P_i^{\max }}} > 0} \right)} }  \le N, \\
+  & \;\;\;\;\;\; {\left. {{{\left. {{C_{j,t}}} \right|}_{t = 0}} = 0, {C_{j,t}}} \right|_{t = T}} \ge C_j^{QoS} ,\\
+  & \;\;\;\;\;\; {C_{j,t}} = \sum\limits_{\tau  = 1}^t {\left( {\sum\limits_i {{r_{i,j,\tau }}}  - \sum\limits_{j'} {{r_{j,j',\tau }}} } \right)\Delta \tau } ,\; {C_{j,t}} \ge 0,
+  \end{align}
+\end{subequations}
+where the objective function (14a) and optimization constraints (14b) and (14c) are all nonlinear functions of $r_{i,j,t}$.
+
+The problem in (14) is a Nonlinear Integer Programming problem, which has been proved to be NP-hard \cite{p406}. 
+%Nonlinear Integer Programming ∗
+Therefore, the equivalent problem (5) is NP-hard.
+
+
 
 
 \begin{thebibliography}{10}
@@ -511,7 +559,7 @@ The iterative algorithms we proposed can solve the three subproblems with polyno
   \emph{IEEE Journal on Selected Areas in Communications (JSAC)}, vol. 34, no. 4, pp.~697-709, 2016.
   
   \bibitem{p3331}
-  K. Doppler, M. Rinne, C. Wijting, C. Ribeiro, and K. Hugl, ``Deviceto-device communication as an underlay to LTE-Advanced networks,''
+  K. Doppler, M. Rinne, C. Wijting, C. Ribeiro, and K. Hugl, ``Device-to-device communication as an underlay to LTE-Advanced networks,''
     \emph{IEEE Communications Magazine}, vol. 47, no. 12, pp.~42-49, 2009.
    
   \bibitem{p3332}
@@ -620,7 +668,7 @@ The iterative algorithms we proposed can solve the three subproblems with polyno
 
   \bibitem{p803}
   G. Fodor and N. Reider, ``A Distributed Power Control Scheme for Cellular Network Assisted D2D Communications,'' in
-  \emph{Proc. IEEE Global Ccommun. Conf.}, Dec. 2011, pp.~1-6.
+  \emph{Proc. IEEE Global Commun. Conf.}, Dec. 2011, pp.~1-6.
 
 \bibitem{p804}
   M. Jung, K. Hwang, and S. Choi, ``Joint Mode Selection and Power Allocation Scheme for Power-Efficient Device-to-Device (D2D) Communication,'' in
