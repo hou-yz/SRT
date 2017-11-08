@@ -22,6 +22,8 @@ else
     r(isnan(r))=0;r(r==inf)=0;
 end
 
+r_max=[r(1,:,:,101);r(2:J_range+1,:,:,11)];
+
 S=[];%[i,j,t]->[0,j,t,0,0,0]
 %以下为算法第一部分
 % eta = 传输时间 / 时隙长度
@@ -144,6 +146,7 @@ r0_index=find(eta(0+1,:,:)>0);
 [~,jj,tt]=ind2sub(size(eta(0+1,:,:)),r0_index);
 for j=(1:J_range)%for all user j
     R=[];
+    subs_found=0;
     r0_j=r(0+1,j,tt(jj==j),101);
     if isempty(r0_j)
         continue
@@ -171,21 +174,113 @@ for j=(1:J_range)%for all user j
         end
         
     end
+    delta_R=zeros(size(R,1),1);
+    for index=(1:size(R,1))
+        delta_R(index,:)=10/r_max(R(index,1)+1,R(index,2),R(index,3))+1/r_max(R(index,4)+1,R(index,5),R(index,6));
+    end
+    [~,index_Rs]=sort(delta_R);
+    t0s=find(eta(0+1,j,:)>0);
+    r0s=reshape((r_max(0+1,j,t0s)),[length(t0s),1]);
+    [~,index_0s]=sort(r0s);
+    i_R_pointer=1;i_S_pointer=1;
+    C_r_1=0;C_r_2=0;
+    while i_R_pointer<=size(R,1) && i_S_pointer<=length(r0s)
+        index_R=index_Rs(i_R_pointer);
+        j_prime=R(index_R,2);t1=R(index_R,3);t2=R(index_R,6);
+        r1=r(0+1,j_prime,t1,101);r2=r(j_prime+1,j,t2,11);
+        index_0=index_0s(i_S_pointer);
+        t0=t0s(index_0);
+        r0=r0s(index_0);
+        eta0=eta(0+1,j,t0);
+        if C_r_1 + C_r_2 == 0
+            eta1=r0*eta(0+1,j,t0)/r1;
+            eta2=r0*eta(0+1,j,t0)/r2;
+        else
+            eta1=C_r_1/r1/delta_t;
+            eta2=C_r_2/r2/delta_t;
+        end
+        if sum(eta(:,j_prime,t1)>0)-(eta(0+1,j_prime,t1)>0)+sum(eta(j_prime+1,:,t1)>0)==0 && sum(eta(:,j_prime,t2)>0)+sum(eta(j_prime+1,:,t2)>0)-(eta(j_prime+1,j,t2)>0)==0 && sum(eta(j+1,:,t2)>0)+sum(eta(:,j,t2)>0)-(eta(j_prime+1,j,t2)>0)==0 && sum(sum(eta(:,:,t2)>0))-(eta(j_prime+1,j,t2)>0)<N && sum(sum(eta(:,:,t1)>0))-(eta(0+1,j_prime,t1)>0)<N
+            %eta(0+1,j_prime,t1)+eta1<1 && eta(j_prime+1,j,t2)+eta2<1 && 
+            i_R_p_last=0;i_S_p_last=0;
+        else
+            if ~i_R_p_last && ~i_S_p_last
+                %初次出现问题，记录
+                i_R_p_last=i_R_pointer;i_S_p_last=i_S_pointer;
+            else
+                %已经出现过问题，循环遍历直到找到可行解
+                i_R_pointer=i_R_pointer+1;
+                if i_R_pointer==size(R,1) 
+                    i_S_pointer=i_S_pointer+1;
+                    i_R_pointer=i_R_p_last;
+                end
+            end
+            continue
+        end
+        if eta0*10-eta1*10-eta2>0
+            if C_r_1 + C_r_2 == 0
+                %去除edge0边.
+                eta(0+1,j,t0)=0;
+                [~,S_index]=ismember([0,j,t0,0,0,0],S,'rows');
+                if S_index~=0
+                    S(S_index,:)=[];
+                    if ~i_S_p_last
+                        i_S_pointer=i_S_pointer+1;
+                    else 
+                        i_S_pointer=i_S_p_last+1;
+                    end
+                else
+                    break
+                end
+                C_tmp(j,t0:T_range+1)=C_tmp(j,t0:T_range+1)-r0*delta_t;
+                %fprintf('去掉一条边：[0 %d %d]\n',j,t0)
+            end
+            %可以满足的eta1 eta2
+            eta1_s=min((1-eta(0+1,j_prime,t1)),eta1);eta2_s=min((1-eta(j_prime+1,j,t2)),eta2);
+            %尚未满足的eta1 eta2
+            C_r_1=(eta1-eta1_s)*r1*delta_t;C_r_2=(eta2-eta2_s)*r2*delta_t;
+            
+            %加入edge2边
+            eta(j_prime+1,j,t2)=eta(j_prime+1,j,t2)+eta2_s;
+            C_tmp(j,t2:T_range+1)=C_tmp(j,t2:T_range+1)+r2*eta2_s*delta_t;
+            C_tmp(j_prime,t2:T_range+1)=C_tmp(j_prime,t2:T_range+1)-r2*eta2_s*delta_t;%*(1-gamma(j_prime,j))
+            %加入edge1边
+            eta(0+1,j_prime,t1)=eta(0+1,j_prime,t1)+eta1_s;
+            S=[S;[0,j_prime,t1,j_prime,j,t2]];
+            C_tmp(j_prime,t1:T_range+1)=C_tmp(j_prime,t1:T_range+1)+r1*eta1_s*delta_t;%*(1-gamma(j_prime,j))
+            %fprintf('增加两条边：[0 %d %d] [%d %d %d]\n',j_prime,t1,j_prime,j,t2)
+                
+            if C_r_1 + C_r_2
+                if ~i_R_p_last
+                    i_R_pointer=i_R_pointer+1;
+                else 
+                    i_R_pointer=i_R_p_last+1;
+                end
+            end
+            
+            
+        else
+            break
+        end
+    
+    end
+    
+    %{
+    if i_R_pointer<size(R,1) && i_S_pointer<length(r0s)
     while ~isempty(R)
-        t0s=find(eta(0+1,j,:));% 更新可选r0对应数据
-        delta_E=zeros(length(t0s)*size(R,1),3);edges=zeros(length(t0s)*size(R,1),9);
-        for i_0=(1:length(t0s))
-            t0=t0s(i_0);
+        delta_E=zeros((length(t0s)-i_S_pointer)*(size(R,1)-i_R_pointer),3);edges=zeros((length(t0s)-i_S_pointer)*(size(R,1)-i_R_pointer),9);
+        for i_0=(i_S_pointer:length(t0s))
+            index_0=index_0s(i_0);
+            t0=t0s(index_0);
+            r0=r_max(0+1,j,t0);
             edge0=[0,j,t0];
 %             r0=r(0+1,j,t0,round(eta(0+1,j,t0)*100+1));
 %             P0=P_i_max*eta(0+1,j,t0);
-            r0=r(0+1,j,t0,101);
             P0=P_i_max*eta(0+1,j,t0);
 
-            for i_12=(1:size(R,1))
-                edge1=R(i_12,1:3);edge2=R(i_12,4:6);
-                j_prime=edge1(2);
-                t1=edge1(3);t2=edge2(3);
+            for i_12=(i_R_pointer:size(R,1))
+                index_R=index_Rs(i_12);
+                j_prime=R(index_R,2);t1=R(index_R,3);t2=R(index_R,6);
+                r1=r(0+1,j_prime,t1,101);r2=r(j_prime+1,j,t2,11);
 %                 [~,P1_index]=min(abs(r(0+1,j_prime,t1,:)-r0));
 %                 P1=P_s(P1_index);
 %                 eta1=P1/P_i_max;
@@ -196,7 +291,7 @@ for j=(1:J_range)%for all user j
                 eta2=r0*eta(0+1,j,t0)/r(j_prime+1,j,t2,11);
                 P1=P_i_max*eta1;P2=P_j_max*eta2;
                 ii=(i_0-1)*size(R,1)+i_12;
-                if eta(0+1,j_prime,t1)+eta1<1 && eta(j_prime+1,j,t2)+eta2<1 && sum(eta(:,j_prime,t1)>0)-2*(eta(0+1,j_prime,t1)>0)+sum(eta(j_prime+1,:,t1)>0)==0 && sum(eta(:,j_prime,t2)>0)+sum(eta(j_prime+1,:,t2)>0)-2*(eta(j_prime+1,j,t2)>0)==0 && sum(eta(j+1,:,t2)>0)+sum(eta(:,j,t2)>0)-2*(eta(j_prime+1,j,t2)>0)==0 && sum(sum(eta(:,:,t2)>0))-(eta(j_prime+1,j,t2)>0)<N && sum(sum(eta(:,:,t1)>0))-(eta(0+1,j_prime,t1)>0)<N
+                if eta(0+1,j_prime,t1)+eta1<1 && eta(j_prime+1,j,t2)+eta2<1 && sum(eta(:,j_prime,t1)>0)-(eta(0+1,j_prime,t1)>0)+sum(eta(j_prime+1,:,t1)>0)==0 && sum(eta(:,j_prime,t2)>0)+sum(eta(j_prime+1,:,t2)>0)-(eta(j_prime+1,j,t2)>0)==0 && sum(eta(j+1,:,t2)>0)+sum(eta(:,j,t2)>0)-(eta(j_prime+1,j,t2)>0)==0 && sum(sum(eta(:,:,t2)>0))-(eta(j_prime+1,j,t2)>0)<N && sum(sum(eta(:,:,t1)>0))-(eta(0+1,j_prime,t1)>0)<N
                     delta_E(ii,:)=[eta1,eta2,(P0-(P1+P2))*delta_t];
                 else
                     delta_E(ii,:)=[eta1,eta2,-inf];
@@ -235,20 +330,22 @@ for j=(1:J_range)%for all user j
             
             %从R中去除
             %[~,R_index]=ismember([0,j_prime,t1,j_prime,j,t2],R,'rows');
-            tmp_max=size(R,1);tmp=1;
-            while tmp<tmp_max
-                if R(tmp,6)==t2 || ( R(tmp,2)==j_prime && R(tmp,3)==t1 )
-                    R(tmp,:)=[];
-                    tmp=tmp-1;
-                    tmp_max=tmp_max-1;
-                end
-                tmp=tmp+1;
-            end
+%             tmp_max=size(R,1);tmp=1;
+%             while tmp<tmp_max
+%                 if R(tmp,6)==t2 || ( R(tmp,2)==j_prime && R(tmp,3)==t1 )
+%                     R(tmp,:)=[];
+%                     tmp=tmp-1;
+%                     tmp_max=tmp_max-1;
+%                 end
+%                 tmp=tmp+1;
+%             end
         else
             break
         end
     
     end
+    end
+    %}
 end
 E_stage_3=sum(sum(sum(P.*eta*delta_t)));
 %fprintf('第三部分结束，系统总能耗：%d\n',E_stage_3)
