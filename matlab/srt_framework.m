@@ -1,6 +1,6 @@
 %%
-clear
 clc
+clear
 interval=15*60;
 ratio=[0,1/2,1/2];
 sigma2=10^-10.7;
@@ -42,35 +42,35 @@ end
 
 
 %% C_qos 
-% multis=linspace(0.2,3,20);
-% srt_E0=zeros(2,length(multis));ref_E0=zeros(1,length(multis));
-% srt_Es=zeros(2,length(multis));ref_Es=zeros(1,length(multis));
-% 
-% srt_unsatisfied=zeros(1,length(multis));ref_unsatisfied=zeros(1,length(multis));
-% for i=(1:length(multis))
-%     multi=multis(i);
-%     C_qos_new=C_qos*multi;
-%     fprintf('multi=%2.2f\n',multi)
-%     [S0,srt_E0(2,i),~]=srt_algorithm_v2(beta0,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,1,bt0,et0);
-%     [ref_E0(1,i),~]=ref_algorithm(beta0,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,1,bt0,et0);
-% 
-%     [Ss,srt_Es(2,i),C_unsatisfied]=srt_algorithm_v2(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos_new,N,delta_t/t_step,BW,sigma2,h0,btS,etS);
-%     srt_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
-%     [ref_Es(1,i),C_unsatisfied]=ref_algorithm(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos_new,N,delta_t/t_step,BW,sigma2,h0,btS,etS);
-%     ref_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
-% end
-% srt_E0_means=[srt_E0(1,:)./J_range./(multis);srt_E0(2,:)./J_range./(multis)];
-% ref_E0_means=ref_E0./J_range./(multis);
-% srt_Es_means=[srt_Es(1,:)./J_range./(multis);srt_Es(2,:)./J_range./(multis)];
-% ref_Es_means=ref_Es./J_range./(multis);
-% % save('.\experiments\C_qos_0.01_50.mat','multis','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means','srt_unsatisfied','ref_unsatisfied')
-% plot(multis(~srt_unsatisfied),srt_E0_means(2,~srt_unsatisfied)/1000,'r-*')
-% hold on
-% plot(multis(~srt_unsatisfied),srt_Es_means(2,~srt_unsatisfied)/1000,'b-',multis(~ref_unsatisfied),ref_Es_means(~ref_unsatisfied)/1000,'g-');
-% hold off
-% xlabel('C_Q_o_S(Gbit)')
-% ylabel('Energy Consumption per User per Gbit (kJ)')
-% legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore','without CSI, round-robin')
+multis=linspace(0.01,3,20);
+srt_E0=zeros(2,length(multis));ref_E0=zeros(1,length(multis));
+srt_Es=zeros(2,length(multis));ref_Es=zeros(1,length(multis));
+
+srt_unsatisfied=zeros(1,length(multis));ref_unsatisfied=zeros(1,length(multis));
+for i=(1:length(multis))
+    multi=multis(i);
+    C_qos_new=C_qos*multi;
+    fprintf('multi=%2.2f\n',multi)
+    [S0,srt_E0(2,i),~]=srt_algorithm_v2(beta0,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,1,bt0,et0);
+    [ref_E0(1,i),~]=ref_algorithm(beta0,J_range,T_range,P_i_max,P_j_max,C_qos_new,N,delta_t,BW,sigma2,1,bt0,et0);
+
+    [Ss,srt_Es(2,i),C_unsatisfied]=srt_algorithm_v2(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos_new,N,delta_t/t_step,BW,sigma2,h0,btS,etS);
+    srt_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
+    [ref_Es(1,i),C_unsatisfied]=ref_algorithm(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos_new,N,delta_t/t_step,BW,sigma2,h0,btS,etS);
+    ref_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
+end
+srt_E0_means=[srt_E0(1,:)./J_range./(multis);srt_E0(2,:)./J_range./(multis)];
+ref_E0_means=ref_E0./J_range./(multis);
+srt_Es_means=[srt_Es(1,:)./J_range./(multis);srt_Es(2,:)./J_range./(multis)];
+ref_Es_means=ref_Es./J_range./(multis);
+% save('.\experiments\C_qos_0.01_50.mat','multis','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means','srt_unsatisfied','ref_unsatisfied')
+plot(multis(~srt_unsatisfied),srt_E0_means(2,~srt_unsatisfied)/1000,'r-')
+hold on
+plot(multis(~srt_unsatisfied),srt_Es_means(2,~srt_unsatisfied)/1000,'b-',multis(~ref_unsatisfied),ref_Es_means(~ref_unsatisfied)/1000,'g-');
+hold off
+xlabel('V^Q^o^S(Gbit)')
+ylabel('Energy Consumption per User per Gbit (kJ)')
+legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore','without CSI, round-robin')
 
 %% T_range
 % T_ranges=[1,(12:12:T_range)];
@@ -78,7 +78,7 @@ end
 % srt_unsatisfied=zeros(1,length(T_ranges));ref_unsatisfied=zeros(1,length(T_ranges));
 % [ref_E0,~]=ref_algorithm(beta0,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,1,bt0,et0);
 % [ref_Es,C_unsatisfied]=ref_algorithm(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos,N,delta_t/t_step,BW,sigma2,h0,btS,etS);
-% for j=(1:4)
+% for j=(1:10)
 %     
 %     for i=(1:length(T_ranges))
 %         T_range_partial=T_ranges(i);
@@ -130,7 +130,7 @@ end
 % srt_Es_means=[srt_Es(1,:)./J_range/j;srt_Es(2,:)./J_range/j];
 % ref_Es_means=ref_Es*ones(1,length(T_ranges))./J_range;
 % % save('.\experiments\T_ranges_1_360','T_ranges','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means')
-% plot(T_ranges/120,srt_E0_means(2,:)/1000,'r-*',T_ranges/120,srt_Es_means(2,:)/1000,'b-',T_ranges/120,ref_Es_means/1000,'g-');
+% plot(T_ranges/120,srt_E0_means(2,:)/1000,'r-',T_ranges/120,srt_Es_means(2,:)/1000,'b-',T_ranges/120,ref_Es_means/1000,'g-');
 % xlabel('Ratio of T_a_c_q to Total Service Duration')
 % ylabel('Energy Consumption per User (kJ)')
 % legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore','without CSI, round-robin')
@@ -162,58 +162,58 @@ end
 % end
 % 
 % % save('.\experiments\SNRs','P_i_s','srt_Es','ref_Es','srt_E0','ref_E0') 
-plot(P_i_s,srt_E0(2,:)/1000,'r-*')
-hold on
-plot(P_i_s,srt_Es(2,:)/1000,'b-')%,P_i_s,ref_Es(:)/1000,'g-');
-hold off
-legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore')%,'without CSI, round-robin')
-xlabel('Transmission Power of BS on given subcarrier (W)')
-ylabel('Energy Consumption per User (kJ)')
+% plot(P_i_s,srt_E0(2,:)/1000,'r-')
+% hold on
+% plot(P_i_s,srt_Es(2,:)/1000,'b-')%,P_i_s,ref_Es(:)/1000,'g-');
+% hold off
+% legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore')%,'without CSI, round-robin')
+% xlabel('Transmission Power of BS on given subcarrier (W)')
+% ylabel('Energy Consumption per User (kJ)')
 
 %% delay tolerant
-
-service_time=et0-bt0;
-delay_tolerances=[(1:-0.1:0.1),0.05,0.01];
-
-srt_E0_means=zeros(2,length(delay_tolerances));ref_E0_means=zeros(1,length(delay_tolerances));
-srt_Es_means=zeros(2,length(delay_tolerances));ref_Es_means=zeros(1,length(delay_tolerances));
-
-ii_max=1;
-for ii=(1:ii_max)
-    srt_E0=zeros(2,length(delay_tolerances));ref_E0=zeros(1,length(delay_tolerances));
-    srt_Es=zeros(2,length(delay_tolerances));ref_Es=zeros(1,length(delay_tolerances));
-    srt_unsatisfied=zeros(1,length(delay_tolerances));ref_unsatisfied=zeros(1,length(delay_tolerances));
-    for i=(1:length(delay_tolerances))
-        delay_tolerance=delay_tolerances(i);
-        fprintf('delay_tolerance=%2.2f\n',delay_tolerance)
-        
-        bt=round(ii/ii_max*(1-delay_tolerance)*service_time)+bt0;%round(random('uniform',0,(1-delay_tolerance)*service_time))+bt0;%
-        et=bt+round(service_time*delay_tolerance);
-        [~,srt_E0(2,i),~]=srt_algorithm_v2(beta0,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,1,bt,et);
-        [ref_E0(1,i),~]=ref_algorithm(beta0,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,1,bt,et);
-        
-        bt=round(ii/ii_max*(1-delay_tolerance)*service_time)*t_step+btS;%round(random('uniform',0,(1-delay_tolerance)*service_time))+bt0;%
-        et=bt+round(service_time*delay_tolerance)*t_step;
-        [~,srt_Es(2,i),C_unsatisfied]=srt_algorithm_v2(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos,N,delta_t/t_step,BW,sigma2,h0,bt,et);
-        srt_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
-        [ref_Es(1,i),C_unsatisfied]=ref_algorithm(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos,N,delta_t/t_step,BW,sigma2,h0,bt,et);
-        ref_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
-    end
-    srt_E0_means=srt_E0_means+[srt_E0(1,:)./J_range;srt_E0(2,:)./J_range];
-    ref_E0_means=ref_E0_means+ref_E0./J_range;
-    srt_Es_means=srt_Es_means+[srt_Es(1,:)./J_range;srt_Es(2,:)./J_range];
-    ref_Es_means=ref_Es_means+ref_Es./J_range;
-end
-srt_E0_means=srt_E0_means./ii;
-ref_E0_means=ref_E0_means./ii;
-srt_Es_means=srt_Es_means./ii;
-ref_Es_means=ref_Es_means./ii;
-% save('.\experiments\delays','delay_tolerances','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means','srt_unsatisfied','ref_unsatisfied')
-plot(delay_tolerances(~srt_unsatisfied),srt_E0_means(2,~srt_unsatisfied)/1000,'r-*')%,delay_tolerances(~ref_unsatisfied),ref_E0_means(~ref_unsatisfied),'g:*')
-hold on
-plot(delay_tolerances(~srt_unsatisfied),srt_Es_means(2,~srt_unsatisfied)/1000,'b-')%,delay_tolerances(~ref_unsatisfied),ref_Es_means(~ref_unsatisfied),'g-');
-hold off
-legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore')
-xlabel('Ratio of Delay Tolerance to Service Time')
-ylabel('Energy Consumption per User (kJ)')
+% 
+% service_time=et0-bt0;
+% delay_tolerances=[(1:-0.1:0.1),0.05,0.01];
+% 
+% srt_E0_means=zeros(2,length(delay_tolerances));ref_E0_means=zeros(1,length(delay_tolerances));
+% srt_Es_means=zeros(2,length(delay_tolerances));ref_Es_means=zeros(1,length(delay_tolerances));
+% 
+% ii_max=1;
+% for ii=(1:ii_max)
+%     srt_E0=zeros(2,length(delay_tolerances));ref_E0=zeros(1,length(delay_tolerances));
+%     srt_Es=zeros(2,length(delay_tolerances));ref_Es=zeros(1,length(delay_tolerances));
+%     srt_unsatisfied=zeros(1,length(delay_tolerances));ref_unsatisfied=zeros(1,length(delay_tolerances));
+%     for i=(1:length(delay_tolerances))
+%         delay_tolerance=delay_tolerances(i);
+%         fprintf('delay_tolerance=%2.2f\n',delay_tolerance)
+%         
+%         bt=round(ii/ii_max*(1-delay_tolerance)*service_time)+bt0;%round(random('uniform',0,(1-delay_tolerance)*service_time))+bt0;%
+%         et=bt+round(service_time*delay_tolerance);
+%         [~,srt_E0(2,i),~]=srt_algorithm_v2(beta0,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,1,bt,et);
+%         [ref_E0(1,i),~]=ref_algorithm(beta0,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,1,bt,et);
+%         
+%         bt=round(ii/ii_max*(1-delay_tolerance)*service_time)*t_step+btS;%round(random('uniform',0,(1-delay_tolerance)*service_time))+bt0;%
+%         et=bt+round(service_time*delay_tolerance)*t_step;
+%         [~,srt_Es(2,i),C_unsatisfied]=srt_algorithm_v2(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos,N,delta_t/t_step,BW,sigma2,h0,bt,et);
+%         srt_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
+%         [ref_Es(1,i),C_unsatisfied]=ref_algorithm(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos,N,delta_t/t_step,BW,sigma2,h0,bt,et);
+%         ref_unsatisfied(1,i)=(sum(C_unsatisfied)>0);
+%     end
+%     srt_E0_means=srt_E0_means+[srt_E0(1,:)./J_range;srt_E0(2,:)./J_range];
+%     ref_E0_means=ref_E0_means+ref_E0./J_range;
+%     srt_Es_means=srt_Es_means+[srt_Es(1,:)./J_range;srt_Es(2,:)./J_range];
+%     ref_Es_means=ref_Es_means+ref_Es./J_range;
+% end
+% srt_E0_means=srt_E0_means./ii;
+% ref_E0_means=ref_E0_means./ii;
+% srt_Es_means=srt_Es_means./ii;
+% ref_Es_means=ref_Es_means./ii;
+% % save('.\experiments\delays','delay_tolerances','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means','srt_unsatisfied','ref_unsatisfied')
+% plot(delay_tolerances(~srt_unsatisfied),srt_E0_means(2,~srt_unsatisfied)/1000,'r-*')%,delay_tolerances(~ref_unsatisfied),ref_E0_means(~ref_unsatisfied),'g:*')
+% hold on
+% plot(delay_tolerances(~srt_unsatisfied),srt_Es_means(2,~srt_unsatisfied)/1000,'b-')%,delay_tolerances(~ref_unsatisfied),ref_Es_means(~ref_unsatisfied),'g-');
+% hold off
+% legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore')
+% xlabel('Ratio of Delay Tolerance to Service Time')
+% ylabel('Energy Consumption per User (kJ)')
 
