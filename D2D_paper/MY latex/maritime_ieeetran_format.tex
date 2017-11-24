@@ -44,7 +44,7 @@
  
  The maritime ship-to-shore communication system has to cover a vast area with a limited number of base stations (BSs) due to the geographical restriction of BS sites. Therefore, its energy consumption is usually much larger than terrestrial cellular networks. 
  To reduce its energy consumption, ship-to-ship relay communication is introduced to the system since it allows ships to act like relays and enables direct communication between neighboring vessels. However, there are more transmitters to choose from in a ship-to-ship/shore system, which bring more challenges for user scheduling. 
- As a crucial technique for saving energy, user scheduling depends strongly on the channel state information (CSI), which is difficult to acquire in maritime scenarios due to the time-varying channel fading. Note that in maritime scenarios, the channel is dominanted by the large-scale CSI, which can be predicted through the position information of each vessel based on its specific shipping lane and timetable. Thus, we use the large-scale CSI instead of the complete CSI to avoid the heavy overhead. 
+ As a crucial technique for saving energy, user scheduling depends strongly on the channel state information (CSI), which is difficult to acquire in maritime scenarios due to the time-varying channel fading. Note that in maritime scenarios, the channel is dominated by the large-scale CSI, which can be predicted through the position information of each vessel based on its specific shipping lane and timetable. Thus, we use the large-scale CSI instead of the complete CSI to avoid the heavy overhead. 
  %With the aid of large-scale CSI, we can have maximum benefit from the mobility of ships by proper user scheduling. 
  Based on predicted large-scale CSI, we formulate a user scheduling optimization problem, aiming to minimize the total energy consumption with guaranteed quality of service (QoS). To approximate the original problem, we develop a 3-step progressive offline approach and propose three consecutive algorithms for the approximation. The algorithms only require polynomial computational complexity. Simulation results reveal that the proposed offline user scheduling scheme based on large-scale CSI significantly reduces the energy consumption by up to 71\% over the referential method.
  \end{abstract}
@@ -241,7 +241,7 @@
  
  Last, in step-3, we use a greedy algorithm based on the result returned by step-2 to make sure that our user scheduling is applicable, i.e., the subcarrier constraint is met for the links. Since this constraint has not been considered in step-1, we make adjustments in step-3 to get an approximation of the applicable solution for the ship-to-shore system. 
 
- Eventually, after all three steps, we approximate the optimal solution for the original problem in (5). Since the transmission speed for all $\left( J+1 \right) \times J \times T$ links can be predicted based on large-scale CSI, the 3 consecutive algorithms can be carried out in a offline manner, i.e., they can be done before the start of service. In Section IV we prove the validity of our progressive approach by comparing the energy consumptions. 
+ Eventually, after all three steps, we approximate the optimal solution for the original problem in (5). Since the transmission speed for all $\left( J+1 \right) \times J \times T$ links can be predicted based on large-scale CSI, the 3 consecutive algorithms can be carried out in an offline manner, i.e., they can be done before the start of service. In Section IV we prove the validity of our progressive approach by comparing the energy consumptions. 
  
  \subsection{Step-1}
  
@@ -376,7 +376,7 @@
 
  \subsection{Step-3}
  
- After step-1, we achieved the optimal solution for problem (6), though we have not take the subcarrier constraint into the ship-to-shore only system. Thus, we might end up with some ship-to-shore links that do not satisfy the subcarrier constraint in (5c). Through step-2, we change part of the original links into ship-to-ship/shore links. This may relieve the conflict after step-1 since the system now has fewer links. In step-3, we deal with the remaining links that do not satisfy the subcarrier constraint.
+ After step-1, we achieved the optimal solution for problem (6), though we have not take the subcarrier constraint into the ship-to-shore-only system. Thus, we might end up with some ship-to-shore links that do not satisfy the subcarrier constraint in (5c). Through step-2, we change part of the original links into ship-to-ship/shore links. This may relieve the conflict after step-1 since the system now has fewer links. In step-3, we deal with the remaining links that do not satisfy the subcarrier constraint.
  %The solution ${{\mathbf{S}}_{\mathbf{1}}}$ returned by step1 is not a practical one for the ship-to-shore system in (5a)-(5c) since (4b) has not been taken into account. We design an effective method to iteratively get the approximate solution ${{\mathbf{S}}_{\mathbf{2}}}$ which is applicable for the ship-to-shore system. 
  
  In step-3, we minimize the energy consumption gap 
@@ -475,15 +475,15 @@
  %\Fig.[t!](topskip=0pt, botskip=0pt, midskip=0pt){Tranges.png}
  %{Average energy consumption per user $E_{avg}$ versus the percentage of pre-acquired CSI.\label{fig4}}
  
- Fig. 2 demonstrates the relationship between average energy consumption and the ratio of ${T_{\rm{acq}}}$ to total service time duration. Here ${T_{\rm{acq}}}$ represents the time duration in user scheduling, i.e., we only consider at most $T{\rm{acq}}$ time slots in user scheduling. %The QoS constraint here is 1Gbits/user. 
- %The larger ${T_{\rm{acq}}}$ is, the longer can we predict the CSI, and hence the more feasible transmission time slots we can choose from in our method. As a result, we can get more improvement from our process-oriented D2D-aided or ship-to-shore method when ${T_{\rm{acq}}}$ approximate the total service time duration. 
+ Fig. 2 demonstrates the relationship between average energy consumption and the ratio of ${T^{\rm{US}}}$ to total service time duration. Here ${T^{\rm{US}}}$ represents the user scheduling time duration, i.e., we only consider at most $T^{\rm{US}}$ time slots in user scheduling. %The QoS constraint here is 1Gbits/user. 
+ %The larger ${T^{\rm{US}}}$ is, the longer can we predict the CSI, and hence the more feasible transmission time slots we can choose from in our method. As a result, we can get more improvement from our process-oriented D2D-aided or ship-to-shore method when ${T^{\rm{US}}}$ approximate the total service time duration. 
  
- As we can see, the genius-aided full CSI curves are better than our large-scale CSI replacement energy-wise generally. Our proposed ship-to-ship/shore method outmatches the referential method, especially in ideal conditions (which means we consider full service duration, ${T_{\rm{acq}}}=T$). 
- Since we can take the cost of larger algorithm complexity (resulting from larger $T_{\rm{acq}}$), we can increase  $T_{\rm{acq}}$ in exchange for better performance energy-wise. The long-term (larger $T_{\rm{acq}}$) large-scale CSI result we get is better than the shorter-term (smaller $T_{\rm{acq}}$) genius-aided full CSI result, which justifies our large-scale replacement. 
+ As we can see, the genius-aided full CSI curves are better than our large-scale CSI replacement energy-wise generally. Our proposed ship-to-ship/shore method outmatches the referential method, especially in ideal conditions (which means we consider full-service duration, ${T^{\rm{US}}}=T$). 
+ Since we can take the cost of larger algorithm complexity (resulting from larger $T^{\rm{US}}$), we can increase  $T^{\rm{US}}$ in exchange for better performance energy-wise. The long-term (larger $T^{\rm{US}}$) large-scale CSI result we get is better than the shorter-term (smaller $T^{\rm{US}}$) genius-aided full CSI result, which justifies our large-scale replacement. 
  
- When ${T_{\rm{acq}}}$ approximates the total service time duration, we have maximum benefit from user scheduling. The large-scale CSI ship-to-ship/shore method consummates 60\% less energy than the round-robin method. 
- Under simulation settings, due to geographical closeness and better CSI, users tend to finish their communications with BS or relays during the first 70\% of their staying time inside the service zone (semicircle). The 60\% improvement is steady until the ratio of ${T_{\rm{acq}}}$ to total service time becomes less than 0.7. Thus we can set ${T_{\rm{acq}}=0.7T}$ for relatively large improvements at a relatively small complexity cost. 
- Energy consumption rises as the ratio of ${T_{\rm{acq}}}$ to total service time shrinks, mainly because we aim to satisfy as much as possible in fewer time slots. When ${T_{\rm{acq}}} = 0$, i.e. having zero CSI, our proposed method retrogresses to the referential method. 
+ When ${T^{\rm{US}}}$ approximates the total service time duration, we have maximum benefit from user scheduling. The large-scale CSI ship-to-ship/shore method consummates 60\% less energy than the round-robin method. 
+ Under simulation settings, due to geographical closeness and better CSI, users tend to finish their communications with BS or relays during the first 70\% of their staying time inside the service zone (semicircle). The 60\% improvement is steady until the ratio of ${T^{\rm{US}}}$ to total service time becomes less than 0.7. Thus we can set ${T^{\rm{US}}=0.7T}$ for relatively large improvements at a relatively small complexity cost. 
+ Energy consumption rises as the ratio of ${T^{\rm{US}}}$ to total service time shrinks, mainly because we aim to satisfy as much as possible in fewer time slots. When ${T^{\rm{US}}} = 0$, i.e. having zero CSI, our proposed method retrogresses to the referential method. 
  %When the QoS constraint is 1Gbits/user, 
  %These improvements prove the superiority in our 3-dimensional optimization over 2-dimensional and 1-dimensional ones. 
  %
@@ -535,28 +535,32 @@
  
  %As the SNR decreases, the channel capacity worsens and the greedy referential method ends up with more low-speed links. Thus we can see an improvement of over 60\% in energy consumption from the proposed ship-to-ship/shore method when ${\sigma ^2 \le{10^{ - 10}}}$.
  
- To sum up, the followings can be seen from the simulations. 
- First, considering a longer time in user scheduling surely will improve system performance, but the sweetpoint is 70\% of service duration. 
- Second, a larger QoS data volume constraint will result in larger bit-wise energy consumption. 
- Last, we can go through different powers to choose the optimal transmit power for given QoS constraint. As for performance, the total energy improvement is up to 71\%, while the worst case improvement is 46\%. 
+ %To sum up, the followings can be seen from the simulations. 
+ %First, considering a longer time in user scheduling surely will improve system performance, but the sweet spot is 70\% of service duration. 
+ %Second, a larger QoS data volume constraint will result in larger bit-wise energy consumption. 
+ %Last, we can go through different powers to choose the optimal transmit power for given QoS constraint. As for performance, the total energy improvement is up to 71\%, while the worst case improvement is 46\%. 
 
- The approximate solution we deduced from step 1 - 3 with polynomial time complexity show its potential as well as its simplicity. Therefore, the 3-step progressive approach in Section III is justified. 
+ In section IV, we give the performance impact of different user scheduling time durations, as well as different QoS constraints. 
+ Besides, by going through different powers, we can choose the optimal transmit power for given QoS constraint. 
+
+ As shown by simulations, the approximate solution shows its potential as well as its simplicity. The proposed large-scale-CSI-based approach can improve the performance by up to 71\% energy-wise, while only suffers a 5\% - 15\% rise in energy consumption over the genius-aided-full-CSI-based approach. Thus the large-scale CSI replacement and the proposed 3-step progressive approach are justified. 
+
  
  \section{Conclusion}\label{sec:5}
  
- In this paper, we focused on user scheduling in a maritime ship-to-ship/shore communication system, aiming to reduce the system energy consumption. 
+ In this paper, we have proposed a user scheduling algorithm in a maritime ship-to-ship/shore communication system, aiming to reduce the system energy consumption. 
  
  In order to reduce the system energy consumption, we introduced ship-to-ship relay communication. 
  %By exploiting large-scale CSI for the whole service duration, we proposed our user scheduling algorithms. 
- Since large-scale CSI is the dominant factor in maritime scenarios, and the large-scale CSI can be easily predicted based on shipping lanes and timetables, we used large-scale CSI instead of full CSI to avoid the heavy overhead. Further, we progressively approximated the user scheduling problem through a 3-step offline approach, which has a polynomial time complexity. 
+ Since large-scale CSI is the dominant factor in maritime scenarios, and the large-scale CSI can be easily predicted based on shipping lanes and timetables, we used large-scale CSI instead of full CSI to avoid the heavy overhead. Furthermore, we progressively approximated the user scheduling problem through a 3-step offline approach, which has a polynomial time complexity. 
  
- As for the performance of proposed 3-step offline approach, it's shown by simulations that the proposed user scheduling scheme significantly enhance the system performance by up to 71\% in terms of energy consumption. %Our large-scale CSI replacement is also justified by the improvements under polynomial complexity. 
- Moreover, considering a longer time in offline user scheduling surely will improve system performance, but the sweetpoint is 70\% of service duration. 
- In addition, a larger QoS data volume constraint will result in larger bit-wise energy consumption. 
+ As for the performance of proposed 3-step offline approach, simulations have shown that the proposed approach significantly enhance the system performance by up to 71\% in terms of energy consumption. 
+ Moreover, we have found the sweet spot of the user scheduling time and complexity tradeoff, which is 70\% of service duration.
+ %In addition, a larger QoS data volume constraint will result in larger bit-wise energy consumption. 
 
- The main limitation of our progressive offline approach is that we assumed the ships to stick to their shipping lanes and timetables. If there are some deviations in the ship routes, our large-scale CSI prediction will have larger errors from the genius aided perfect CSI, and further leads to worsening in proposed user scheduling scheme's performance. 
+ The main limitation of our progressive offline approach comes from the inaccuracy in the large-scale CSI prediction. We assumed that the ships sail strictly according to their shipping lanes and timetables. If there are any deviations in the ship routes and speeds, our large-scale CSI prediction will be inaccurate, and the performance of the proposed large-scale-CSI-based user scheduling algorithm will worsen. 
  
- It should be noted that transmit power allocation and user scheduling jointly  influence the system energy consumption. In this paper, we assumed fixed transmit power on any given subcarrier, and repeated the user scheduling algorithms under different power constraints to get the optimal transmit power. In the near furture, we plan to design a joint power allocation and user scheduling algorithm for the maritime ship-to-ship/shore communication system. 
+ It should be noted that transmit power allocation and user scheduling jointly influence the system energy consumption. In this paper, we have assumed fixed transmit power on any given subcarrier, and repeated the user scheduling algorithms under different power constraints to get the optimal transmit power. In the near future, we plan to design a joint power allocation and user scheduling algorithm for the maritime ship-to-ship/shore communication system. 
 
  %\appendices
  

@@ -130,10 +130,10 @@ legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-s
 % srt_Es_means=[srt_Es(1,:)./J_range/j;srt_Es(2,:)./J_range/j];
 % ref_Es_means=ref_Es*ones(1,length(T_ranges))./J_range;
 % % save('.\experiments\T_ranges_1_360','T_ranges','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means')
-% plot(T_ranges/120,srt_E0_means(2,:)/1000,'r-',T_ranges/120,srt_Es_means(2,:)/1000,'b-',T_ranges/120,ref_Es_means/1000,'g-');
-% xlabel('Ratio of T_a_c_q to Total Service Duration')
-% ylabel('Energy Consumption per User (kJ)')
-% legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore','without CSI, round-robin')
+plot(T_ranges/120,srt_E0_means(2,:)/1000,'r-',T_ranges/120,srt_Es_means(2,:)/1000,'b-',T_ranges/120,ref_Es_means/1000,'g-');
+xlabel('Ratio of T^U^S to Total Service Duration')
+ylabel('Energy Consumption per User (kJ)')
+legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore','without CSI, round-robin')
 
 %% SNR
 % C_qos0=C_qos;
@@ -167,7 +167,7 @@ legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-s
 % plot(P_i_s,srt_Es(2,:)/1000,'b-')%,P_i_s,ref_Es(:)/1000,'g-');
 % hold off
 % legend('large-scale CSI, ship-to-ship/shore','(genius-aided) full CSI, ship-to-ship/shore')%,'without CSI, round-robin')
-% xlabel('Transmission Power of BS on given subcarrier (W)')
+% xlabel('Transmit Power of BS on given subcarrier (W)')
 % ylabel('Energy Consumption per User (kJ)')
 
 %% delay tolerant

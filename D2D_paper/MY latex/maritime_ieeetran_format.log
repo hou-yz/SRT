@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.17)  23 NOV 2017 07:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.24)  24 NOV 2017 15:00
 entering extended mode
-**"c:/Users/Johnny/Documents/Github/SRT/D2D_paper/MY latex/maritime_ieeetran_fo
+**"c:/Users/Johnny/Documents/GitHub/SRT/D2D_paper/MY latex/maritime_ieeetran_fo
 rmat.tex"
 
-("c:/Users/Johnny/Documents/Github/SRT/D2D_paper/MY latex/maritime_ieeetran_for
+("c:/Users/Johnny/Documents/GitHub/SRT/D2D_paper/MY latex/maritime_ieeetran_for
 mat.tex"
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 75 language(s) loaded.
@@ -402,28 +402,28 @@ Underfull \vbox (badness 1005) has occurred while \output is active []
 
  [5]
 Package epstopdf Info: Source file: <Tranges.eps>
-(epstopdf)                    date: 2017-11-19 15:09:51
-(epstopdf)                    size: 20146 bytes
+(epstopdf)                    date: 2017-11-24 14:51:37
+(epstopdf)                    size: 20279 bytes
 (epstopdf)             Output file: <Tranges-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-22 15:58:18
+(epstopdf)                    date: 2017-11-24 14:52:17
 (epstopdf)                    size: 3949 bytes
 (epstopdf)             Command: <epstopdf --outfile=Tranges-eps-converted-to.pd
 f Tranges.eps>
 (epstopdf)             \includegraphics on input line 468.
 Package epstopdf Info: Output file is already uptodate.
 
-<Tranges-eps-converted-to.pdf, id=39, 575.14874pt x 348.30125pt>
+<Tranges-eps-converted-to.pdf, id=39, 576.1525pt x 348.30125pt>
 File: Tranges-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Tranges-eps-converted-to.pdf>
 Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 468.
-(pdftex.def)             Requested size: 250.38434pt x 151.62674pt.
+(pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
  [6 <./Tranges-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Cqos.eps>
-(epstopdf)                    date: 2017-11-19 20:24:03
-(epstopdf)                    size: 18939 bytes
+(epstopdf)                    date: 2017-11-24 11:32:55
+(epstopdf)                    size: 19095 bytes
 (epstopdf)             Output file: <Cqos-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-19 20:24:10
+(epstopdf)                    date: 2017-11-24 11:32:55
 (epstopdf)                    size: 4141 bytes
 (epstopdf)             Command: <epstopdf --outfile=Cqos-eps-converted-to.pdf C
 qos.eps>
@@ -442,10 +442,10 @@ Underfull \hbox (badness 1454) in paragraph at lines 509--510
  []
 
 Package epstopdf Info: Source file: <snrs.eps>
-(epstopdf)                    date: 2017-11-22 16:00:47
+(epstopdf)                    date: 2017-11-24 11:32:55
 (epstopdf)                    size: 18488 bytes
 (epstopdf)             Output file: <snrs-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-22 16:00:59
+(epstopdf)                    date: 2017-11-24 11:32:55
 (epstopdf)                    size: 3895 bytes
 (epstopdf)             Command: <epstopdf --outfile=snrs-eps-converted-to.pdf s
 nrs.eps>
@@ -458,9 +458,6 @@ File: snrs-eps-converted-to.pdf Graphic file (type pdf)
 Package pdftex.def Info: snrs-eps-converted-to.pdf used on input line 515.
 (pdftex.def)             Requested size: 250.38434pt x 151.62674pt.
  [7 <./Cqos-eps-converted-to.pdf> <./snrs-eps-converted-to.pdf>]
-Missing character: There is no Â in font ptmr7t!
-Missing character: There is no   in font ptmr7t!
-
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -499,7 +496,7 @@ nts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX 2.9/fonts
 /type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/
 utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/P
 rogram Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on maritime_ieeetran_format.pdf (8 pages, 5147866 bytes).
+Output written on maritime_ieeetran_format.pdf (8 pages, 5147183 bytes).
 PDF statistics:
  127 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
