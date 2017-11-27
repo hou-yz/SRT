@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.24)  24 NOV 2017 15:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.24)  27 NOV 2017 19:23
 entering extended mode
 **"c:/Users/Johnny/Documents/GitHub/SRT/D2D_paper/MY latex/maritime_ieeetran_fo
 rmat.tex"
@@ -258,12 +258,46 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 \@float@every@algorithm=\toks25
 \c@algorithm=\count118
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\algorithms\algorithmic.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption.sty"
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption3.sty"
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen142
+\captionmargin@=\dimen143
+\captionwidth=\dimen144
+\caption@tempdima=\dimen145
+\caption@indent=\dimen146
+\caption@parindent=\dimen147
+\caption@hangindent=\dimen148
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEta
+blestring \footnotesize \bgroup \par \centering \@IEEEtabletopskipstrut {\norma
+lfont \footnotesize #1}\\{\normalfont \footnotesize \scshape #2}\par \addvspace
+ {0.5\baselineskip }\egroup \@IEEEtablecaptionsepspace \else \@IEEEfigurecaptio
+nsepspace \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspac
+e \nobreakspace #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\nor
+malfont \footnotesize {#1.}\nobreakspace \nobreakspace }\parbox [t]{\hsize }{\n
+ormalfont \footnotesize \noindent \unhbox \@tempboxa #2}\else \ifCLASSOPTIONcon
+ference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }
+\else \hbox to\hsize {\normalfont \footnotesize \box \@tempboxa \hfil }\fi \fi 
+\fi .
+\c@ContinuedFloat=\count119
+Package caption Info: float package is loaded.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\algorithms\algorithmic.sty"
 Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
-\c@ALC@unique=\count119
-\c@ALC@line=\count120
-\c@ALC@rem=\count121
-\c@ALC@depth=\count122
+\c@ALC@unique=\count120
+\c@ALC@line=\count121
+\c@ALC@rem=\count122
+\c@ALC@depth=\count123
 \ALC@tlm=\skip47
 \algorithmicindent=\skip48
 )
@@ -279,14 +313,14 @@ Package color Info: Driver file: pdftex.def on input line 147.
 Package: subfigure 2002/07/30 v2.1.4 subfigure package
 \subfigtopskip=\skip49
 \subfigcapskip=\skip50
-\subfigcaptopadj=\dimen142
+\subfigcaptopadj=\dimen149
 \subfigbottomskip=\skip51
-\subfigcapmargin=\dimen143
+\subfigcapmargin=\dimen150
 \subfiglabelskip=\skip52
-\c@subfigure=\count123
-\c@lofdepth=\count124
-\c@subtable=\count125
-\c@lotdepth=\count126
+\c@subfigure=\count124
+\c@lofdepth=\count125
+\c@subtable=\count126
+\c@lotdepth=\count127
 
 ****************************************
 * Local config file subfigure.cfg used *
@@ -298,32 +332,32 @@ Package: subfigure 2002/07/30 v2.1.4 subfigure package
 (maritime_ieeetran_format.aux)
 \openout1 = `maritime_ieeetran_format.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
 
 -- Lines per column: 56 (exact).
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count127
-\scratchdimen=\dimen144
+\scratchcounter=\count128
+\scratchdimen=\dimen151
 \scratchbox=\box33
-\nofMPsegments=\count128
-\nofMParguments=\count129
+\nofMPsegments=\count129
+\nofMParguments=\count130
 \everyMPshowfont=\toks26
-\MPscratchCnt=\count130
-\MPscratchDim=\dimen145
-\MPnumerator=\count131
-\makeMPintoPDFobject=\count132
+\MPscratchCnt=\count131
+\MPscratchDim=\dimen152
+\MPnumerator=\count132
+\makeMPintoPDFobject=\count133
 \everyMPtoPDFconversion=\toks27
 ) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
@@ -370,94 +404,90 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 41.
-LaTeX Font Info:    Try loading font information for U+msa on input line 41.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfigure package is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 47.
+LaTeX Font Info:    Try loading font information for U+msa on input line 47.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 41.
+LaTeX Font Info:    Try loading font information for U+msb on input line 47.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 41.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 41.
- [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+) [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
 ]
-<system.png, id=10, 561.297pt x 341.47575pt>
+<system.png, id=9, 561.297pt x 341.47575pt>
 File: system.png Graphic file (type png)
  <use system.png>
-Package pdftex.def Info: system.png used on input line 133.
+Package pdftex.def Info: system.png used on input line 120.
 (pdftex.def)             Requested size: 250.38434pt x 152.32878pt.
- [2 <./system.png>] [3] [4]
-Underfull \vbox (badness 1005) has occurred while \output is active []
 
- [5]
+Underfull \vbox (badness 1127) has occurred while \output is active []
+
+ [2 <./system.png>] [3] [4] [5]
 Package epstopdf Info: Source file: <Tranges.eps>
-(epstopdf)                    date: 2017-11-24 14:51:37
-(epstopdf)                    size: 20279 bytes
+(epstopdf)                    date: 2017-11-25 00:49:24
+(epstopdf)                    size: 19200 bytes
 (epstopdf)             Output file: <Tranges-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-24 14:52:17
-(epstopdf)                    size: 3949 bytes
+(epstopdf)                    date: 2017-11-25 00:50:44
+(epstopdf)                    size: 3775 bytes
 (epstopdf)             Command: <epstopdf --outfile=Tranges-eps-converted-to.pd
 f Tranges.eps>
-(epstopdf)             \includegraphics on input line 468.
+(epstopdf)             \includegraphics on input line 450.
 Package epstopdf Info: Output file is already uptodate.
 
-<Tranges-eps-converted-to.pdf, id=39, 576.1525pt x 348.30125pt>
+<Tranges-eps-converted-to.pdf, id=39, 479.7925pt x 312.16624pt>
 File: Tranges-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Tranges-eps-converted-to.pdf>
-Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 468.
-(pdftex.def)             Requested size: 250.38434pt x 151.36632pt.
- [6 <./Tranges-eps-converted-to.pdf>]
+Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 450.
+(pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
+ [6]
 Package epstopdf Info: Source file: <Cqos.eps>
-(epstopdf)                    date: 2017-11-24 11:32:55
-(epstopdf)                    size: 19095 bytes
+(epstopdf)                    date: 2017-11-25 00:48:45
+(epstopdf)                    size: 19830 bytes
 (epstopdf)             Output file: <Cqos-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-24 11:32:55
-(epstopdf)                    size: 4141 bytes
+(epstopdf)                    date: 2017-11-25 00:50:45
+(epstopdf)                    size: 4041 bytes
 (epstopdf)             Command: <epstopdf --outfile=Cqos-eps-converted-to.pdf C
 qos.eps>
-(epstopdf)             \includegraphics on input line 495.
+(epstopdf)             \includegraphics on input line 477.
 Package epstopdf Info: Output file is already uptodate.
 
-<Cqos-eps-converted-to.pdf, id=48, 575.14874pt x 348.30125pt>
+<Cqos-eps-converted-to.pdf, id=44, 479.7925pt x 312.16624pt>
 File: Cqos-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Cqos-eps-converted-to.pdf>
-Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 495.
-(pdftex.def)             Requested size: 250.38434pt x 151.62674pt.
+Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 477.
+(pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
 
-Underfull \hbox (badness 1454) in paragraph at lines 509--510
+Underfull \hbox (badness 1454) in paragraph at lines 491--492
 []\OT1/ptm/m/n/10 The ref-er-en-tial method's bit-wise en-ergy con-sump-tion
  []
 
 Package epstopdf Info: Source file: <snrs.eps>
-(epstopdf)                    date: 2017-11-24 11:32:55
-(epstopdf)                    size: 18488 bytes
+(epstopdf)                    date: 2017-11-25 00:50:16
+(epstopdf)                    size: 19448 bytes
 (epstopdf)             Output file: <snrs-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-24 11:32:55
-(epstopdf)                    size: 3895 bytes
+(epstopdf)                    date: 2017-11-25 00:50:46
+(epstopdf)                    size: 3843 bytes
 (epstopdf)             Command: <epstopdf --outfile=snrs-eps-converted-to.pdf s
 nrs.eps>
-(epstopdf)             \includegraphics on input line 515.
+(epstopdf)             \includegraphics on input line 497.
 Package epstopdf Info: Output file is already uptodate.
-<snrs-eps-converted-to.pdf, id=50, 575.14874pt x 348.30125pt>
+<snrs-eps-converted-to.pdf, id=46, 479.7925pt x 312.16624pt>
 File: snrs-eps-converted-to.pdf Graphic file (type pdf)
 
 <use snrs-eps-converted-to.pdf>
-Package pdftex.def Info: snrs-eps-converted-to.pdf used on input line 515.
-(pdftex.def)             Requested size: 250.38434pt x 151.62674pt.
- [7 <./Cqos-eps-converted-to.pdf> <./snrs-eps-converted-to.pdf>]
+Package pdftex.def Info: snrs-eps-converted-to.pdf used on input line 497.
+(pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
+ [7 <./Tranges-eps-converted-to.pdf> <./Cqos-eps-converted-to.pdf> <./snrs-eps-
+converted-to.pdf>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -471,13 +501,13 @@ Before submitting the final camera ready copy, remember to:
 
 [8] (maritime_ieeetran_format.aux) ) 
 Here is how much of TeX's memory you used:
- 4046 strings out of 493323
- 59580 string characters out of 3139062
- 136006 words of memory out of 3000000
- 7502 multiletter control sequences out of 15000+200000
+ 5074 strings out of 493323
+ 78409 string characters out of 3139062
+ 159796 words of memory out of 3000000
+ 8528 multiletter control sequences out of 15000+200000
  44318 words of font info for 100 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 39i,18n,27p,983b,532s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 39i,18n,39p,1021b,644s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvip
 s/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx5.pfb><C:
@@ -496,7 +526,7 @@ nts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX 2.9/fonts
 /type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/
 utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/P
 rogram Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on maritime_ieeetran_format.pdf (8 pages, 5147183 bytes).
+Output written on maritime_ieeetran_format.pdf (8 pages, 5148177 bytes).
 PDF statistics:
  127 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
