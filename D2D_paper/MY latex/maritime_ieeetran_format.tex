@@ -1,6 +1,6 @@
-\documentclass[conference]{IEEEtran}
+%\documentclass[conference]{IEEEtran}
   %\IEEEoverridecommandlockouts
-  %\documentclass[journal]{IEEEtran}
+  \documentclass[journal]{IEEEtran}
   % correct bad hyphenation here
   %\documentclass[10pt,draftclsnofoot, onecolumn]{IEEEtran}
   %\documentclass[10pt, draftclsnofoot,onecolumn]{IEEEtran}
@@ -24,15 +24,18 @@
 \DeclareCaptionFormat{myformat}{#3}
 \captionsetup[algorithm]{format=myformat}
 
+
  \begin{document}
  \title{User Scheduling for Maritime Ship-to-Ship/Shore Communications Based on Large-Scale CSI}
+ %\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,} John~Doe,~\IEEEmembership{Fellow,~OSA,} and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}
+ \author{Yunzhong~Hou, Te~Wei,~\IEEEmembership{Student Member,~IEEE,}  Wei~Feng,~\IEEEmembership{Member,~IEEE,} \\ Yunfei~Chen,~\IEEEmembership{Senior Member,~IEEE,}  and Ning~Ge,~\IEEEmembership{Member,~IEEE}
+  
  
- \author{\IEEEauthorblockN{Yunzhong~Hou\IEEEauthorrefmark{1}, Te~Wei\IEEEauthorrefmark{1}, Wei~Feng\IEEEauthorrefmark{1}, Yunfei~Chen\IEEEauthorrefmark{2}, and Ning~Ge\IEEEauthorrefmark{1} \\}
- \IEEEauthorblockA{\IEEEauthorrefmark{1}Tsinghua National Laboratory for Information Science and Technology, Beijing 100084, China \\
- \IEEEauthorrefmark{2}School of Engineering, University of Warwick, Coventry CV4 7AL, U.K.}
   %E-mail: \{houyz14, wei-t14\}@mails.tsinghua.edu.cn, \{fengwei, gening\}@tsinghua.edu.cn, yunfei.chen@warwick.ac.uk%
- }
  
+ \thanks{The authors Y. Hou, W. Te, W. Feng, and N. Ge are with Tsinghua National Laboratory for Information Science and Technology, Beijing 100084, China. (E-mail: \{houyz14, wei-t14\}@mails.tsinghua.edu.cn, \{fengwei, gening\}@tsinghua.edu.cn.)}
+ \thanks{The author Y. Chen is with School of Engineering, University of Warwick, Coventry CV4 7AL, U.K. (E-mail: yunfei.chen@warwick.ac.uk)}
+ }
  %\address[1]{Tsinghua National Laboratory for Information Science and Technology, Tsinghua University, Beijing 100084, P. R. China}
  %\address[2]{School of Engineering, University of Warwick, Coventry CV4 7AL, U.K.}
  
@@ -43,43 +46,41 @@
  
  %\corresp{Corresponding author: Wei Feng (e-mail: fengwei@tsinghua.edu.cn).}
  
-
+  
+ 
  \maketitle
  
- \begin{abstract}
+\begin{abstract}
  
  %The maritime ship-to-shore communication system has to cover a vast area with a limited number of base stations (BSs) due to the geographical restriction of BS sites. Therefore, its energy consumption is usually much larger than terrestrial cellular networks. 
  %To reduce its energy consumption, ship-to-ship relay communication is introduced to the system since it allows ships to act like relays and enables direct communication between neighboring vessels. However, there are more transmitters to choose from in a ship-to-ship/shore system, which bring more challenges for user scheduling. 
  %As a crucial technique for saving energy, user scheduling depends strongly on the channel state information (CSI), which is difficult to acquire in maritime scenarios due to the time-varying channel fading. Note that in maritime scenarios, the channel is dominated by the large-scale CSI, which can be predicted through the position information of each vessel based on its specific shipping lane and timetable. Thus, we use the large-scale CSI instead of the complete CSI to avoid the heavy overhead. 
  %Based on predicted large-scale CSI, 
- In this paper, we investigate user scheduling for a maritime communication system with both ship-to-ship and ship-to-shore links. Different from previous studies, we consider a more practical scenario that only the slowly-varying large-scale channel state information (CSI) is known at the transmitter. The large-scale CSI can be predicted through the positional information of each vessel based on its specific shipping lane and timetable. 
- We formulate a user scheduling optimization problem, aiming to minimize the total energy consumption with guaranteed quality of service (QoS).  
- To approximate the optimal solution to the user scheduling problem, we develop a 3-step progressive algorithm, which only requires polynomial computational complexity. Simulation results reveal that the proposed large-scale-CSI-based scheme significantly reduces the energy consumption by up to 71\% over existing methods. 
+ In this paper, we investigate user scheduling for a maritime communication system with both ship-to-ship and ship-to-shore links. Different from previous studies, we consider a more practical scenario that only the slowly-varying large-scale channel state information (CSI) is known at the transmitter. The large-scale CSI can be predicted through the position information of each vessel based on its specific shipping lane and timetable. Thus, the total system overhead can be greatly reduced, which is quite crucial for maritime communications.
+ On that basis, we formulate a user scheduling optimization problem, aiming to minimize the total energy consumption with guaranteed quality of service (QoS). 
+ To solve the NP-complete problem, we develop a 3-step progressive algorithm, which only requires polynomial computational complexity. Simulation results demonstrate that the proposed scheme significantly reduces the energy consumption by up to 71\% over existing methods. 
  %To solve the problem, we simplify it in a progressive way. Accordingly, we develop a 3-step algorithm, which can solve the problem with polynomial computational complexity. Simulation results reveal that the proposed large-scale-CSI-based scheme significantly reduces the energy consumption by up to 71\% over existing methods.
  
  \end{abstract}
  
  \begin{IEEEkeywords}
- Maritime ship-to-ship/shore communication, user scheduling, large-scale channel state information (CSI), progressive approximation
+ Maritime ship-to-ship/shore communication, user scheduling, large-scale channel state information (CSI), progressive algorithm
  %, greedy method
  % mobility enhanced,
  \end{IEEEkeywords}
- 
- 
- \maketitle
+
  
  \section{Introduction}\label{sec:1}
 
- The rapid development of marine industries, as well as the economic and cultural exchanges between littoral states, has promoted the demand for reliable and high-speed ship-to-shore maritime communication services. In recent years, several maritime communication network projects have been developed in order to meet this increasing demand, e.g., the BLUECOM+ project, the MarCom project, and the TRITON project \cite{p321}--\cite{p32}. 
+ The rapid development of marine industries, as well as the economic and cultural exchanges between littoral states, have promoted the demand for reliable and high-speed maritime communication services. In recent years, several maritime communication network projects have been developed in order to meet this increasing demand, e.g., the BLUECOM+ project, the MarCom project, and the TRITON project \cite{p321}--\cite{p32}. 
  
- Unlike terrestrial cellular networks, a maritime ship-to-shore communication system has quite limited geographically available BS sites. Thus, maritime communication systems usually adopt high-powered BSs so as to cover a vast area with limited BSs. This high-powered BS strategy increases the operational costs of mobile network operators and poses a global threat to the environment \cite{p33}.
+ Unlike terrestrial cellular networks, a maritime ship-to-shore communication system has quite limited geographically available base station (BS) sites. Thus, maritime communication systems usually adopt high-powered BSs so as to cover a vast area with limited BSs. This high-powered BS strategy increases the operational costs of mobile network operators and poses a global threat to the environment \cite{p33}.
  Accordingly, reducing energy consumption becomes a critical issue for maritime communications. 
  To reduce system energy consumption, we introduce the idea of ship-to-ship communications, where vessels act like relays in the on-shore data distribution network. Several previous maritime communication network projects \cite{p321}--\cite{p32} have already included ship-to-ship communications to extend the coverage of the systems. Nevertheless, to the best of the authors' knowledge, the area still remains undiscovered where ship-to-ship relay transmissions are introduced to reduce system energy consumption. 
 
  Undoubtedly, the ship-to-ship transmission will reduce system energy consumption with direct relay transmission between neighboring vessels. 
  However, it introduces more transmitters (BS/relays) and brings more challenges for user scheduling. % (see Appendix A)
-
- User scheduling, as an important perspective for energy saving, depends heavily on CSI. However, it is rather costly to acquire perfect CSI in maritime communication systems, due to the excessive system overhead including pilot overhead and feedback overhead \cite{p403}-\cite{p405}. Most of the previous user scheduling schemes overlook the difficulties in obtaining full CSI in maritime scenarios. 
+ User scheduling, as an important perspective for energy saving, depends heavily on channel state information (CSI). However, it is rather costly to acquire perfect CSI in maritime communication systems, due to the excessive system overhead including pilot overhead and feedback overhead \cite{p403}-\cite{p407}. %Most of the previous user scheduling schemes overlook the difficulties in obtaining full CSI in maritime scenarios. 
  
  %terrestrial
  So far, the majority of energy-efficient user scheduling techniques focused on terrestrial cellular networks. 
@@ -100,34 +101,34 @@
  
  %when mmwave communications meet network densification
  %问题-》帽子
- For the following reasons, current studies on user scheduling require systematic redesign, and should be based on large-scale CSI instead of full CSI. 
+ %For the following reasons, current studies on user scheduling require systematic redesign, and should be based on large-scale CSI instead of full CSI. 
  
  %1.海域模型，大尺度主导
- \textbf{1.} As there are fewer scatterers on the sea than that in the terrestrial scenario, the large-scale channel fading becomes the dominant factor for the maritime channel \cite{p403}. Hence, we can use the position information of vessels to predict large-scale CSI and avoid the heavy overhead for full CSI; 
+ %\textbf{1.} As there are fewer scatterers on the sea than that in the terrestrial scenario, the large-scale channel fading becomes the dominant factor for the maritime channel \cite{p403}. Hence, we can use the position information of vessels to predict large-scale CSI and avoid the heavy overhead for full CSI; 
  %when mmwave communications meet network densification
  
  %2.航线·位置信息
- \textbf{2.} %Different from the random trails of human beings in terrestrial scenarios where the previous studies focused on,
- Most vessels have specific fixed shipping-lanes and timetables that can be acquired beforehand, and their position information can be easily predicted. From the position information, we can predict large-scale CSI for the whole service duration. We can have further gain by considering the whole service process instead of the short timescale as in terrestrial scenarios. 
+ %\textbf{2.} %Different from the random trails of human beings in terrestrial scenarios where the previous studies focused on,
+ %Most vessels have specific fixed shipping-lanes and timetables that can be acquired beforehand, and their position information can be easily predicted. From the position information, we can predict large-scale CSI for the whole service duration. We can have further gain by considering the whole service process instead of the short timescale as in terrestrial scenarios. 
  
- Therefore, we formulate a maritime user scheduling optimization problem based on large-scale CSI, aiming to minimize the system energy consumption. % while providing users with delay-tolerant data distribution services. 
- To overcome the difficulties in choosing transmitters brought forward by ship-to-ship transmission, we progressively simplify the optimization problem. We further design a 3-step algorithm for the approximate solution to the user scheduling problem. 
- 
- \section{System Model}\label{sec:2}
+
+ In this paper, we take the advantage of maritime channel features to redesign user scheduling without full CSI. In general, the maritime channel has fewer scatterers, so the large-scale channel fading becomes the dominant factor for the maritime channel \cite{p403}. Moreover, most vessels have specific fixed shipping-lanes and timetables which can be used to acquire their position information. From the position information, we can predict large-scale CSI for the whole service duration. Particularly, we formulate a maritime user scheduling optimization problem based on large-scale CSI, aiming to minimize the system energy consumption. To overcome the difficulties in choosing transmitters brought forward by ship-to-ship transmission, we progressively simplify the optimization problem. We further design a 3-step algorithm for the approximate solution to the user scheduling problem. 
+
+ \section{System Model and Problem Formulation}\label{sec:2}
  
  \begin{figure} [htb]
  \begin{center}
  \includegraphics*[width=8.8cm]{system.png}
  \end{center}
  \vspace*{-4mm} 
- \caption{Maritime ship-to-ship/shore communication system for data distribution service.}\label{fig:1}
+ \caption{Illustration of a maritime ship-to-ship/shore communication system for data distribution service.}\label{fig:1}
  \vspace*{-4mm} 
  \end{figure}
  
  
  \subsection{System Parameters}
  
- As shown in Fig. 1, the following sections focus on the user scheduling of an FDMA downlink transmission system. There are both ship-to-ship and ship-to-shore links in the considered system. The system has one on-shore BS and $J$ single-antenna users that can either act like receivers or like transmitters (relays). In general, we denote the transmitters (BS/relays) as $i \in \left\{ {0,1,...,J} \right\}$, the receivers (users) as $j \in \left\{ {1,...,J} \right\}$. $i=0$ means the transmitter is BS, whereas $i>0$ means the transmitter is one of the $J$ ships that can act like relays. We assume that there are $N$ subcarriers, and the subcarrier bandwidth is ${B_s}$. $P_i = \left\{ {P_0,\left\{ {P_j} \right\}} \right\}$ represents the fixed transmit power of BS ($i=0$) or ship relays ($i>0$) on any given subcarrier. In this paper, we only consider two-hop half-duplex `ship-to-ship/shore communications' for simplicity. 
+ As shown in Fig. 1, the following sections focus on the user scheduling of an frequency division multiple access (FDMA) downlink transmission system. There are both ship-to-ship and ship-to-shore links in the considered system. The system has one on-shore BS and $J$ single-antenna users that can either act like receivers or like transmitters (relays). In general, we denote the transmitters (BS/relays) as $i \in \left\{ {0,1,...,J} \right\}$, the receivers (users) as $j \in \left\{ {1,...,J} \right\}$. $i=0$ means the transmitter is BS, whereas $i>0$ means the transmitter is one of the $J$ ships that can act like relays. We assume that there are $N$ subcarriers, and the subcarrier bandwidth is ${B_s}$. $P_i = \left\{ {P_0,\left\{ {P_j} \right\}} \right\}$ represents the fixed transmit power of BS ($i=0$) or ship relays ($i>0$) on any given subcarrier. In this paper, we only consider two-hop half-duplex `ship-to-ship/shore communications' for simplicity. 
  
  In the considered system, ship-to-ship transmissions use the same licensed band of ship-to-shore transmissions (i.e. one of the $N$ subcarriers), and the same air interface of the ship-to-shore transmissions. 
  Based on the half-duplex assumption, the $J$ single-antenna users can either receive data from one transmitter or transmit data to another user at any given time. 
@@ -190,7 +191,7 @@
  Thus, we formulate the energy consumption optimization problem as
  \begin{subequations}
  \begin{align}
- & \mathop {\min }\limits_{{\left\{ {{\delta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}} \left\{ {\sum\limits_{i = 0}^J {\sum\limits_{j = 1}^J {\sum\limits_{t = 1}^{T} {{P_{i}}\delta _{i,j,t} \Delta \tau } } } } \right\} ,\\
+ & \mathop {\min }\limits_{{\left\{ {{\delta _{i,j,t}}} \right\}^{\left( {J + 1} \right) \times J \times T}}}  {\sum\limits_{i = 0}^J {\sum\limits_{j = 1}^J {\sum\limits_{t = 1}^{T} {{P_{i}}\delta _{i,j,t} \Delta \tau } } } }  ,\\
   {s.t.} \;\; &\sum\limits_{i \ne j} {{{\delta _{i,j,t}}} } + \sum\limits_{j' \ne j} { {{\delta _{j,j',t}}} \le {1}} ,\\
   \;\;\;\;\;\; &\sum\limits_i {\sum\limits_j { {{\delta _{i,j,t}}} } } \le N ,\\
   \;\;\;\;\;\; &{{{\left. {{V_{j,t}}} \right|}_{t = t_j^{{\rm{In}}}}} = 0, \left. {{V_{j,t}}} \right|_{t = t_j^{{\rm{Out}}}}} \ge V_j^{\rm{QoS}}, {V_{j,t}} \ge 0.
@@ -200,7 +201,7 @@
  %, and our optimization is in a $\left( {J + 1} \right) \times J \times T$ 3-dimensional subspace. 
  Half-duplex constraint (5b) guarantees that each user has access to at most one BS/user at a given time, and serves either as a transmitter or as a receiver. The constraint in (5c) guarantees that at most $N$ users can be severed simultaneously in the system, by BS or relays, since there are only $N$ subcarriers. (5d) makes sure that the QoS constraint is met and relays cannot transmit more than what they have currently.
  
- Given the difficulties in solving the Linear Integer Programming problem in (5), we propose the following progressive approximation. 
+ Given the difficulties in solving the NP-complete \cite{p1000} 0-1 Integer Linear Programming problem in (5), we propose the following progressive algorithm. 
  %\textit{Theorem 1:} The problem in (4) is NP-hard.
  
  %\textit{Proof:} See Appendix A. 
@@ -211,7 +212,7 @@
  
  %\subsection{Problem Formulation}
  
- \subsection{Progressive Approximation of the Original-Problem}
+ \subsection{Progressive Algorithm of the Original-Problem}
  
  The original non-convex problem in (5) involves various factors, and achieving the optimal solution for it is not practical (exponential complexity). To avoid the difficulties introduced by more transmitters (BS/relays), we first loosen the subcarrier constraint in (5), and consider a ship-to-shore-only system. Then we replace the high-power part of ship-to-shore links with low-power ship-to-ship/shore link-pairs, and add back the loosen constraint. We propose a 3-step algorithm to achieve an approximation solution, with each step based on its predecessor's result. 
  
@@ -222,14 +223,13 @@
  
  Last, in step-3, we use a greedy algorithm based on the result returned by step-2 to make sure that our user scheduling is applicable, i.e., the subcarrier constraint is met. Since this constraint has not been considered in step-1, we make adjustments in step-3 to get an approximation of the applicable solution for the ship-to-shore system. 
 
- Eventually, after all three steps, we approximate the optimal solution for the original problem in (5). Since the transmission speed for all $\left( J+1 \right) \times J \times T$ links can be predicted based on large-scale CSI, the 3-step algorithm can be carried out using only large-scale CSI. In Section IV we prove the validity of our progressive approximation by comparing the energy consumptions. 
+ Eventually, after all three steps, we approximate the optimal solution for the original problem in (5). Since the transmission speed for all $\left( J+1 \right) \times J \times T$ links can be predicted based on large-scale CSI, the 3-step algorithm can be carried out using only large-scale CSI. In Section IV we prove the validity of our progressive algorithm by comparing the energy consumptions. 
  
- \subsection{Step-1}
  
- For the first step, we concentrate on large-scale CSI by considering the most simple scenario: a ship-to-shore-only system without subcarrier constraint. We fix transmitter $i = 0$ since users can only receive data from on-shore BS. 
+ For step-1, we concentrate on large-scale CSI by considering the most simple scenario: a ship-to-shore-only system without subcarrier constraint. We fix transmitter $i = 0$ since users can only receive data from on-shore BS. 
  \begin{subequations}
  \begin{align}
- & \mathop {\min }\limits_{\left\{ {{\delta _{0,j,t}}} \right\}} \left\{ {\sum\limits_{j = 1}^J {\sum\limits_{t = 1}^{T} {{P_{0}}\delta _{0,j,t} \Delta \tau } \,} } \right\} ,\\
+ & \mathop {\min }\limits_{\left\{ {{\delta _{0,j,t}}} \right\}}  {\sum\limits_{j = 1}^J {\sum\limits_{t = 1}^{T} {{P_{0}}\delta _{0,j,t} \Delta \tau } \,} }  ,\\
   {s.t.} \;\; &{{{\left. {{V_{j,t}}} \right|}_{t = t_j^{{\rm{In}}}}} = 0,\left. { {V_{j,t}}} \right|_{t = t_j^{{\rm{Out}}}}} \ge V_j^{\rm{QoS}}.
  \end{align}
  \end{subequations}
@@ -237,14 +237,14 @@
  %since the optimization is currently in a $J \times T$ 2-dimensional subspace (the transmitter dimension degenerates since there is only one transmitter, namely BS) 
  Half-duplex constraint in (5b) and ${V_{j,t}} \ge 0$ in (5d) are not necessary here since users can only receive data from BS, and cannot act like relays. We also drop the $N$-subcarrier constraint in (5c) since we assume that the BS can serve infinite number of users. 
  
- In the first step, we optimize ${\delta _{0,j,t}}$ only with constraint (6b). In this case, the optimization variables of different users are no longer correlated, and the optimal solution here can be obtained by scheduling each user separately. The problem in (6) can be reduced to $\mathop {\min }\limits_{{\left\{ {{\delta _{0,j,t}}} \right\}}} \left\{ {\sum\limits_{t = 1}^T {{P_{0}}\delta _{0,j,t} \Delta \tau } } \right\}$. Note that ${r_{0,j,t}}$ is a monotone increasing function of ${\beta _{0,j,t}}$, therefore we can obtain the optimal solution by choosing links with best CSI (transmission speed) for each user. 
+ In the first step, we optimize ${\delta _{0,j,t}}$ only with constraint (6b). In this case, the optimization variables of different users are no longer correlated, and the optimal solution here can be obtained by scheduling each user separately. The problem in (6) can be reduced to $\mathop {\min }\limits_{{\left\{ {{\delta _{0,j,t}}} \right\}}} {\sum\limits_{t = 1}^T {{P_{0}}\delta _{0,j,t} \Delta \tau } } $. Note that ${r_{0,j,t}}$ is a monotone increasing function of ${\beta _{0,j,t}}$, therefore we can obtain the optimal solution by choosing links with best CSI (transmission speed) for each user. 
  
  We further define ${{\mathbf{S}}_{\mathbf{1}}}$ as the set of chosen ship-to-shore link at a specific time slot in problem (6), i.e., $\left( {0,j,t} \right) \in {\mathbf{S}}_{\mathbf{1}}$ if ${\delta _{i,j,t} = 1}$. 
  
  For each user, we find link $0 \to j@t$ with best ${r _{0,j,t}}$ and set ${\delta _{0,j,t} = 1}$ until the QoS constraint is met.
  
  \begin{algorithm}[ht]
-  \caption{\textbf{Step-1:} Algorithm for problem (6)}
+  \caption{\textbf{Step-1:} Algorithm for solving the problem in (6)}
   \begin{algorithmic}[1]
   \STATE Initialize ${{\mathbf{S}}_{\mathbf{1}}}=\phi$
   \FOR{all user $j$}
@@ -256,13 +256,12 @@
  \end{algorithmic}
  \end{algorithm}
 
- \subsection{Step-2}
  
- In step-2 of the progressive approximation, we greedily change many ship-to-shore links into fewer ship-to-ship/shore link-pairs with higher transmission speed for lower energy consumption. We record the result we get in step-2 as ${{\mathbf{S}}_{\mathbf{2}}}$. After step-1 we get ${{\mathbf{S}}_{\mathbf{1}}}$, which is an optimal solution for problem (6). ${{\mathbf{S}}_{\mathbf{1}}}$ only contains ship-to-shore links like $0 \to j@t'$, while ${{\mathbf{S}}_{\mathbf{2}}}$ also contains ship-to-ship/shore link-pairs like $\left[ {0 \to i'@{t_1},i' \to j@{t_2}} \right]$. 
+ In step-2 of the progressive algorithm, we greedily change many ship-to-shore links into fewer ship-to-ship/shore link-pairs with higher transmission speed for lower energy consumption. We record the result we get in step-2 as ${{\mathbf{S}}_{\mathbf{2}}}$. After step-1 we get ${{\mathbf{S}}_{\mathbf{1}}}$, which is an optimal solution for problem (6). ${{\mathbf{S}}_{\mathbf{1}}}$ only contains ship-to-shore links like $0 \to j@t'$, while ${{\mathbf{S}}_{\mathbf{2}}}$ also contains ship-to-ship/shore link-pairs like $\left[ {0 \to i'@{t_1},i' \to j@{t_2}} \right]$. 
  
  Since the introduction of ship-to-ship links brings forward energy reduction by reducing the number of ship-to-shore links, we can approximate the original problem in (5a)-(5d) by maximizing the energy consumption reduction between ${{\mathbf{S}}_{\mathbf{2}}}$ and ${{\mathbf{S}}_{\mathbf{1}}}$ by 
  \begin{align}
-   &\mathop {\max }\limits_{{\left\{ {{\delta _{i,j,t}}} \right\}}} \left\{ {{\sum\limits_{j = 1}^J \sum\limits_{t = 1}^{T}{\left( {\mathop {{P_{0}}\delta _{0,j,t} }\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{1}}}} - \sum\limits_{i = 0}^J {\mathop {{P_{i}}\delta _{i,j,t}}\limits_{\left( {i,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}} } } \right) \Delta \tau } } } \right\}.
+   &\mathop {\max }\limits_{{\left\{ {{\delta _{i,j,t}}} \right\}}}  {{\sum\limits_{j = 1}^J \sum\limits_{t = 1}^{T}{\left( {\mathop {{P_{0}}\delta _{0,j,t} }\limits_{\left( {0,j,t} \right) \in {{\mathbf{S}}_{\mathbf{1}}}} - \sum\limits_{i = 0}^J {\mathop {{P_{i}}\delta _{i,j,t}}\limits_{\left( {i,j,t} \right) \in {{\mathbf{S}}_{\mathbf{2}}}} } } \right) \Delta \tau } } } .
  \end{align}
  In step-2, we maximize the difference term (7) to approximate the optimal solution. Still, we ignore the subcarrier constraint, only focusing on half-duplex constraint (5b) and QoS constraint (5d). 
  %We consider the subcarrier constraint during the substitution or otherwise the number of links in the same time slot may further exceed the subcarrier constraint due to the introduction of ship-to-ship links. 
@@ -300,7 +299,7 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
 
  
  \begin{algorithm}[ht]
- \caption{\textbf{Step-2:} Algorithm for problem (7)}
+ \caption{\textbf{Step-2:} Algorithm for solving the problem in (7)}
  \begin{algorithmic}[1]
  \STATE Initialize ${{\mathbf{S}}_{\mathbf{2}}}={{\mathbf{S}}_{\mathbf{1}}}$
  \STATE Initialize ${\mathbf{R}} = \phi $ as group for all plausible ship-to-ship/shore link-pairs.
@@ -353,14 +352,13 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  Through (12) and (13) the half-duplex constraint (5b) and ${V_{j,t}} \ge 0$ in (5d) are met for the ship-to-ship/shore substitution link-pairs. 
 
 
- \subsection{Step-3}
  
  After step-1, we achieved the optimal solution for problem (6), since we have not take the subcarrier constraint into consideration. Thus, we might end up with some ship-to-shore links that do not satisfy the subcarrier constraint in (5c). Through step-2, we change part of the original links into ship-to-ship/shore link-pairs. This may relieve the conflict after step-1 since the system now has fewer links. But still, we haven't considered the subcarrier constraint. In step-3, we deal with the links that do not satisfy the subcarrier constraint.
  %The solution ${{\mathbf{S}}_{\mathbf{1}}}$ returned by step1 is not a practical one for the ship-to-shore system in (5a)-(5c) since (4b) has not been taken into account. We design an effective method to iteratively get the approximate solution ${{\mathbf{S}}_{\mathbf{2}}}$ which is applicable for the ship-to-shore system. 
  
  In step-3, we minimize the energy consumption gap 
  \begin{align}
-   &\mathop {\min }\limits_{\left\{ {{\delta _{i,j,t}}} \right\}} \left\{ {\sum\limits_{i = 0}^J {\sum\limits_{j = 1}^J {\sum\limits_{t = 1}^T {\left( {\mathop {{\delta _{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\bf{S}}_{\bf{3}}}}  - \mathop {{\delta _{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\bf{S}}_{\bf{2}}}} } \right){P_i}\Delta \tau } } } } \right\}.
+   &\mathop {\min }\limits_{\left\{ {{\delta _{i,j,t}}} \right\}}  {\sum\limits_{i = 0}^J {\sum\limits_{j = 1}^J {\sum\limits_{t = 1}^T {\left( {\mathop {{\delta _{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\bf{S}}_{\bf{3}}}}  - \mathop {{\delta _{i,j,t}}}\limits_{\left( {i,j,t} \right) \in {{\bf{S}}_{\bf{2}}}} } \right){P_i}\Delta \tau } } } } .
  \end{align}
  Any changes in step-3 will result in higher energy consumption over ${{\mathbf{S}}_{\mathbf{2}}}$. Thus, we progressively approximate the optimal solution for the ship-to-ship/shore system by minimizing the energy consumption gap between ${{\mathbf{S}}_{\mathbf{2}}}$ and the result ${{\mathbf{S}}_{\mathbf{3}}}$. 
  We propose the following algorithm in step-3.
@@ -368,7 +366,7 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  If the constraint (5c) is not satisfied in time slot ${t}$, we find element in ${{\mathbf{S}}_{\mathbf{2}}}$ that have the highest (worst) power-to-rate ratio ${\frac{P_0}{r_{0,j,{t_0}}}}$ or  $ {\frac{{{P_0}}}{{{r_{0,i',{t_1}}}}} + \frac{{{P_{i'}}}}{{{r_{i',j,{t_2}}}}}} $. We drop those elements out of ${{\mathbf{S}}_{\mathbf{2}}}$ and find substitution to satisfy the QoS need under the $N$-subcarrier constraint in (5b) with minimal energy addition. The substitution process is similar to step-2, thus it is omitted here. 
  
  \begin{algorithm}[ht]
- \caption{\textbf{Step-3:} Algorithm for problem (14)}
+ \caption{\textbf{Step-3:} Algorithm for solving the problem in (14)}
  \begin{algorithmic}[1]
  \STATE Initialize ${{\mathbf{S}}_{\mathbf{3}}}={{\mathbf{S}}_{\mathbf{2}}}$
  \FOR{ all $t$}
@@ -395,7 +393,7 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  Then, we go through all $J$ users, adding ship-to-ship/shore link-pairs trying to meet the QoS constraint only with ship-to-ship/shore link-pairs. There are at most $J \times T^2$ links in ${\mathbf{R}}$ for each user. Hence, finding the ship-to-ship/shore link with lowest (best) composite power-to-rate ratio for user $j$ is an $O\left( \log \left( JT^2 \right) \right)$ operation. 
  After the addition of ship-ship/shore link pairs there are at most $J \times T$ link-pairs (since the link-pairs have higher transmission speed than the original ship-to-shore-only links) and 
  $J \times T$ ship-to-shore-only links. 
- %At last we go through all ${2J}T$ elements ($JT$ from link pairs and $JT$ from original links) in ${{\mathbf{S}}_{\mathbf{2}}}$. 
+ %At last, we go through all ${2J}T$ elements ($JT$ from link pairs and $JT$ from original links) in ${{\mathbf{S}}_{\mathbf{2}}}$. 
  Among all ${2J}T$ elements we find element with highest (worst) composite power-to-rate ratio, and remove them from ${{\mathbf{S}}_{\mathbf{2}}}$. After the removal there are at most $\frac{{{P_0}}}{{{P_0} + \overline {{P_i}} }} { J} T$ links in ${{\mathbf{S}}_{\mathbf{2}}}$ (the energy consumption of ${{\mathbf{S}}_{\mathbf{2}}}$ is lower than that of ${{\mathbf{S}}_{\mathbf{1}}}$). 
  The removal of links has an $O\left[ \frac{{{P_0}}}{{{P_0} + \overline {{P_i}} }} { J} T \log \left( { {2J} T} \right)  \right]$ complexity. 
  Thus, the overall complexity for step-2 is $O\left[ {JT \log \left( JT^2 \right)} \right]$. 
@@ -411,18 +409,9 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  \section{Simulation Results}\label{sec:4}
  
  In this section, we provide numerical results for the proposed ship-to-ship/shore 3-step progressive method, as well as a referential round-robin method. 
- %The referential method optimize the ship-to-shore system based on current CSI, therefore the optimization is in a \textbf{1-dimensional} subspace $J$, rather than the $J \times T$ \textbf{2-dimensional} subspace for the ship-to-shore system in subproblem 1 and 2 or the $\left( {J + 1} \right) \times J \times T$ \textbf{3-dimensional} subspace for IoV underlaid system in subproblem 3. 
  For the referential ship-to-shore round-robin method, we have zero information about CSI, thus we find up to $N$ ships in a round-robin method in each time slot. 
  
- \subsection{Parameters Settings}
  
- 
- %We compare the large-scale CSI replacement in (2d) with the complete channel in the following simulations. Moreover, we take one step further by taking the expectation operator out from the original channel in (2a) and replace ${h_{i,j,t}} \sim \mathcal{CN}(0, \mathbf{I})$ with ${\left| {{h_0}} \right|^2} = 1$. Based on a low SNR assumption, we get 
- 
- %\begin{align}
- %{r_{i,j,t}} \approx {B_s}{\log _2}\left( {1 + \frac{{{P_{i,j,t}}{\beta _{i,j,t}}{{\left| {{h_0}} \right|}^2}}}{{{\sigma ^2}}}} \right).
- %\end{align}
- %We further discuss the performance of this estimation and the large-scale CSI replacement in (2d) in this section.
  
  As for the system settings, the on-shore BS is located in the center of the plane and have a semicircular coverage shape in the sea, while the ships traverse along two intersecting shipping-lanes. 
  % since we focus on passenger ships scenarios in this study. Moreover, passenger ship assumption suits our study since their shipping-lanes are fixed and their position information can be easily determined. 
@@ -435,10 +424,9 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  
  
  As shown later in simulations, having full CSI indeed will be most feasible. In ship-to-ship/shore systems, the difference in system energy consumption between large-scale CSI replacement and the genius-aided `full CSI' is around 5\% - 15\%. These errors here come from assuming that ship $j$ stays in the same position and $\beta _{i,j,\tau }$ remains constant during each time slot $t$, as well as not knowing the full CSI.
- This 5\% - 15\% error in ship-to-ship/shore systems shows that the large-scale CSI replacement in (2c) is quite acceptable. %If we are less strict with the approximation, the ${h_0}$ constant estimation may be acceptable since the estimation in (12) shares similarity in trend and shape with the actual channel. 
+ This 5\% - 15\% error in ship-to-ship/shore systems shows that the large-scale CSI replacement in (2c) is quite acceptable. 
   
  
- \subsection{Performance Evaluations}
  
  First, in Fig. 2, we study the impact of only considering a part of the service duration in user scheduling. 
  Next, we investigate the impact of different service needs in Fig. 3. 
@@ -457,18 +445,15 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  %\Fig.[t!](topskip=0pt, botskip=0pt, midskip=0pt){Tranges.png}
  %{Average energy consumption per user $E_{avg}$ versus the percentage of pre-acquired CSI.\label{fig4}}
  
- Fig. 2 demonstrates the relationship between average energy consumption and the ratio of ${T^{\rm{US}}}$ to total service time duration. Here ${T^{\rm{US}}}$ represents the user scheduling time duration, i.e., we only consider at most $T^{\rm{US}}$ time slots in user scheduling. %The QoS constraint here is 1Gbits/user. 
- %The larger ${T^{\rm{US}}}$ is, the longer can we predict the CSI, and hence the more feasible transmission time slots we can choose from in our method. As a result, we can get more improvement from our process-oriented D2D-aided or ship-to-shore method when ${T^{\rm{US}}}$ approximate the total service time duration. 
+ Fig. 2 demonstrates the relationship between average energy consumption and the ratio of ${T^{\rm{US}}}$ to total service time duration. Here ${T^{\rm{US}}}$ represents the user scheduling time duration, i.e., we only consider at most $T^{\rm{US}}$ time slots in user scheduling. 
  
  As we can see, the genius-aided full CSI curves are better than our large-scale CSI replacement energy-wise generally. Our proposed ship-to-ship/shore method outmatches the referential method, especially in ideal conditions (which means we consider full-service duration, ${T^{\rm{US}}}=T$). 
- Since we can take the cost of larger algorithm complexity (resulting from larger $T^{\rm{US}}$), we can increase  $T^{\rm{US}}$ in exchange for better performance energy-wise. The long-term (larger $T^{\rm{US}}$) large-scale CSI result we get is better than the shorter-term (smaller $T^{\rm{US}}$) genius-aided full CSI result, which justifies our large-scale replacement. 
+ %Since we can endure a slightly larger algorithm complexity (resulting from larger $T^{\rm{US}}$), we can increase  $T^{\rm{US}}$ in exchange for better performance energy-wise. 
+ The long-term (larger $T^{\rm{US}}$) large-scale CSI result we get is better than the shorter-term (smaller $T^{\rm{US}}$) genius-aided full CSI result, which justifies our large-scale replacement. 
  
  When ${T^{\rm{US}}}$ approximates the total service time duration, we have maximum benefit from user scheduling. The large-scale CSI ship-to-ship/shore method consummates 60\% less energy than the round-robin method. 
- Under simulation settings, due to geographical closeness and better CSI, users tend to finish their communications with BS or relays during the first 70\% of their staying time inside the service zone (semicircle). The 60\% improvement is steady until the ratio of ${T^{\rm{US}}}$ to total service time becomes less than 0.7. Thus we can set ${T^{\rm{US}}=0.7T}$ for relatively large improvements at a relatively small complexity cost. 
+ Under simulation settings, due to geographical closeness and better CSI, users tend to finish their communications with BS or relays during the first 70\% of their staying time inside the service zone (semicircle). The improvement is steady until the ratio of ${T^{\rm{US}}}$ to total service time becomes less than 0.7, which is the sweet-spot for the tradeoff between complexity and improvements. Thus we can set ${T^{\rm{US}}=0.7T}$ for relatively large improvements at a relatively small complexity cost. 
  Energy consumption rises as the ratio of ${T^{\rm{US}}}$ to total service time shrinks, mainly because we aim to satisfy as much as possible in fewer time slots. When ${T^{\rm{US}}} = 0$, i.e. having zero CSI, our proposed method retrogresses to the referential method. 
- %When the QoS constraint is 1Gbits/user, 
- %These improvements prove the superiority in our 3-dimensional optimization over 2-dimensional and 1-dimensional ones. 
- %
  
  
  
@@ -509,14 +494,6 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  
  By going through different transmit powers, we can find the optimal transmit power in any specific scenario. In this case, the optimal transmit power is around 8W for the BS (0.8W for the ship relays), smaller than the 10W BS assumption we first made. The optimal transmit power is also slightly higher in large-scale CSI based user scheduling schemes than genius-aided perfect CSI scenario. 
  
- %The gap between large-scale CSI approximation (2d) and the actual channel remains minimal, whereas the gap between the ${h_0}$ constant estimation and the actual channel shrinks as the noise rises. %The Gaussian noise ${\sigma ^2 ={10^{ - 14}}}$ is more often the case in following simulations. For further tests, we increase the noise ${\sigma ^2}$. 
- %The worsening in SNR also result in the increase in energy consumption, while making our proposed methods more beneficial as the gap in energy consumption between referential method and proposed ship-to-ship/shore method increases. %The relationship between SNR and the gap are explored below. 
- 
- %We estimate ${r_{i,j,t}}$ in (2d) and in (12) both through taking out the expectation operator. Since $x \ge {\log _2}\left( {1 + x} \right)$ when ${x \ge 0}$, the transmission speed or channel capacity ${r_{i,j,t}}$ is smaller in estimation (12) than the actual channel or large-scale CSI replacement in (2d). Therefore, the energy consumptions with the ${h_0}$ constant estimation are smaller than the others, just as showed in Fig. 5. 
- %Since the ${h_0}$ constant approximation is based on a low SNR assumption, as the noise function ${\sigma ^2}$ increases, the ${h_0}$ constant estimations approximate the large-scale CSI replacement in (2d) and the complete channel energy-wise.
- 
- %As the SNR decreases, the channel capacity worsens and the greedy referential method ends up with more low-speed links. Thus we can see an improvement of over 60\% in energy consumption from the proposed ship-to-ship/shore method when ${\sigma ^2 \le{10^{ - 10}}}$.
- 
  %To sum up, the followings can be seen from the simulations. 
  %First, considering a longer time in user scheduling surely will improve system performance, but the sweet spot is 70\% of service duration. 
  %Second, a larger QoS data volume constraint will result in larger bit-wise energy consumption. 
@@ -526,10 +503,10 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  Besides, by going through different powers, we can choose the optimal transmit power for given QoS constraint. 
  
  
- As shown by simulations, the approximate solution shows its potential as well as its simplicity. The proposed large-scale-CSI-based scheme can improve the performance by up to 71\% energy-wise, while only suffers a 5\% - 15\% rise in energy consumption over the genius-aided-full-CSI-based scheme. Thus the large-scale CSI replacement and the proposed 3-step progressive approximation are justified. 
+ As shown by simulations, the approximate solution shows its potential as well as its simplicity. The proposed large-scale-CSI-based scheme can improve the performance by up to 71\% energy-wise, while only suffers 5\% - 15\% larger energy consumption over the genius-aided-full-CSI-based scheme. Thus the large-scale CSI replacement and the proposed 3-step progressive algorithm are justified. 
 
- The main limitation of our progressive approximation comes from the inaccuracy in the large-scale CSI prediction. %We assumed that the ships sail strictly according to their shipping lanes and timetables. 
- If there are any deviations in the ship routes and speeds, our large-scale CSI prediction will be inaccurate, and the performance of the proposed large-scale-CSI-based user scheduling algorithm will worsen. 
+ %The main limitation of our progressive approximation comes from the inaccuracy in the large-scale CSI prediction. %We assumed that the ships sail strictly according to their shipping lanes and timetables. 
+ %If there are any deviations in the ship routes and speeds, our large-scale CSI prediction will be inaccurate, and the performance of the proposed large-scale-CSI-based user scheduling algorithm will worsen. 
  
  \section{Conclusion}\label{sec:5}
  
@@ -555,7 +532,7 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
  
  \section*{Acknowledgement}
  
- This work was partially supported by the National Science Foundation of China under Grant No. 61771286 and Grant No. 91638205 and Grant No. 61621091. The authors Yunzhong Hou and Te Wei contributed equally to this work.
+ This work was partially supported by the National Science Foundation of China under Grant No. 61771286, Grant No. 91638205, Grant No. 61701457, and Grant No. 61621091. %The authors Yunzhong Hou and Te Wei contributed equally to this work.
  
  
  \begin{thebibliography}{10}
@@ -666,6 +643,11 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
   W. Feng, Y. Wang, N. Ge, J. Lu, and J. Zhang, ``Virtual MIMO in Multi-Cell Distributed Antenna Systems: Coordinated Transmissions with Large-Scale CSIT,'' 
   \emph{IEEE J. Sel. Areas in Commun.}, vol. 31, no. 10, pp. 2067-2081, 2013.
  
+  \bibitem{p406}
+  Y. Chen, W. Feng, R. Shi, and N. Ge, ``Pilot-based channel estimation for AF relaying using energy harvesting,'' \emph{IEEE Trans. Veh. Tech.}, vol. 66, no. 8, pp.~6877--6886, 2017. 
+
+  \bibitem{p407}
+  Y. Zhang, W. Feng, and N. Ge, ``Pilot power adaptation for tomographic channel estimation in distributed MIMO systems,'' \emph{IET Communications}, vol. 11, no.1, pp.~112--118, 2017. 
  
   \bibitem{p410}
   J. S. Pathmasuntharam, J. Jurianto, P. Y. Kong, Y. Ge, M. Zhou, and R. Miura, ``High speed maritime ship-to-ship/shore mesh networks,'' in
@@ -725,8 +707,12 @@ where $\left( k \right)$ denotes the $k^{th}$ update for link $i \to j @ t$.
   % \bibitem{p8}
   % T. Yang, H. Liang, N. Cheng, R. Deng, X. Shen, ``Efficient Scheduling for Video Transmissions in Maritime Wireless Communication Networks'',
   % \emph{IEEE Transactions on Vehicular Technology (TVT)}, vol. 64, no. 9, pp.~4215-4229, 2015.
- 
- 
+  
+
+  \bibitem{p1000}
+  R. Karp ``Reducibility Among Combinatorial Problems'', in 
+  \emph{Complexity of Computer Computations} New York: Plenum. pp. 85–103, 1972
+  
  \end{thebibliography}
  
  

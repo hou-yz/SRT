@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.24)  27 NOV 2017 19:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.24)  5 DEC 2017 16:53
 entering extended mode
 **"c:/Users/Johnny/Documents/GitHub/SRT/D2D_paper/MY latex/maritime_ieeetran_fo
 rmat.tex"
@@ -332,20 +332,20 @@ Package: subfigure 2002/07/30 v2.1.4 subfigure package
 (maritime_ieeetran_format.aux)
 \openout1 = `maritime_ieeetran_format.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
 
--- Lines per column: 56 (exact).
+-- Lines per column: 58 (exact).
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count128
@@ -407,29 +407,33 @@ G,.JBIG2,.JB2,.eps]
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfigure package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 47.
-LaTeX Font Info:    Try loading font information for U+msa on input line 47.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 51.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <8> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 51.
+ [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+
+]
+<system.png, id=10, 561.297pt x 341.47575pt>
+File: system.png Graphic file (type png)
+ <use system.png>
+Package pdftex.def Info: system.png used on input line 121.
+(pdftex.def)             Requested size: 250.38434pt x 152.32878pt.
+LaTeX Font Info:    Try loading font information for U+msa on input line 131.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 47.
+LaTeX Font Info:    Try loading font information for U+msb on input line 131.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
-
-
-]
-<system.png, id=9, 561.297pt x 341.47575pt>
-File: system.png Graphic file (type png)
- <use system.png>
-Package pdftex.def Info: system.png used on input line 120.
-(pdftex.def)             Requested size: 250.38434pt x 152.32878pt.
-
-Underfull \vbox (badness 1127) has occurred while \output is active []
-
- [2 <./system.png>] [3] [4] [5]
+) [2 <./system.png>]
+[3] [4] [5]
 Package epstopdf Info: Source file: <Tranges.eps>
 (epstopdf)                    date: 2017-11-25 00:49:24
 (epstopdf)                    size: 19200 bytes
@@ -438,16 +442,15 @@ Package epstopdf Info: Source file: <Tranges.eps>
 (epstopdf)                    size: 3775 bytes
 (epstopdf)             Command: <epstopdf --outfile=Tranges-eps-converted-to.pd
 f Tranges.eps>
-(epstopdf)             \includegraphics on input line 450.
+(epstopdf)             \includegraphics on input line 438.
 Package epstopdf Info: Output file is already uptodate.
-
-<Tranges-eps-converted-to.pdf, id=39, 479.7925pt x 312.16624pt>
+ <Tranges-eps-converted-to.pdf, id=39, 479.7925pt x 312.16624pt>
 File: Tranges-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Tranges-eps-converted-to.pdf>
-Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 450.
+Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 438.
 (pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
- [6]
+ [6 <./Tranges-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Cqos.eps>
 (epstopdf)                    date: 2017-11-25 00:48:45
 (epstopdf)                    size: 19830 bytes
@@ -456,17 +459,17 @@ Package epstopdf Info: Source file: <Cqos.eps>
 (epstopdf)                    size: 4041 bytes
 (epstopdf)             Command: <epstopdf --outfile=Cqos-eps-converted-to.pdf C
 qos.eps>
-(epstopdf)             \includegraphics on input line 477.
+(epstopdf)             \includegraphics on input line 462.
 Package epstopdf Info: Output file is already uptodate.
 
-<Cqos-eps-converted-to.pdf, id=44, 479.7925pt x 312.16624pt>
+<Cqos-eps-converted-to.pdf, id=48, 479.7925pt x 312.16624pt>
 File: Cqos-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Cqos-eps-converted-to.pdf>
-Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 477.
+Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 462.
 (pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
 
-Underfull \hbox (badness 1454) in paragraph at lines 491--492
+Underfull \hbox (badness 1454) in paragraph at lines 476--477
 []\OT1/ptm/m/n/10 The ref-er-en-tial method's bit-wise en-ergy con-sump-tion
  []
 
@@ -478,55 +481,46 @@ Package epstopdf Info: Source file: <snrs.eps>
 (epstopdf)                    size: 3843 bytes
 (epstopdf)             Command: <epstopdf --outfile=snrs-eps-converted-to.pdf s
 nrs.eps>
-(epstopdf)             \includegraphics on input line 497.
+(epstopdf)             \includegraphics on input line 482.
 Package epstopdf Info: Output file is already uptodate.
-<snrs-eps-converted-to.pdf, id=46, 479.7925pt x 312.16624pt>
+<snrs-eps-converted-to.pdf, id=50, 479.7925pt x 312.16624pt>
 File: snrs-eps-converted-to.pdf Graphic file (type pdf)
 
 <use snrs-eps-converted-to.pdf>
-Package pdftex.def Info: snrs-eps-converted-to.pdf used on input line 497.
+Package pdftex.def Info: snrs-eps-converted-to.pdf used on input line 482.
 (pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
- [7 <./Tranges-eps-converted-to.pdf> <./Cqos-eps-converted-to.pdf> <./snrs-eps-
-converted-to.pdf>]
-
-** Conference Paper **
-Before submitting the final camera ready copy, remember to:
-
- 1. Manually equalize the lengths of two columns on the last page
- of your paper;
-
- 2. Ensure that any PostScript and/or PDF output post-processing
- uses only Type 1 fonts and that every step in the generation
- process uses the appropriate paper size.
-
-[8] (maritime_ieeetran_format.aux) ) 
+ [7 <./Cqos-eps-converted-to.pdf> <./snrs-eps-converted-to.pdf>]
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no € in font ptmr7t!
+Missing character: There is no “ in font ptmr7t!
+ [8] (maritime_ieeetran_format.aux) ) 
 Here is how much of TeX's memory you used:
- 5074 strings out of 493323
- 78409 string characters out of 3139062
- 159796 words of memory out of 3000000
- 8528 multiletter control sequences out of 15000+200000
- 44318 words of font info for 100 fonts, out of 3000000 for 9000
+ 5054 strings out of 493323
+ 78159 string characters out of 3139062
+ 158192 words of memory out of 3000000
+ 8509 multiletter control sequences out of 15000+200000
+ 40346 words of font info for 78 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 39i,18n,39p,1021b,644s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvip
-s/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx1
-0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx5.pfb><C:
-/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/
-Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Program F
-iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/
-utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/P
-rogram Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on maritime_ieeetran_format.pdf (8 pages, 5148177 bytes).
+ 39i,18n,39p,1128b,646s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvi
+ps/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx
+10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx5.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Program
+ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7
+.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX 2.9/font
+s/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times
+/utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on maritime_ieeetran_format.pdf (8 pages, 5146152 bytes).
 PDF statistics:
  127 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
