@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.24)  5 DEC 2017 16:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.24)  22 DEC 2017 14:16
 entering extended mode
 **"c:/Users/Johnny/Documents/GitHub/SRT/D2D_paper/MY latex/maritime_ieeetran_fo
 rmat.tex"
@@ -414,81 +414,92 @@ File: omsptm.fd
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <8> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 51.
- [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+Underfull \hbox (badness 1852) in paragraph at lines 51--51
+\OT1/ptm/m/n/8 Lab-o-ra-tory for In-for-ma-tion Sci-ence and Tech-nol-ogy, Bei-
+jing 100084,
+ []
+
+[1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
 ]
-<system.png, id=10, 561.297pt x 341.47575pt>
-File: system.png Graphic file (type png)
- <use system.png>
-Package pdftex.def Info: system.png used on input line 121.
-(pdftex.def)             Requested size: 250.38434pt x 152.32878pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 131.
+<slotted.png, id=10, 1473.1035pt x 792.561pt>
+File: slotted.png Graphic file (type png)
+ <use slotted.png>
+Package pdftex.def Info: slotted.png used on input line 121.
+(pdftex.def)             Requested size: 250.38434pt x 134.7094pt.
+LaTeX Font Info:    Try loading font information for U+msa on input line 125.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 131.
+LaTeX Font Info:    Try loading font information for U+msb on input line 125.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [2 <./system.png>]
-[3] [4] [5]
+) [2 <./slotted.png>]
+[3]
+Underfull \hbox (badness 3068) in paragraph at lines 297--300
+\OT1/ptm/m/n/10 A higher util-ity func-tion value means a lower com-
+ []
+
+[4] [5]
 Package epstopdf Info: Source file: <Tranges.eps>
-(epstopdf)                    date: 2017-11-25 00:49:24
-(epstopdf)                    size: 19200 bytes
+(epstopdf)                    date: 2017-12-11 17:38:09
+(epstopdf)                    size: 22081 bytes
 (epstopdf)             Output file: <Tranges-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-25 00:50:44
-(epstopdf)                    size: 3775 bytes
+(epstopdf)                    date: 2017-12-11 17:39:25
+(epstopdf)                    size: 4590 bytes
 (epstopdf)             Command: <epstopdf --outfile=Tranges-eps-converted-to.pd
 f Tranges.eps>
-(epstopdf)             \includegraphics on input line 438.
+(epstopdf)             \includegraphics on input line 471.
 Package epstopdf Info: Output file is already uptodate.
- <Tranges-eps-converted-to.pdf, id=39, 479.7925pt x 312.16624pt>
+ <Tranges-eps-converted-to.pdf, id=39, 431.6125pt x 349.305pt>
 File: Tranges-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Tranges-eps-converted-to.pdf>
-Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 438.
-(pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
+Package pdftex.def Info: Tranges-eps-converted-to.pdf used on input line 471.
+(pdftex.def)             Requested size: 250.38434pt x 202.63434pt.
  [6 <./Tranges-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Cqos.eps>
-(epstopdf)                    date: 2017-11-25 00:48:45
-(epstopdf)                    size: 19830 bytes
+(epstopdf)                    date: 2017-12-11 17:26:37
+(epstopdf)                    size: 21722 bytes
 (epstopdf)             Output file: <Cqos-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-25 00:50:45
-(epstopdf)                    size: 4041 bytes
+(epstopdf)                    date: 2017-12-11 17:39:26
+(epstopdf)                    size: 4628 bytes
 (epstopdf)             Command: <epstopdf --outfile=Cqos-eps-converted-to.pdf C
 qos.eps>
-(epstopdf)             \includegraphics on input line 462.
+(epstopdf)             \includegraphics on input line 495.
 Package epstopdf Info: Output file is already uptodate.
 
-<Cqos-eps-converted-to.pdf, id=48, 479.7925pt x 312.16624pt>
+<Cqos-eps-converted-to.pdf, id=48, 431.6125pt x 349.305pt>
 File: Cqos-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Cqos-eps-converted-to.pdf>
-Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 462.
-(pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
+Package pdftex.def Info: Cqos-eps-converted-to.pdf used on input line 495.
+(pdftex.def)             Requested size: 250.38434pt x 202.63434pt.
 
-Underfull \hbox (badness 1454) in paragraph at lines 476--477
+Underfull \hbox (badness 1454) in paragraph at lines 509--510
 []\OT1/ptm/m/n/10 The ref-er-en-tial method's bit-wise en-ergy con-sump-tion
  []
 
 Package epstopdf Info: Source file: <snrs.eps>
-(epstopdf)                    date: 2017-11-25 00:50:16
-(epstopdf)                    size: 19448 bytes
+(epstopdf)                    date: 2017-12-10 12:50:10
+(epstopdf)                    size: 23525 bytes
 (epstopdf)             Output file: <snrs-eps-converted-to.pdf>
-(epstopdf)                    date: 2017-11-25 00:50:46
-(epstopdf)                    size: 3843 bytes
+(epstopdf)                    date: 2017-12-10 12:51:00
+(epstopdf)                    size: 5015 bytes
 (epstopdf)             Command: <epstopdf --outfile=snrs-eps-converted-to.pdf s
 nrs.eps>
-(epstopdf)             \includegraphics on input line 482.
+(epstopdf)             \includegraphics on input line 515.
 Package epstopdf Info: Output file is already uptodate.
-<snrs-eps-converted-to.pdf, id=50, 479.7925pt x 312.16624pt>
+<snrs-eps-converted-to.pdf, id=50, 431.6125pt x 349.305pt>
 File: snrs-eps-converted-to.pdf Graphic file (type pdf)
 
 <use snrs-eps-converted-to.pdf>
-Package pdftex.def Info: snrs-eps-converted-to.pdf used on input line 482.
-(pdftex.def)             Requested size: 250.38434pt x 162.9085pt.
+Package pdftex.def Info: snrs-eps-converted-to.pdf used on input line 515.
+(pdftex.def)             Requested size: 250.38434pt x 202.63434pt.
  [7 <./Cqos-eps-converted-to.pdf> <./snrs-eps-converted-to.pdf>]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
@@ -496,12 +507,12 @@ Missing character: There is no “ in font ptmr7t!
  [8] (maritime_ieeetran_format.aux) ) 
 Here is how much of TeX's memory you used:
  5054 strings out of 493323
- 78159 string characters out of 3139062
- 158192 words of memory out of 3000000
+ 78164 string characters out of 3139062
+ 156192 words of memory out of 3000000
  8509 multiletter control sequences out of 15000+200000
  40346 words of font info for 78 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 39i,18n,39p,1128b,646s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 39i,18n,39p,1060b,644s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvi
 ps/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx
 10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx5.pfb><C
@@ -520,7 +531,7 @@ onts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX 2.9/font
 s/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times
 /utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/
 Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on maritime_ieeetran_format.pdf (8 pages, 5146152 bytes).
+Output written on maritime_ieeetran_format.pdf (8 pages, 1374474 bytes).
 PDF statistics:
  127 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
