@@ -62,7 +62,9 @@ srt_E0_means=[srt_E0(1,:)./J_range./(multis);srt_E0(2,:)./J_range./(multis)];
 ref_E0_means=ref_E0./J_range./(multis);
 srt_Es_means=[srt_Es(1,:)./J_range./(multis);srt_Es(2,:)./J_range./(multis)];
 ref_Es_means=ref_Es./J_range./(multis);
-save('.\experiments\C_qos_0.01_50.mat','multis','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means','srt_unsatisfied','ref_unsatisfied')
+
+%±£´æ
+%save('.\experiments\C_qos_0.01_50.mat','multis','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means','srt_unsatisfied','ref_unsatisfied')
 plot(multis(~srt_unsatisfied),srt_E0_means(2,~srt_unsatisfied)/1000,'r-^')
 grid on
 hold on

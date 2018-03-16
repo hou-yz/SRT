@@ -5,7 +5,7 @@ interval=15*60;
 ratio=[0,1/2,1/2];
 sigma2=10^-10.7;
 delta_t=60;
-T_range=2*3600/delta_t;%6*3600/delta_t;
+T_range=2*3600/delta_t;
 J_range=8;%(T_range*delta_t-2*3600)/interval*2;
 t_step=1;
 h0=sqrt(1/2)*(randn([J_range+1,J_range,T_range*t_step*10])+1j*randn([J_range+1,J_range,T_range*t_step*10]));
@@ -37,7 +37,8 @@ end
 
 
 %% 编辑这里改横轴分辨率
-T_ranges=linspace(1,T_range);
+T_ranges=linspace(0,T_range,11);
+T_ranges(1)=1;
 %%
 
 
@@ -46,7 +47,7 @@ srt_Es=zeros(2,length(T_ranges));srt_E0=zeros(2,length(T_ranges));
 srt_unsatisfied=zeros(1,length(T_ranges));ref_unsatisfied=zeros(1,length(T_ranges));
 [ref_E0,~]=ref_algorithm(beta0,J_range,T_range,P_i_max,P_j_max,C_qos,N,delta_t,BW,sigma2,1,bt0,et0);
 [ref_Es,C_unsatisfied]=ref_algorithm(betaS,J_range,T_range*t_step,P_i_max,P_j_max,C_qos,N,delta_t/t_step,BW,sigma2,h0,btS,etS);
-for j=(1:10)
+for j=(1:5)
     
     for i=(1:length(T_ranges))
         T_range_partial=T_ranges(i);
@@ -97,7 +98,9 @@ srt_E0_means=[srt_E0(1,:)./J_range/j;srt_E0(2,:)./J_range/j];
 ref_E0_means=ref_E0*ones(1,length(T_ranges))./J_range;
 srt_Es_means=[srt_Es(1,:)./J_range/j;srt_Es(2,:)./J_range/j];
 ref_Es_means=ref_Es*ones(1,length(T_ranges))./J_range;
-save('.\experiments\T_ranges_1_360','T_ranges','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means')
+
+%保存
+%save('.\experiments\T_ranges_1_360','T_ranges','srt_E0_means','ref_E0_means','srt_Es_means','ref_Es_means')
 i=[1,3,5,7,9,11];
 plot(T_ranges(i)/120,srt_E0_means(2,i)/1000,'r-^',T_ranges(i)/120,srt_Es_means(2,i)/1000,'b-o',T_ranges(i)/120,ref_Es_means(i)/1000,'g-*');
 grid on

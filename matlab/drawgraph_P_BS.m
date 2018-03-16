@@ -66,7 +66,8 @@ for i=(1:length(P_i_s))
     srt_Es(:,i)=srt_Es(:,i)/J_range/C_qos(1)*10^9;ref_Es(:,i)=ref_Es(:,i)/J_range/C_qos(1)*10^9; 
 end
 
-save('.\experiments\SNRs','P_i_s','srt_Es','ref_Es','srt_E0','ref_E0') 
+%±£´æ
+%save('.\experiments\SNRs','P_i_s','srt_Es','ref_Es','srt_E0','ref_E0') 
 plot(P_i_s,srt_E0(2,:)/1000,'r-^')
 grid on
 hold on
